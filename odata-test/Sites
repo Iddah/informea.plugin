@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Summary: 2 works, 4 fail -->
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xml:base="http://localhost:8080/odata/services/example.svc/">
+    <title type="text">Sites</title>
+    <id>http://informea.cristiroma/odata-test/Sites</id>
+    <updated>2011-05-05T14:38:31Z</updated>
+    <link rel="self" title="Sites" href="Sites"></link>
+    <m:count>6</m:count>
+    <entry>
+	<!-- Ok -->
+        <id>http://informea.cristiroma/odata-test/Sites('1')</id>
+        <title type="text"></title>
+        <updated>2011-05-05T14:38:31Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="Sites" href="Sites('1')"></link>
+        <category term="informea.Site" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:id>1</d:id>
+                <d:type>ramsar</d:type>
+                <d:country>bgr</d:country>
+                <d:treaty>ramsar</d:treaty>
+                <d:name>Tri gospodari</d:name>
+                <d:url>http://bulgaria.com/test</d:url>
+                <d:updated m:type="Edm.DateTime">2011-05-05T17:38:31.6260000</d:updated>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+	<!-- Ok, minimal properties -->
+        <id>http://informea.cristiroma/odata-test/Sites('2')</id>
+        <title type="text"></title>
+        <updated>2011-05-05T14:38:31Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="Sites" href="Sites('2')"></link>
+        <category term="informea.Site" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:id>2</d:id>
+                <d:type>ramsar</d:type>
+                <d:country>bgr</d:country>
+                <d:treaty>ramsar</d:treaty>
+                <d:name>Tri gospodari</d:name>
+                <d:updated m:type="Edm.DateTime">2011-05-05T17:38:31.6260000</d:updated>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+	<!-- Fail, no id -->
+        <id>http://informea.cristiroma/odata-test/Sites('3')</id>
+        <title type="text"></title>
+        <updated>2011-05-05T14:38:31Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="Sites" href="Sites('3')"></link>
+        <category term="informea.Site" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:type>ramsar</d:type>
+                <d:country>bgr</d:country>
+                <d:treaty>ramsar</d:treaty>
+                <d:name>Tri gospodari</d:name>
+                <d:url>http://bulgaria.com/test</d:url>
+                <d:updated m:type="Edm.DateTime">2011-05-05T17:38:31.6260000</d:updated>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+	<!-- Fail, no country -->
+        <id>http://informea.cristiroma/odata-test/Sites('4')</id>
+        <title type="text"></title>
+        <updated>2011-05-05T14:38:31Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="Sites" href="Sites('4')"></link>
+        <category term="informea.Site" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:id>4</d:id>
+                <d:type>ramsar</d:type>
+                <d:treaty>ramsar</d:treaty>
+                <d:name>Tri gospodari</d:name>
+                <d:url>http://bulgaria.com/test</d:url>
+                <d:updated m:type="Edm.DateTime">2011-05-05T17:38:31.6260000</d:updated>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+	<!-- Fail, no treaty -->
+        <id>http://informea.cristiroma/odata-test/Sites('5')</id>
+        <title type="text"></title>
+        <updated>2011-05-05T14:38:31Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="Sites" href="Sites('5')"></link>
+        <category term="informea.Site" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:id>5</d:id>
+                <d:type>ramsar</d:type>
+                <d:country>bgr</d:country>
+                <d:name>Tri gospodari</d:name>
+                <d:url>http://bulgaria.com/test</d:url>
+                <d:updated m:type="Edm.DateTime">2011-05-05T17:38:31.6260000</d:updated>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+	<!-- Fail, no name -->
+        <id>http://informea.cristiroma/odata-test/Sites('6')</id>
+        <title type="text"></title>
+        <updated>2011-05-05T14:38:31Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="Sites" href="Sites('6')"></link>
+        <category term="informea.Site" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:id>6</d:id>
+                <d:type>ramsar</d:type>
+                <d:country>bgr</d:country>
+                <d:treaty>ramsar</d:treaty>
+                <d:url>http://bulgaria.com/test</d:url>
+                <d:updated m:type="Edm.DateTime">2011-05-05T17:38:31.6260000</d:updated>
+            </m:properties>
+        </content>
+    </entry>
+    <link rel="next" href="http://localhost:8080/odata/services/example.svc/Sites?$skiptoken=done"></link>
+</feed>

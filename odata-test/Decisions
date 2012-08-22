@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xml:base="http://localhost:8080/odata/services/example.svc/">
+    <!-- total 9, 2 valid -->
+    <title type="text">Decisions</title>
+    <id>http://localhost:8080/odata/services/example.svc/Decisions</id>
+    <updated>2011-05-06T10:32:07Z</updated>
+    <link rel="self" title="Decisions" href="Decisions"></link>
+    <m:count>9</m:count>
+   <!-- Ok, full decision -->
+    <entry>
+        <id>http://localhost:8080/odata/services/example.svc/Decisions('1')</id>
+        <title type="text"></title>
+        <updated>2011-05-06T10:32:07Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="Decisions" href="Decisions('1')"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/title" type="application/atom+xml;type=feed" title="title" href="Decisions('1')/title"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/longTitle" type="application/atom+xml;type=feed" title="longTitle" href="Decisions('1')/longTitle"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/summary" type="application/atom+xml;type=feed" title="summary" href="Decisions('1')/summary"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/content" type="application/atom+xml;type=feed" title="content" href="Decisions('1')/content"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/keywords" type="application/atom+xml;type=feed" title="keywords" href="Decisions('1')/keywords"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/documents" type="application/atom+xml;type=feed" title="documents" href="Decisions('1')/documents"></link>
+        <category term="informea.Decision" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+                <d:id>1</d:id>
+                <d:link>http://example.com/decisions/1</d:link>
+                <d:type>decision</d:type>
+                <d:status>active</d:status>
+                <d:number>X/1</d:number>
+                <d:treaty>cartagena</d:treaty>
+                <d:published m:type="Edm.DateTime">2010-01-23T02:00</d:published>
+                <d:updated m:type="Edm.DateTime">2011-03-12T02:00</d:updated>
+                <d:meetingId>4</d:meetingId>
+                <d:meetingTitle>Meeting for conference of parties 10</d:meetingTitle>
+                <d:meetingUrl>http://meeting.url.com/10</d:meetingUrl>
+            </m:properties>
+        </content>
+    </entry>
+    <!-- Ok, minimal -->
+    <entry>
+        <id>http://localhost:8080/odata/services/example.svc/Decisions('7')</id>
+        <title type="text"></title>
+        <updated>2011-05-06T10:32:07Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="Decisions" href="Decisions('7')"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/title" type="application/atom+xml;type=feed" title="title" href="Decisions('7')/title"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/longTitle" type="application/atom+xml;type=feed" title="longTitle" href="Decisions('7')/longTitle"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/summary" type="application/atom+xml;type=feed" title="summary" href="Decisions('7')/summary"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/content" type="application/atom+xml;type=feed" title="content" href="Decisions('7')/content"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/keywords" type="application/atom+xml;type=feed" title="keywords" href="Decisions('7')/keywords"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/documents" type="application/atom+xml;type=feed" title="documents" href="Decisions('7')/documents"></link>
+        <category term="informea.Decision" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+                <d:id>7</d:id>
+                <d:type>decision</d:type>
+                <d:status>active</d:status>
+                <d:treaty>cartagena</d:treaty>
+                <d:published m:type="Edm.DateTime">2010-01-23T02:00</d:published>
+                <d:number>X/1</d:number>
+                <d:updated m:type="Edm.DateTime">2011-03-12T02:00</d:updated>
+                <d:meetingTitle>Meeting for conference of parties 10</d:meetingTitle>
+                <d:meetingUrl>http://meeting.url.com/10</d:meetingUrl>
+            </m:properties>
+        </content>
+    </entry>
+   <!-- Fail, no id -->
+    <entry>
+        <id>http://localhost:8080/odata/services/example.svc/Decisions('2')</id>
+        <title type="text"></title>
+        <updated>2011-05-06T10:32:07Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="Decisions" href="Decisions('2')"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/title" type="application/atom+xml;type=feed" title="title" href="Decisions('2')/title"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/longTitle" type="application/atom+xml;type=feed" title="longTitle" href="Decisions('2')/longTitle"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/summary" type="application/atom+xml;type=feed" title="summary" href="Decisions('2')/summary"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/content" type="application/atom+xml;type=feed" title="content" href="Decisions('2')/content"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/keywords" type="application/atom+xml;type=feed" title="keywords" href="Decisions('2')/keywords"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/documents" type="application/atom+xml;type=feed" title="documents" href="Decisions('2')/documents"></link>
+        <category term="informea.Decision" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+                <d:link>http://example.com/decisions/1</d:link>
+                <d:type>decision</d:type>
+                <d:status>active</d:status>
+                <d:number>X/1</d:number>
+                <d:treaty>cartagena</d:treaty>
+                <d:published m:type="Edm.DateTime">2010-01-23T02:00</d:published>
+                <d:updated m:type="Edm.DateTime">2011-03-12T02:00</d:updated>
+                <d:meetingId>2</d:meetingId>
+                <d:meetingTitle>Meeting for conference of parties 10</d:meetingTitle>
+                <d:meetingUrl>http://meeting.url.com/10</d:meetingUrl>
+            </m:properties>
+        </content>
+    </entry>
+    <!-- Fail, no title -->
+    <entry>
+        <id>http://localhost:8080/odata/services/example.svc/Decisions('3')</id>
+        <title type="text"></title>
+        <updated>2011-05-06T10:32:07Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="Decisions" href="Decisions('3')"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/title" type="application/atom+xml;type=feed" title="title" href="Decisions('3')/title"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/longTitle" type="application/atom+xml;type=feed" title="longTitle" href="Decisions('3')/longTitle"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/summary" type="application/atom+xml;type=feed" title="summary" href="Decisions('3')/summary"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/content" type="application/atom+xml;type=feed" title="content" href="Decisions('3')/content"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/keywords" type="application/atom+xml;type=feed" title="keywords" href="Decisions('3')/keywords"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/documents" type="application/atom+xml;type=feed" title="documents" href="Decisions('3')/documents"></link>
+        <category term="informea.Decision" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+                <d:id>1</d:id>
+                <d:link>http://example.com/decisions/1</d:link>
+                <d:type>decision</d:type>
+                <d:status>active</d:status>
+                <d:number>X/1</d:number>
+                <d:treaty>cartagena</d:treaty>
+                <d:published m:type="Edm.DateTime">2010-01-23T02:00</d:published>
+                <d:updated m:type="Edm.DateTime">2011-03-12T02:00</d:updated>
+                <d:meetingId>2</d:meetingId>
+                <d:meetingTitle>Meeting for conference of parties 10</d:meetingTitle>
+                <d:meetingUrl>http://meeting.url.com/10</d:meetingUrl>
+            </m:properties>
+        </content>
+    </entry>
+    <!-- Fail, no type -->
+    <entry>
+        <id>http://localhost:8080/odata/services/example.svc/Decisions('4')</id>
+        <title type="text"></title>
+        <updated>2011-05-06T10:32:07Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="Decisions" href="Decisions('4')"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/title" type="application/atom+xml;type=feed" title="title" href="Decisions('4')/title"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/longTitle" type="application/atom+xml;type=feed" title="longTitle" href="Decisions('4')/longTitle"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/summary" type="application/atom+xml;type=feed" title="summary" href="Decisions('4')/summary"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/content" type="application/atom+xml;type=feed" title="content" href="Decisions('4')/content"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/keywords" type="application/atom+xml;type=feed" title="keywords" href="Decisions('4')/keywords"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/documents" type="application/atom+xml;type=feed" title="documents" href="Decisions('4')/documents"></link>
+        <category term="informea.Decision" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+                <d:id>4</d:id>
+                <d:link>http://example.com/decisions/1</d:link>
+                <d:status>active</d:status>
+                <d:number>X/1</d:number>
+                <d:treaty>cartagena</d:treaty>
+                <d:published m:type="Edm.DateTime">2010-01-23T02:00</d:published>
+                <d:updated m:type="Edm.DateTime">2011-03-12T02:00</d:updated>
+                <d:meetingId>2</d:meetingId>
+                <d:meetingTitle>Meeting for conference of parties 10</d:meetingTitle>
+                <d:meetingUrl>http://meeting.url.com/10</d:meetingUrl>
+            </m:properties>
+        </content>
+    </entry>
+    <!-- Fail, no status -->
+    <entry>
+        <id>http://localhost:8080/odata/services/example.svc/Decisions('5')</id>
+        <title type="text"></title>
+        <updated>2011-05-06T10:32:07Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="Decisions" href="Decisions('5')"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/title" type="application/atom+xml;type=feed" title="title" href="Decisions('5')/title"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/longTitle" type="application/atom+xml;type=feed" title="longTitle" href="Decisions('5')/longTitle"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/summary" type="application/atom+xml;type=feed" title="summary" href="Decisions('5')/summary"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/content" type="application/atom+xml;type=feed" title="content" href="Decisions('5')/content"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/keywords" type="application/atom+xml;type=feed" title="keywords" href="Decisions('5')/keywords"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/documents" type="application/atom+xml;type=feed" title="documents" href="Decisions('5')/documents"></link>
+        <category term="informea.Decision" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+                <d:id>1</d:id>
+                <d:link>http://example.com/decisions/1</d:link>
+                <d:type>decision</d:type>
+                <d:number>X/1</d:number>
+                <d:treaty>cartagena</d:treaty>
+                <d:published m:type="Edm.DateTime">2010-01-23T02:00</d:published>
+                <d:updated m:type="Edm.DateTime">2011-03-12T02:00</d:updated>
+                <d:meetingId>2</d:meetingId>
+                <d:meetingTitle>Meeting for conference of parties 10</d:meetingTitle>
+                <d:meetingUrl>http://meeting.url.com/10</d:meetingUrl>
+            </m:properties>
+        </content>
+    </entry>
+    <!-- Fail, no treaty -->
+    <entry>
+        <id>http://localhost:8080/odata/services/example.svc/Decisions('6')</id>
+        <title type="text"></title>
+        <updated>2011-05-06T10:32:07Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="Decisions" href="Decisions('6')"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/title" type="application/atom+xml;type=feed" title="title" href="Decisions('6')/title"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/longTitle" type="application/atom+xml;type=feed" title="longTitle" href="Decisions('6')/longTitle"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/summary" type="application/atom+xml;type=feed" title="summary" href="Decisions('6')/summary"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/content" type="application/atom+xml;type=feed" title="content" href="Decisions('6')/content"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/keywords" type="application/atom+xml;type=feed" title="keywords" href="Decisions('6')/keywords"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/documents" type="application/atom+xml;type=feed" title="documents" href="Decisions('6')/documents"></link>
+        <category term="informea.Decision" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+                <d:id>6</d:id>
+                <d:link>http://example.com/decisions/1</d:link>
+                <d:type>decision</d:type>
+                <d:status>active</d:status>
+                <d:number>X/1</d:number>
+                <d:published m:type="Edm.DateTime">2010-01-23T02:00</d:published>
+                <d:updated m:type="Edm.DateTime">2011-03-12T02:00</d:updated>
+                <d:meetingId>2</d:meetingId>
+                <d:meetingTitle>Meeting for conference of parties 10</d:meetingTitle>
+                <d:meetingUrl>http://meeting.url.com/10</d:meetingUrl>
+            </m:properties>
+        </content>
+    </entry>
+    <!-- Fail, no number -->
+    <entry>
+        <id>http://localhost:8080/odata/services/example.svc/Decisions('8')</id>
+        <title type="text"></title>
+        <updated>2011-05-06T10:32:07Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="Decisions" href="Decisions('8')"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/title" type="application/atom+xml;type=feed" title="title" href="Decisions('8')/title"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/longTitle" type="application/atom+xml;type=feed" title="longTitle" href="Decisions('8')/longTitle"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/summary" type="application/atom+xml;type=feed" title="summary" href="Decisions('8')/summary"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/content" type="application/atom+xml;type=feed" title="content" href="Decisions('8')/content"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/keywords" type="application/atom+xml;type=feed" title="keywords" href="Decisions('8')/keywords"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/documents" type="application/atom+xml;type=feed" title="documents" href="Decisions('8')/documents"></link>
+        <category term="informea.Decision" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+                <d:id>1</d:id>
+                <d:link>http://example.com/decisions/1</d:link>
+                <d:type>decision</d:type>
+                <d:status>active</d:status>
+                <d:treaty>cartagena</d:treaty>
+                <d:published m:type="Edm.DateTime">2010-01-23T02:00</d:published>
+                <d:updated m:type="Edm.DateTime">2011-03-12T02:00</d:updated>
+                <d:meetingId>2</d:meetingId>
+                <d:meetingTitle>Meeting for conference of parties 10</d:meetingTitle>
+                <d:meetingUrl>http://meeting.url.com/10</d:meetingUrl>
+            </m:properties>
+        </content>
+    </entry>
+   <!-- Fail, no published -->
+    <entry>
+        <id>http://localhost:8080/odata/services/example.svc/Decisions('9')</id>
+        <title type="text"></title>
+        <updated>2011-05-06T10:32:07Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="Decisions" href="Decisions('9')"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/title" type="application/atom+xml;type=feed" title="title" href="Decisions('9')/title"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/longTitle" type="application/atom+xml;type=feed" title="longTitle" href="Decisions('9')/longTitle"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/summary" type="application/atom+xml;type=feed" title="summary" href="Decisions('9')/summary"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/content" type="application/atom+xml;type=feed" title="content" href="Decisions('9')/content"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/keywords" type="application/atom+xml;type=feed" title="keywords" href="Decisions('9')/keywords"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/documents" type="application/atom+xml;type=feed" title="documents" href="Decisions('9')/documents"></link>
+        <category term="informea.Decision" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+                <d:id>9</d:id>
+                <d:link>http://example.com/decisions/1</d:link>
+                <d:type>decision</d:type>
+                <d:status>active</d:status>
+                <d:number>X/1</d:number>
+                <d:treaty>cartagena</d:treaty>
+                <d:updated m:type="Edm.DateTime">2011-03-12T02:00</d:updated>
+                <d:meetingId>2</d:meetingId>
+                <d:meetingTitle>Meeting for conference of parties 10</d:meetingTitle>
+                <d:meetingUrl>http://meeting.url.com/10</d:meetingUrl>
+            </m:properties>
+        </content>
+    </entry>
+    <link rel="next" href="http://localhost:8080/odata/services/example.svc/Decisions?$skiptoken=done"></link>
+</feed>

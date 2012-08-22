@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xml:base="http://informea.cristiroma/odata-test/" xmlns="http://www.w3.org/2005/Atom" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices">
+    <!-- Total 5 contacts, 3 valid, 2 invalid -->
+	<title type="text">Contacts</title>
+	<id>http://localhost:8080/odata/services/example.svc/Contacts</id>
+	<updated>2011-04-29T11:32:18Z</updated>
+	<link rel="self" title="Contacts" href="Contacts"/>
+	<m:count>5</m:count>
+	<entry>
+		<id>http://informea.cristiroma/odata-test/Contacts('1')</id>
+		<title type="text"/>
+		<updated>2011-04-29T11:32:18Z</updated>
+		<author>
+		<name/>
+		</author>
+		<link rel="edit" title="Contacts" href="Contacts('1')"/>
+		<link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/treaties" type="application/atom+xml;type=feed" title="treaties" href="Contacts('1')/treaties"/>
+		<category term="informea.Contact" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+		<content type="application/xml">
+			<m:properties>
+				<d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+				<d:id>1</d:id>
+				<d:country>can</d:country>
+				<d:prefix>Sir</d:prefix>
+				<d:firstName>Anthony</d:firstName>
+				<d:lastName>Hopkins</d:lastName>
+				<d:position>Manager</d:position>
+				<d:institution>Hollywood</d:institution>
+				<d:department>Actors</d:department>
+				<d:address>First Osaka Boulevard</d:address>
+				<d:email>antony.hopkins@hollywood.com</d:email>
+				<d:phone>123666999</d:phone>
+				<d:fax>321999666</d:fax>
+				<d:primary>1</d:primary>
+				<d:updated m:type="Edm.DateTime">2011-04-29T14:25:24.5870000</d:updated>
+			</m:properties>
+		</content>
+	</entry>
+	<entry>
+		<!-- Invalid country - must fail -->
+		<id>http://informea.cristiroma/odata-test/Contacts('2')</id>
+		<title type="text"/>
+		<updated>2011-04-29T11:32:18Z</updated>
+		<author>
+		<name/>
+		</author>
+		<link rel="edit" title="Contacts" href="Contacts('1')"/>
+		<link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/treaties" type="application/atom+xml;type=feed" title="treaties" href="Contacts('1')/treaties"/>
+		<category term="informea.Contact" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+		<content type="application/xml">
+			<m:properties>
+				<d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+				<d:id>2</d:id>
+				<d:country>xxx</d:country>
+				<d:prefix>Sir</d:prefix>
+				<d:firstName>Anthony</d:firstName>
+				<d:lastName>Hopkins</d:lastName>
+				<d:position>Manager</d:position>
+				<d:institution>Hollywood</d:institution>
+				<d:department>Actors</d:department>
+				<d:address>First Osaka Boulevard</d:address>
+				<d:email>antony.hopkins@hollywood.com</d:email>
+				<d:phone>123666999</d:phone>
+				<d:fax>321999666</d:fax>
+				<d:updated m:type="Edm.DateTime">2011-04-29T14:25:24.5870000</d:updated>
+			</m:properties>
+		</content>
+	</entry>
+	<entry>
+		<!-- Contact without treaties -->
+		<id>http://informea.cristiroma/odata-test/Contacts('3')</id>
+		<title type="text"/>
+		<updated>2011-04-29T11:32:18Z</updated>
+		<author>
+		<name/>
+		</author>
+		<link rel="edit" title="Contacts" href="Contacts('3')"/>
+		<link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/treaties" type="application/atom+xml;type=feed" title="treaties" href="Contacts('1')/treaties"/>
+		<category term="informea.Contact" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+		<content type="application/xml">
+			<m:properties>
+				<d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+				<d:id>3</d:id>
+				<d:country>can</d:country>
+				<d:prefix>Sir3</d:prefix>
+				<d:firstName>Anthony3</d:firstName>
+				<d:lastName>Hopkins3</d:lastName>
+				<d:position>Manager3</d:position>
+				<d:institution>Hollywood3</d:institution>
+				<d:department>Actors1</d:department>
+				<d:address>First Osaka Boulevard3</d:address>
+				<d:email>antony.hopkins@hollywood.com3</d:email>
+				<d:phone>1236669991</d:phone>
+				<d:fax>3219996661</d:fax>
+				<d:updated m:type="Edm.DateTime">2011-04-29T14:25:24.5870000</d:updated>
+			</m:properties>
+		</content>
+	</entry>
+	<entry>
+		<!-- Missing id - must fail -->
+		<id>http://informea.cristiroma/odata-test/Contacts('5')</id>
+		<title type="text"/>
+		<updated>2011-04-29T11:32:18Z</updated>
+		<author>
+		<name/>
+		</author>
+		<link rel="edit" title="Contacts" href="Contacts('3')"/>
+		<link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/treaties" type="application/atom+xml;type=feed" title="treaties" href="Contacts('1')/treaties"/>
+		<category term="informea.Contact" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+		<content type="application/xml">
+			<m:properties>
+				<d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+				<d:country>can</d:country>
+				<d:prefix>Sir5</d:prefix>
+				<d:firstName>Anthony5</d:firstName>
+				<d:lastName>Hopkins5</d:lastName>
+				<d:position>Manager5</d:position>
+				<d:institution>Hollywood5</d:institution>
+				<d:department>Actors5</d:department>
+				<d:address>First Osaka Boulevard5</d:address>
+				<d:email>antony.hopkins@hollywood.com5</d:email>
+				<d:phone>1236669995</d:phone>
+				<d:fax>3219996665</d:fax>
+				<d:updated m:type="Edm.DateTime">2011-04-29T14:25:24.5870000</d:updated>
+			</m:properties>
+		</content>
+	</entry>
+	<entry>
+		<!-- Empty, but valid contact -->
+		<id>http://informea.cristiroma/odata-test/Contacts('6')</id>
+		<title type="text"/>
+		<updated>2011-04-29T11:32:18Z</updated>
+		<author>
+		<name/>
+		</author>
+		<link rel="edit" title="Contacts" href="Contacts('3')"/>
+		<link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/treaties" type="application/atom+xml;type=feed" title="treaties" href="Contacts('1')/treaties"/>
+		<category term="informea.Contact" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+		<content type="application/xml">
+			<m:properties>
+				<d:id>6</d:id>
+				<d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+				<d:country>can</d:country>
+				<d:prefix m:null="true"></d:prefix>
+				<d:firstName m:null="true"></d:firstName>
+				<d:lastName m:null="true"></d:lastName>
+				<d:position m:null="true"></d:position>
+				<d:institution m:null="true"></d:institution>
+				<d:department m:null="true"></d:department>
+				<d:address m:null="true"></d:address>
+				<d:email m:null="true"></d:email>
+				<d:phone m:null="true"></d:phone>
+				<d:fax m:null="true"></d:fax>
+				<d:updated m:type="Edm.DateTime" m:null="true"></d:updated>
+			</m:properties>
+		</content>
+	</entry>
+	<link rel="next" href="http://localhost:8080/odata/services/example.svc/Contacts?$skiptoken=done"/>
+</feed>

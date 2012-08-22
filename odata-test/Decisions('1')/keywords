@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xml:base="http://localhost:8080/odata/services/example.svc/">
+    <title type="text">keywords</title>
+    <id>http://localhost:8080/odata/services/example.svc/Decisions('1')/keywords</id>
+    <updated>2011-05-06T15:09:20Z</updated>
+    <link rel="self" title="keywords" href="keywords"></link>
+    <m:count>2</m:count>
+    <entry>
+        <id>http://localhost:8080/odata/services/example.svc/keywords('chlorophile')</id>
+        <title type="text"></title>
+        <updated>2011-05-06T15:09:20Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="keywords" href="keywords('chlorophile')"></link>
+        <category term="informea.VocabularyTerm" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:term>xxxxx</d:term>
+                <d:namespace>http://example.com</d:namespace>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+        <id>http://localhost:8080/odata/services/example.svc/keywords('CFC-X01')</id>
+        <title type="text"></title>
+        <updated>2011-05-06T15:09:20Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="keywords" href="keywords('CFC-X01')"></link>
+        <category term="informea.VocabularyTerm" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:term>Biological Diversity</d:term>
+                <d:namespace>http://www.unep.org</d:namespace>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+        <id>http://localhost:8080/odata/services/example.svc/keywords('education and training')</id>
+        <title type="text"></title>
+        <updated>2011-05-06T15:09:20Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="keywords" href="keywords('education and training')"></link>
+        <category term="informea.VocabularyTerm" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:term>education and training</d:term>
+                <d:namespace>http://www.unep.org</d:namespace>
+            </m:properties>
+        </content>
+    </entry>
+    <link rel="next" href="http://localhost:8080/odata/services/example.svc/Decisions(%271%27)/keywords?$skiptoken=done"></link>
+</feed>

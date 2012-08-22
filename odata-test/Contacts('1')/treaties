@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xml:base="http://localhost:8080/odata/services/example.svc/">
+    <title type="text">treaties</title>
+    <id>http://localhost:8080/odata/services/example.svc/Contacts('1')/treaties</id>
+    <updated>2011-04-29T11:51:53Z</updated>
+    <link rel="self" title="treaties" href="treaties"></link>
+    <m:count>2</m:count>
+    <entry>
+        <id>http://localhost:8080/odata/services/example.svc/Treaty('aewa')</id>
+        <title type="text"></title>
+        <updated>2011-04-29T11:51:53Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="treaties" href="Treaty('aewa')"></link>
+        <category term="informea.Treaty" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:value>aewa</d:value>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+        <id>http://localhost:8080/odata/services/example.svc/Treaty('montreal')</id>
+        <title type="text"></title>
+        <updated>2011-04-29T11:51:53Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="treaties" href="Treaty('montreal')"></link>
+        <category term="informea.Treaty" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:value>montreal</d:value>
+            </m:properties>
+        </content>
+    </entry>
+    <link rel="next" href="http://localhost:8080/odata/services/example.svc/Contacts(%271%27)/treaties?$skiptoken=done"></link>
+</feed>

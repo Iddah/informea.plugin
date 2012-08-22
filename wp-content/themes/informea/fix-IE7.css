@@ -1,0 +1,45 @@
+@media screen { /* To prevent PocketPC from loading the stylesheet */
+.related-box .box-title, .box-title,
+.widget-title {display: inline;}
+
+.related-box.events ul li {display: block; overflow: hidden;}
+.related-box.events ul li img {float: left;}
+
+.related-box.portlet-highlights ul li {display: block; overflow: hidden;}
+.related-box.portlet-highlights ul li img {float: left;}
+/* .related-box.highlights ul li p {float: left;} */
+
+body.home .calendar {width: 220px !important;}
+
+.options-bar {display: block; overflow: hidden; padding-top: 5px;}
+.options-bar span {float: left; margin-right: 10px; display: inline;}
+.options-bar a {display: block; width: 10px; height: 16px; float: left; padding-left: 0; padding-right: 20px; overflow: hidden;}
+.options-bar .clear {display: inline;}
+.options-bar span.button  {margin-right: 5px;}
+.options-bar span.button a {display: inline !important; padding: 0; margin: 0 !Important; width: auto;}
+.options-bar .expand-button,
+.options-bar .compress-button {display: inline; width: auto !important; padding-left: 15px;}
+
+li.collapsible {vertical-align: top;}
+
+.calendar td {text-align: center !important; width: 60px;}
+
+#wrapper {display: block; overflow: hidden;}
+
+/* .search-section-title a img {margin-right: 10px;} */
+
+.search-section-title a img {margin-right: 10px;}
+ .search-section-title h3 {margin: 0;}
+
+ #search {padding-bottom: 5px;}
+
+/* front-end issues */
+.what-is-informea { height: 220px !important; }
+.related-box.tags { height: 220px !important; }
+.related-box.country { margin-top: 62px !important; }
+.row.second { margin-top: 20px; }
+
+.details-column-1  input.ui-autocomplete-input,
+.autocomplete-holder   input.ui-autocomplete-input{height: 25px;}
+/*  .selected-terms-holder {display: inline-block; background: #eee;} */
+} /*  @media screen */

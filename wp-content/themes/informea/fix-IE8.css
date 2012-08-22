@@ -1,0 +1,6 @@
+@media screen { /* To prevent PocketPC from loading the stylesheet */
+.options-bar a {margin-right: 5px;}
+
+.details-column-1  button,
+.autocomplete-holder  button {position: relative; top: 3px;}
+} /*  @media screen */

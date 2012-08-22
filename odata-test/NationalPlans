@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 2 works, 4 fails -->
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xml:base="http://localhost:8080/odata/services/example.svc/">
+    <title type="text">NationalPlans</title>
+    <id>http://informea.cristiroma/odata-test/NationalPlans</id>
+    <updated>2011-05-05T14:09:56Z</updated>
+    <link rel="self" title="NationalPlans" href="NationalPlans"></link>
+    <m:count>6</m:count>
+    <entry>
+	<!-- Ok -->
+        <id>http://informea.cristiroma/odata-test/NationalPlans('1')</id>
+        <title type="text"></title>
+        <updated>2011-05-05T14:09:56Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="NationalPlans" href="NationalPlans('1')"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/title" type="application/atom+xml;type=feed" title="title" href="NationalPlans('1')/title"></link>
+        <category term="informea.NationalPlan" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+                <d:id>1</d:id>
+                <d:country>bra</d:country>
+                <d:treaty>ramsar</d:treaty>
+                <d:type>nbsap</d:type>
+                <d:submission m:type="Edm.DateTime">1972-03-19</d:submission>
+                <d:url>http://national.plan.org/brazil_national_plan</d:url>
+                <d:updated m:type="Edm.DateTime">2011-05-05T17:09:56.6650000</d:updated>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+	<!-- Ok, minimal -->
+        <id>http://informea.cristiroma/odata-test/NationalPlans('2')</id>
+        <title type="text"></title>
+        <updated>2011-05-05T14:09:56Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="NationalPlans" href="NationalPlans('2')"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/title" type="application/atom+xml;type=feed" title="title" href="NationalPlans('1')/title"></link>
+        <category term="informea.NationalPlan" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+                <d:id>2</d:id>
+                <d:country>bra</d:country>
+                <d:treaty>ramsar</d:treaty>
+                <d:type>nbsap</d:type>
+                <d:updated m:type="Edm.DateTime">2011-05-05T17:09:56.6650000</d:updated>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+	<!-- Fails, no id -->
+        <id>http://informea.cristiroma/odata-test/NationalPlans('3')</id>
+        <title type="text"></title>
+        <updated>2011-05-05T14:09:56Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="NationalPlans" href="NationalPlans('3')"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/title" type="application/atom+xml;type=feed" title="title" href="NationalPlans('1')/title"></link>
+        <category term="informea.NationalPlan" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+                <d:country>bra</d:country>
+                <d:treaty>ramsar</d:treaty>
+                <d:type>nbsap</d:type>
+                <d:updated m:type="Edm.DateTime">2011-05-05T17:09:56.6650000</d:updated>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+	<!-- Fails, no title -->
+        <id>http://informea.cristiroma/odata-test/NationalPlans('4')</id>
+        <title type="text"></title>
+        <updated>2011-05-05T14:09:56Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="NationalPlans" href="NationalPlans('4')"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/title" type="application/atom+xml;type=feed" title="title" href="NationalPlans('1')/title"></link>
+        <category term="informea.NationalPlan" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+                <d:id>4</d:id>
+                <d:country>bra</d:country>
+                <d:treaty>ramsar</d:treaty>
+                <d:type>nbsap</d:type>
+                <d:updated m:type="Edm.DateTime">2011-05-05T17:09:56.6650000</d:updated>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+	<!-- Fails, no treaty -->
+        <id>http://informea.cristiroma/odata-test/NationalPlans('5')</id>
+        <title type="text"></title>
+        <updated>2011-05-05T14:09:56Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="NationalPlans" href="NationalPlans('5')"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/title" type="application/atom+xml;type=feed" title="title" href="NationalPlans('5')/title"></link>
+        <category term="informea.NationalPlan" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+                <d:id>5</d:id>
+                <d:country>bra</d:country>
+                <d:type>nbsap</d:type>
+                <d:submission m:type="Edm.DateTime">1972-03-19</d:submission>
+                <d:url>http://national.plan.org/brazil_national_plan</d:url>
+                <d:updated m:type="Edm.DateTime">2011-05-05T17:09:56.6650000</d:updated>
+            </m:properties>
+        </content>
+    </entry>
+    <entry>
+	<!-- Fails, no country -->
+        <id>http://informea.cristiroma/odata-test/NationalPlans('6')</id>
+        <title type="text"></title>
+        <updated>2011-05-05T14:09:56Z</updated>
+        <author>
+            <name></name>
+        </author>
+        <link rel="edit" title="NationalPlans" href="NationalPlans('6')"></link>
+        <link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/title" type="application/atom+xml;type=feed" title="title" href="NationalPlans('6')/title"></link>
+        <category term="informea.NationalPlan" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"></category>
+        <content type="application/xml">
+            <m:properties>
+                <d:protocolVersion m:type="Edm.Int16">1</d:protocolVersion>
+                <d:id>6</d:id>
+                <d:treaty>ramsar</d:treaty>
+                <d:type>nbsap</d:type>
+                <d:submission m:type="Edm.DateTime">1972-03-19</d:submission>
+                <d:url>http://national.plan.org/brazil_national_plan</d:url>
+                <d:updated m:type="Edm.DateTime">2011-05-05T17:09:56.6650000</d:updated>
+            </m:properties>
+        </content>
+    </entry>
+    <link rel="next" href="http://localhost:8080/odata/services/example.svc/NationalPlans?$skiptoken=done"></link>
+</feed>

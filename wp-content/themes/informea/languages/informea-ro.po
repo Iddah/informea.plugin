@@ -1,0 +1,1777 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: InforMEA\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-03-01 15:55+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Cristian Romanescu <cristian.romanescu@eaudeweb.ro>\n"
+"Language-Team: Eau De Web <cristian.romanescu@eaudeweb.ro>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Romanian\n"
+"X-Poedit-Country: ROMANIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea\n"
+"X-Poedit-SearchPath-1: /home/cristiroma/workspace/informea/www/wp-content/themes/informea\n"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:24
+msgid "Main Settings"
+msgstr "Setarile principale"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:25
+msgid "XML-RPC url"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:26
+msgid "Enable plugin debug"
+msgstr "Activează depanarea pluginului"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:27
+msgid "Google Analytics key"
+msgstr "Cheia Google Analytics"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:28
+msgid "reCaptcha Public Key"
+msgstr "Cheia publică reCaptcha"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:29
+msgid "reCaptcha Private Key"
+msgstr "Cheia privată reCaptcha"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:34
+msgid "InforMEA administration"
+msgstr "Administrare InforMEA"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:34
+msgid "InforMEA"
+msgstr "InforMEA"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:35
+msgid "InforMEA Settings"
+msgstr "Setări InforMEA"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:35
+msgid "Configuration"
+msgstr "Configurație"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:36
+msgid "InforMEA Vocabulary"
+msgstr "Vocabularul InforMEA"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:36
+msgid "Manage vocabulary"
+msgstr "Gestionare vocabular"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:37
+msgid "InforMEA Treaties"
+msgstr "Tratate InforMEA"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:37
+msgid "Manage treaties"
+msgstr "Gestionare tratate"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:38
+msgid "InforMEA Decisions"
+msgstr "Decizii InforMEA"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:38
+msgid "Manage decisions"
+msgstr "Gestionare decizii"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:52
+msgid "From this page you can configure the InforMEA parameters"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.admin.class.php:56
+msgid "Enter the database connection parameters to the Analytical Index database"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.class.php:39
+msgid "News"
+msgstr "Știri"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/imea.class.php:43
+msgid "Error"
+msgstr "Eroare"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/admin/page_settings.php:3
+msgid "InforMEA Configuration"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/admin/page_voc_relationships.php:61
+msgid "Term not found in vocabulary!"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/events.class.php:84
+msgid "Official"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/events.class.php:86
+msgid "Partner"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/events.class.php:88
+msgid "Interest"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/events.class.php:90
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/events.class.php:107
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/terms.class.php:318
+msgid "Unknown"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/events.class.php:97
+msgid "Tentative"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/events.class.php:99
+msgid "Confirmed"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/events.class.php:101
+msgid "Postponed"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/events.class.php:103
+msgid "Cancelled"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/events.class.php:105
+msgid "No date"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/terms.class.php:310
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/treaties.class.php:224
+msgid "Draft"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/terms.class.php:312
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/treaties.class.php:229
+msgid "Active"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/terms.class.php:314
+msgid "Ammended"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/terms.class.php:316
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/treaties.class.php:237
+msgid "Retired"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/search.class.php:14
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/search.class.php:22
+msgid "Biodiversity"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/search.class.php:15
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/search.class.php:24
+msgid "Chemicals / Waste"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/search.class.php:16
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/search.class.php:26
+msgid "Climate / Atmosphere"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/treaties.class.php:233
+msgid "Amended"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/index.class.php:61
+msgid "Please fill in your name"
+msgstr "Vă rugăm să introduceți numele"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/index.class.php:62
+msgid "Please fill in your e-mail address"
+msgstr "Vă rugăm să introduceți adresa de e-mail"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/index.class.php:63
+msgid "Please insert an valid e-mail address"
+msgstr "Vă rugăm să introduceți o adresă de e-mail validă"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/index.class.php:64
+msgid "Please fill in your feedback message"
+msgstr "Vă rugăm să introduceți mesajul pentru echipă"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/index.class.php:75
+msgid "Incorrect spam verification keywords"
+msgstr "Cuvintele de verificare anti-spam sunt eronate"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/index.class.php:78
+msgid "Security error while sending feedback. Please try again later!"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/index.class.php:89
+msgid "Your feedback was successfully sent. Thank you!"
+msgstr "Feeback-ul dumneavoastră a fost trimis cu succes. Vă mulțumim!"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/plugins/informea/pages/index.class.php:118
+msgid "Your feedback wasn't sent due to a technical error. We will look into this. Sorry!"
+msgstr "Feedback-ul dumneavoastră nu a putut fi trimis datorită unei erori tehnice. Ne pare rău!"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:23
+msgid "Organizations"
+msgstr "Organizații"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:31
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:32
+msgid "Visit United Nations website"
+msgstr "Vizitați situl Națiunilor Unite"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:32
+msgid "UN Logo"
+msgstr "Logo UN"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:40
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:41
+msgid "Visit United Nations Environment Programme website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:41
+msgid "UNEP Logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:52
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:53
+msgid "Visit Visit Food and Agriculture Organization website website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:53
+msgid "FAO Logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:61
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:62
+msgid "Visit United Nations Educational, Scientific and Cultural Organization website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:62
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:152
+msgid "UNESCO Logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:75
+msgid "Participating Treaties"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:83
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:84
+msgid "Visit United Nations Framework Convention on Climate Change website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:84
+msgid "UNFCCC Logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:86
+msgid "UNFCCC"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:91
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:92
+msgid "Visit United Nations Convention to Combat Desertification website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:92
+msgid "UNCCD Logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:94
+msgid "UNCCD"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:99
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:100
+msgid "Visit Ozone Secretariat website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:100
+msgid "OZONE Logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:102
+msgid "OZONE"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:107
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:108
+msgid "Visit Basel Convention website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:108
+msgid "BASEL Logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:110
+msgid "BASEL"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:115
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:116
+msgid "Visit Rotterdam Convention website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:116
+msgid "Rotterdam Logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:118
+msgid "ROTTERDAM"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:123
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:124
+msgid "Visit Stockholm Convention website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:124
+msgid "Stockholm Logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:126
+msgid "STOCKHOLM"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:135
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:136
+msgid "Visit Convention on Biological Diversit website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:136
+msgid "CBD Logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:138
+msgid "CBD"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:143
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:144
+msgid "Visit Convention on International Trade in Endangered Species website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:144
+msgid "CITES Logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:146
+msgid "CITES"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:151
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:152
+msgid "Visit UNESCO World Heritage Convention website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:154
+msgid "WHC"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:159
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:160
+msgid "Visit Ramsar Convention website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:160
+msgid "RAMSAR Logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:162
+msgid "RAMSAR"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:167
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:168
+msgid "Visit International Treaty on Genetic Resources for Food and Agriculture website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:168
+msgid "ITPGRFA Logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:170
+msgid "ITPGRFA"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:175
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:176
+msgid "Visit Convention on Migratory Species website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:176
+msgid "CMS Logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:178
+msgid "CMS"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:190
+msgid "ACAP"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:193
+msgid "ACCOBAMS"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:196
+msgid "AEWA"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:199
+msgid "ASCOBANS"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:202
+msgid "EUROBATS"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:205
+msgid "GORILLAS"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:208
+msgid "WADDEN SEA SEALS"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:221
+msgid "Sitemap"
+msgstr "Harta site-ului"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:223
+msgid "Privacy"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:225
+msgid "Terms and Conditions"
+msgstr "Termeni si conditii"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/footer.php:229
+msgid "portions Copyright &copy; United Nations, FAO, UNEP, UNESCO"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/comments.php:18
+msgid "This post is password protected. Enter the password to view any comments."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/comments.php:41
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/comments.php:60
+msgid "<span class=\"meta-nav\">&larr;</span> Older Comments"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/comments.php:42
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/comments.php:61
+msgid "Newer Comments <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/comments.php:72
+msgid "Comments are closed."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/sidebar.php:28
+msgid "Archives"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/sidebar.php:35
+msgid "Meta"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/page.php:30
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/onecolumn-page.php:27
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:175
+msgid "Pages:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/page.php:31
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/onecolumn-page.php:28
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:82
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:110
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:165
+msgid "Edit"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/404.php:17
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:22
+msgid "Not Found"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/404.php:19
+msgid "Apologies, but the page you requested could not be found. Perhaps searching will help."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:10
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:203
+msgid "<span class=\"meta-nav\"><img src=\""
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:11
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:204
+msgid "Newer posts <span class=\"meta-nav\"><img src=\""
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:25
+msgid "Apologies, but no results were found for the requested archive. Perhaps searching will help find a related post."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:65
+#, php-format
+msgid "This gallery contains <a %1$s>%2$s photos</a>."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:78
+msgid "More Galleries"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:81
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:109
+msgid "Leave a comment"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:81
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:109
+msgid "1 Comment"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:81
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:109
+msgid "% Comments"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:103
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:174
+msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:153
+#, php-format
+msgid "<span class=\"%1$s\">Categories: </span> %2$s"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/loop.php:161
+#, php-format
+msgid "<span class=\"%1$s\">Tagged</span> %2$s"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/search.php:16
+#, php-format
+msgid "Search Results for: %s"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/search.php:26
+msgid "Nothing Found"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/search.php:28
+msgid "Sorry, but nothing matched your search criteria. Please try again with some different keywords."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/tag.php:17
+#, php-format
+msgid "Tag Archives: %s"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/category.php:17
+#, php-format
+msgid "Category Archives: %s"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/single.php:45
+#, php-format
+msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:97
+msgid "Primary Navigation"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:133
+msgid "Berries"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:139
+msgid "Cherry Blossoms"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:145
+msgid "Concave"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:151
+msgid "Fern"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:157
+msgid "Forest Floor"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:163
+msgid "Inkwell"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:169
+msgid "Path"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:175
+msgid "Sunset"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:308
+#, php-format
+msgid "%s <span class=\"says\">says:</span>"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:311
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:318
+#, php-format
+msgid "%1$s at %2$s"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:318
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:335
+msgid "(Edit)"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:335
+msgid "Pingback:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:354
+msgid "Primary Widget Area"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:356
+msgid "The primary widget area"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:365
+msgid "Secondary Widget Area"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:367
+msgid "The secondary widget area"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:376
+msgid "First Footer Widget Area"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:378
+msgid "The first footer widget area"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:387
+msgid "Second Footer Widget Area"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:389
+msgid "The second footer widget area"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:398
+msgid "Third Footer Widget Area"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:400
+msgid "The third footer widget area"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:409
+msgid "Fourth Footer Widget Area"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:411
+msgid "The fourth footer widget area"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:442
+#, php-format
+msgid "<span class=\"%1$s\"></span> %2$s <span class=\"meta-sep\">from</span> %3$s"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:468
+#, php-format
+msgid "This entry was posted in %1$s and tagged %2$s. Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:470
+#, php-format
+msgid "This entry was posted in %1$s. Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/functions.php:472
+#, php-format
+msgid "Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/attachment.php:19
+#, php-format
+msgid "Return to %s"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/attachment.php:21
+#, php-format
+msgid "<span class=\"meta-nav\">&larr;</span> %s"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/attachment.php:30
+#, php-format
+msgid "<span class=\"%1$s\">By</span> %2$s"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/attachment.php:41
+#, php-format
+msgid "<span class=\"%1$s\">Published</span> %2$s"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/attachment.php:51
+#, php-format
+msgid "Full size is %s pixels"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/attachment.php:54
+msgid "Link to full-size image"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/author.php:28
+#, php-format
+msgid "Author Archives: %s"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/author.php:38
+#, php-format
+msgid "About %s"
+msgstr "Despre %s"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/archive.php:34
+#, php-format
+msgid "Daily Archives: <span>%s</span>"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/archive.php:36
+#, php-format
+msgid "Monthly Archives: <span>%s</span>"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/archive.php:38
+#, php-format
+msgid "Yearly Archives: <span>%s</span>"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/archive.php:40
+msgid "Blog Archives"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:31
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:87
+msgid "Warning!"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:91
+msgid "Please note that InforMEA is under development. The InforMEA website will be launched on 25 April 2011.<br />At such time, information from all participating MEAs will be harvested and made available. We would appreciate very much your feedback and suggestions for improvement on website navigation, user friendliness and functionality."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:108
+msgid "Free search text:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:110
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:111
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:325
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:374
+msgid "Search"
+msgstr "Cauta"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:116
+msgid "Help/FAQ"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:121
+msgid "LOGIN"
+msgstr "Autentificare"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:123
+msgid "Administration Panel"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:123
+msgid "LOGOUT"
+msgstr "Deconectare"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:167
+msgid "Visit UNEP website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:169
+msgid "UNEP"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:175
+msgid "Basel"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:183
+msgid "Ozone"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:185
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:205
+msgid "Rotterdam"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:187
+msgid "Stockholm"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:194
+msgid "Visit Food and Agriculture Organization website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:195
+msgid "Visit FAO website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:197
+msgid "FAO"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:212
+msgid "Visit United Nations General Assembly website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:213
+msgid "UN General Assembly Logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:213
+msgid "UN General Assembly"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:215
+msgid "UN GA"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:231
+msgid "Visit UNESCO website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:233
+msgid "UNESCO"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:252
+msgid "Skip to content"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:263
+msgid "Toggle MEA Explorer box"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:267
+msgid "MEA Explorer"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:270
+msgid "Start your search here"
+msgstr "Incepeti cautarea aici"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:283
+msgid "You are here:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/header.php:284
+msgid "Home"
+msgstr "Acasa"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:54
+msgid "Read more"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:89
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:246
+msgid "Latest News"
+msgstr "Ultimele stiri"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:89
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:191
+msgid "Related News"
+msgstr "Stiri"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:92
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:250
+msgid "More &#187;"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:109
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:125
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:140
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:155
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:170
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:185
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:200
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:215
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:230
+msgid "Source:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/index.html.php:247
+msgid "Upcoming events"
+msgstr "Evenimente viitoare"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:142
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:357
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:400
+msgid "Toggle"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:144
+msgid "Treaties and Decisions/Resolutions"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:160
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:174
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:186
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:200
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:237
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:246
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:291
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:304
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:316
+msgid "Check/Uncheck"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:162
+msgid "All Conventions, Protocols, Aggremments"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:239
+msgid "Decisions/Resolutions"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:248
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:10
+msgid "Treaties"
+msgstr "Tratate"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:254
+msgid "Tagged with:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:277
+msgid "Browse"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:283
+msgid "Containing:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:290
+msgid "Type free text..."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:298
+msgid "From:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:310
+msgid "Until:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:323
+msgid "Search treaties and decisions"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:330
+msgid "or"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:333
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:334
+msgid "Close box"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:359
+msgid "Meetings and Events"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/explorer.php:402
+msgid "Official documents"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/portlet.warning.inc.php:4
+msgid "Notice"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/portlet.warning.inc.php:16
+msgid ""
+"Please note that it cannot be guaranteed that a document available on-line exactly reproduces an officially adopted text.\n"
+"\t\t\t\tOnly the Convention Texts and COP/MOP Decisions/Resolutions/Recommendations published in the websites of the respective Conventions are deemed authentic."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/feedback.php:14
+msgid "Feedback &amp; suggestions"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/feedback.php:18
+msgid ""
+"&mdash;\n"
+"\t\tPlease note that InforMEA is under development.\n"
+"\t\t<br />\n"
+"\t\tThe InforMEA website will be launched on 25 April 2011.\n"
+"\t\t<br />\n"
+"\t\tAt that time, information from all participating MEAs will be comprehensively harvested and made available.\n"
+"\t\t<br />\n"
+"\t\tWe would appreciate very much your feedback and suggestions for improvement on website navigation, user friendliness and functionality.\n"
+"\t\t\t\t\t&mdash;"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/feedback.php:55
+msgid "Name"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/feedback.php:55
+msgid "Name is required"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/feedback.php:59
+msgid "Email"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/feedback.php:59
+msgid "Email is required"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/feedback.php:64
+msgid "Message"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/feedback.php:64
+msgid "Message is required"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/feedback.php:68
+msgid "Spam protection check:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/feedback.php:79
+msgid "Submit"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/paginator.php:20
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/paginator.php:65
+msgid "Back"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/paginator.php:22
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/paginator.php:61
+msgid "Previous"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/paginator.php:28
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/paginator.php:71
+msgid "Entries"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/paginator.php:35
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/paginator.php:80
+msgid "Next"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/paginator.php:37
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/paginator.php:82
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/paginator.php:87
+msgid "Forward"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:15
+msgid "Multilateral Environmental Agreements"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:25
+msgid "Expand all"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:27
+msgid "Collapse all"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:33
+msgid "Channel"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:35
+msgid "List view"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:36
+msgid "Grid view"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:57
+msgid "Compress"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:57
+msgid "Compress content"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:63
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:163
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:44
+msgid "Convention logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:63
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:163
+msgid "logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:69
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:181
+msgid "Read"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:82
+msgid "Full name"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:89
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:148
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:61
+msgid "Year"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:96
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:149
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:68
+msgid "Depository"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:103
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:150
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:114
+msgid "URL"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:115
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:151
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:167
+msgid "Treaty text"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:120
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:183
+msgid "Click here"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/browse.html.php:146
+msgid "Short title"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:28
+msgid "Select treaty"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:77
+msgid "Number of parties"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:83
+msgid "List of countries"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:89
+msgid "View profile"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:100
+msgid "Theme"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:107
+msgid "Abstract"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:121
+msgid "Full text"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:132
+msgid "Tags"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:144
+msgid "Other agreements under this treaty"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:156
+msgid "This treaty is under the following agreement"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/details.html.php:171
+msgid "Decisions"
+msgstr "Decizii"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_decisions.php:24
+msgid "Compress meeting content"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_decisions.php:29
+msgid "Open decisions for this meeting"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_decisions.php:34
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/events/browse.html.php:73
+msgid "Venue"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_decisions.php:46
+msgid "Dates"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_decisions.php:61
+msgid "No."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_decisions.php:62
+msgid "Decision title"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_decisions.php:63
+msgid "Links"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_decisions.php:64
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/meetings.html.php:51
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/details.html.php:319
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/events/browse.html.php:79
+msgid "Status"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_decisions.php:66
+msgid "Tagging"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_decisions.php:86
+msgid "Tag logo"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_decisions.php:96
+msgid "Click to see this decision on Convention website"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_decisions.php:96
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_decisions.php:99
+msgid "External link"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_decisions.php:99
+msgid "Click to download document"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_treaty.php:7
+msgid "Go to specific article"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_treaty.php:23
+msgid "This treaty has no articles or paragraphs!"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_treaty.php:41
+msgid "Expand all articles"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_treaty.php:43
+msgid "Collapse all articles"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_treaty.php:73
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_treaty.php:136
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/treaties/inc_treaty.php:156
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:240
+msgid "Tagged with"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/decisions/browse.html.php:42
+msgid "Browse Decisions"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/decisions/browse.html.php:60
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/browse.html.php:54
+msgid "Channel:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/decisions/browse.html.php:62
+msgid "Browse by treaty"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/decisions/browse.html.php:63
+msgid "Browse by term"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/decisions/browse.html.php:84
+msgid "See decisions for"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/decisions/browse.html.php:136
+msgid "There are no tagged decisions."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:109
+msgid "Treaties results"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:110
+msgid "Decisions results"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:114
+msgid "Treaties page:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:116
+msgid "Treaties pagesize:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:121
+msgid "Decisions page:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:123
+msgid "Decisions pagesize:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:161
+msgid "Include treaties"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:169
+msgid "tagged with (Vocabular)"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:180
+msgid "free text search:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:185
+msgid "Start date:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:189
+msgid "End date:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:199
+msgid "You need to have JavaScript enabled to view the search results"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:202
+msgid "Search Criteria"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:208
+msgid "Treaties searched"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:224
+msgid "Search in"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:255
+msgid "Containing"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:266
+msgid "From"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:276
+msgid "Until"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:286
+msgid "Search Results"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:293
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:299
+msgid "result"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:293
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:299
+msgid "results"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:320
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:504
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:545
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:701
+msgid "See previous page of results"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:335
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:519
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:560
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:716
+msgid "See next page of results"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:375
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:605
+msgid "Full name:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:384
+msgid "Year:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:393
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:619
+msgid "URL:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:407
+msgid "Treaty text:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:422
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:646
+msgid "Terms found:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:440
+msgid "Expand content"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:441
+msgid "Matching articles:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:590
+msgid "decisions"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:612
+msgid "Published:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:632
+msgid "Decision text:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:662
+msgid "Matching paragraphs:"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:732
+msgid "Your search returned no results"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/browse.html.php:734
+msgid "Sorry, but nothing matched your search criteria. Please try again with some different parameters."
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/meetings.html.php:7
+msgid "Search results"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/meetings.html.php:8
+#, php-format
+msgid "We have found %s meetings"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/meetings.html.php:31
+msgid "Search this event on Google"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/meetings.html.php:37
+msgid "Description"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/meetings.html.php:42
+msgid "Date"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/meetings.html.php:47
+msgid "Place"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/search/meetings.html.php:55
+msgid "Kind"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/browse.html.php:27
+msgid "Analytical index of MEA terms"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/browse.html.php:32
+msgid "View"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/browse.html.php:43
+msgid "Browse by letter"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/browse.html.php:47
+msgid "Show treaties beggining with "
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/browse.html.php:58
+msgid "Browse by theme"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/browse.html.php:59
+msgid "Browse alphabetically"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/browse.html.php:75
+msgid "This theme has no related terms"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/browse.html.php:81
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/browse.html.php:84
+msgid "Compress paragraph content"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/browse.html.php:90
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/browse.html.php:104
+#, php-format
+msgid "Open '%s' term details page"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/details.html.php:124
+msgid "Broader terms"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/details.html.php:209
+msgid "Reffering articles"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/details.html.php:212
+msgid "See entire treaty"
+msgstr "Vizualizați tot tratatul"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/details.html.php:219
+msgid "Click to see entire article"
+msgstr "Clic pentru a vizualiza întregul articol"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/details.html.php:228
+msgid "Paragraphs"
+msgstr "Paragrafe"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/details.html.php:269
+msgid "No treaties referred by this term."
+msgstr "Acest termen nu este menționat de niciun tratat"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/details.html.php:317
+msgid "Decision"
+msgstr "Decizie"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/details.html.php:318
+msgid "Title"
+msgstr "Titlu"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/details.html.php:320
+msgid "Other terms"
+msgstr "Alți termeni"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/terms/details.html.php:365
+msgid "No decisions referred by this term."
+msgstr "Acest termen nu este menționat în nicio decizie"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/map.inc.php:19
+msgid "Sample National Focal Point location"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/browse.html.php:27
+msgid "Countries"
+msgstr "Țări"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/browse.html.php:31
+msgid "Parties to MEAs"
+msgstr "Membrii ai MEA"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/browse.html.php:35
+msgid "Browse by letter:"
+msgstr "Vedere dupa literă"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/browse.html.php:39
+msgid "Show all countries"
+msgstr "Arată toate țările"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/browse.html.php:39
+msgid "All countries"
+msgstr "Toate țările"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/browse.html.php:46
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/browse.html.php:48
+msgid "Show countries beggining with"
+msgstr "Arată țările care încep cu"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/browse.html.php:56
+msgid "Alphabetical view"
+msgstr "Vedere alfabetică"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/browse.html.php:90
+msgid "Top"
+msgstr "Sus"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/browse.html.php:109
+msgid "Country"
+msgstr "Țara"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/browse.html.php:124
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/browse.html.php:129
+msgid "country profile"
+msgstr "profilul țării"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.nfp.inc.php:56
+msgid "Address:"
+msgstr "Adresă"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.nfp.inc.php:62
+msgid "Phone:"
+msgstr "Telefon"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.nfp.inc.php:68
+msgid "Fax:"
+msgstr "Fax"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.nfp.inc.php:72
+msgid "Contact this person"
+msgstr "Contactați această persoană"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.nfp.inc.php:72
+msgid "Contact via e-mail"
+msgstr "Contactați prin e-mail"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.nfp.inc.php:82
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.reports.inc.php:52
+msgid "No focal points recorded for this country ... yet."
+msgstr "Această țară nu are înregistrat niciun contact ... încă."
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.reports.inc.php:38
+msgid "Date of submisssion"
+msgstr "Data trimiterii"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.reports.inc.php:40
+msgid "Document URL"
+msgstr "URL document"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.html.php:38
+msgid "Country profile"
+msgstr "Profilul țării"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.html.php:46
+msgid "Official Name:"
+msgstr "Numele oficial"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.html.php:55
+msgid "MEA Membership"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.html.php:57
+msgid "MEA"
+msgstr "MEA"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.html.php:58
+msgid "Entry into Force"
+msgstr ""
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.html.php:81
+msgid "Country map"
+msgstr "Harta țării"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.html.php:83
+msgid "Click to enlarge"
+msgstr "Clic pentru a lărgi"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.html.php:92
+msgid "Click to close the map"
+msgstr "Clic pentru a închide harta"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.html.php:92
+msgid "Hide map"
+msgstr "Ascunde harta"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.html.php:96
+msgid "National Focal Points"
+msgstr "Contacte naționale"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.html.php:97
+msgid "National Reports"
+msgstr "Rapoarte Naționale"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.html.php:120
+msgid "Ramsar sites"
+msgstr "Situri Ramsar"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.html.php:150
+msgid "WHC sites"
+msgstr "Situri WHC"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/countries/details.html.php:181
+msgid "Upcoming Events"
+msgstr "Evenimente"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/events/browse.html.php:24
+msgid "Events"
+msgstr "Evenimente"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/events/browse.html.php:28
+msgid "MEA related events"
+msgstr "Evenimente MEA"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/events/browse.html.php:34
+msgid "Filter by convention"
+msgstr "Filtrare după convenție"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/events/browse.html.php:37
+msgid "Select convention"
+msgstr "Selectare convenție"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/events/browse.html.php:45
+msgid "and/or date interval from"
+msgstr "și/sau intervalul de la"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/events/browse.html.php:45
+msgid "until"
+msgstr "până la"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/events/browse.html.php:48
+msgid "Clear"
+msgstr "Șterge"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/events/browse.html.php:64
+msgid "Convention"
+msgstr "Convenție"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/events/browse.html.php:67
+msgid "Start date"
+msgstr "Dată început"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/events/browse.html.php:70
+msgid "End date"
+msgstr "Dată sfârșit"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/events/browse.html.php:76
+msgid "Meeting"
+msgstr "Întâlnire"
+
+#: /home/cristiroma/workspace/informea/www/wp-content/themes/informea/imea_pages/events/browse.html.php:110
+msgid "No events found at this time"
+msgstr "Nu există niciun eveniment în acest moment"
+
