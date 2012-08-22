@@ -1,0 +1,12 @@
+{
+    "servers" : {
+        "prod" : {
+            "host"          : "www.informea.org",
+            "root"          : "/var/local/www.informea.org",
+            "url"           : "http://www.informea.org",
+            "db_user"       : "informea",
+            "db_password"   : "dFzQksRAXYqWc1lOPsVd9i",
+            "db_database"   : "informea"
+        }
+    }
+}
