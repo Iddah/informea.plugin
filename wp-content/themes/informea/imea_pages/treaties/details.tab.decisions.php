@@ -18,12 +18,12 @@ $(document).ready(function() {
 </script>
 <?php 
 } 
-if($treaty->id == '18' || $treaty->id == '19' || $treaty->id == '15' || $treaty->id == '17' || $treaty->id == '16' ) { 
+if($treaty->id == '19' || $treaty->id == '15' || $treaty->id == '17' || $treaty->id == '16' ) { 
 ?>
 <div class="warning">
 	<div class="content">
 		<br />
-		<strong>Disclaimer:</strong> Please note that the decisions from Ramsar, UNCCD and UNFCCC and the Kyoto Protocol, other than those listed here, will be accessible in the course of 2012
+		<strong>Disclaimer:</strong> Please note that the decisions from UNCCD and UNFCCC and the Kyoto Protocol, other than those listed here, will be accessible in the course of 2012
 	</div>
 </div>
 <?php
