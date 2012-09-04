@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 if test -z "$1"; then
 	echo "Usage: ./compress.sh <css|js>"
 	exit;
 fi
 
-if [ $1 == "CSS" -o $1 == "css" ]; then
+if [[ $1 == "CSS" ]] || [[ $1 == "css" ]]; then
 	echo "CSS Compression"
 	echo
 	echo "Compressing wp-content/themes/informea/fix-IE7.css"
