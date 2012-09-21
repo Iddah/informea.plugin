@@ -264,11 +264,11 @@ class imeasiteadmin {
 			}
 			return include(dirname(__FILE__) . '/admin/decisions/tag_decision_paragraph.php');
 		}
-		if($act == 'decision_edit_tags') {
+		if($act == 'decision_edit') {
 			if ($actioned && $page_data->validate_edit_decision()) {
 				$page_data->edit_decision();
 			}
-			return include(dirname(__FILE__) . '/admin/decisions/edit_tags.php');
+			return include(dirname(__FILE__) . '/admin/decisions/edit.php');
 		}
 		if($act == 'decision_add') {
 			if ($actioned && $page_data->validate_add_decision()) {

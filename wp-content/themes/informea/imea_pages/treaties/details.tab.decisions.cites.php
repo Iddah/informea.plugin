@@ -64,8 +64,8 @@ Go to
 		?>
 			</span>
 		<?php if( current_user_can('manage_options') ) { ?>
-			<a href="<?php bloginfo('url'); ?>/wp-admin/admin.php?page=informea_decisions&act=decision_edit_tags&id_decision=<?php echo $decision->id; ?>&id_treaty=<?php echo $decision->id_treaty; ?>" class="button">
-				<span>Edit tags</span>
+			<a href="<?php bloginfo('url'); ?>/wp-admin/admin.php?page=informea_decisions&act=decision_edit&id_decision=<?php echo $decision->id; ?>&id_treaty=<?php echo $decision->id_treaty; ?>" class="button">
+				<span>Edit decision</span>
 			</a>
 		<?php } ?>
 		</td>

@@ -442,16 +442,26 @@ class imea_decisions_page extends imea_page_base_page {
 		$this->actioned = TRUE;
 		$val = new FormValidator();
 		$val->addValidation("id_decision", "req", "Invalid decision");
+		$val->addValidation("short_title", "req", "Invalid decision title");
+		$val->addValidation("number", "req", "Invalid decision number");
+		$val->addValidation("decision_type", "req", "Invalid decision type");
+		$val->addValidation("status", "req", "Invalid decision status");
+		$val->addValidation("published", "req", "Invalid decision publish date");
 		$valid = $val->ValidateForm();
 		if(!$valid) {
 			$this->errors = $val->GetErrors();
 		}
-		if(!check_ajax_referer('edit_decision_tags')) {
+		if(!check_ajax_referer('decision_edit')) {
 			$valid = false;
 			$this->errors['security'] = 'Invalid security token';
 		}
+		if(get_request_int('id_meeting') == NULL && get_request_value('meeting_title') == NULL) {
+			$valid = false;
+			$this->errors['id_meeting'] = 'Either select meeting from drop-down or enter meeting title!';
+		}
 		return $valid;
 	}
+
 
 	function edit_decision() {
 		global $wpdb;
@@ -462,8 +472,39 @@ class imea_decisions_page extends imea_page_base_page {
 			$keywords = get_request_value('keywords', array(), false);
 			$id_decision = get_request_int('id_decision');
 			$rec_created = date('Y-m-d H:i:s', strtotime("now"));
-			@mysql_query("BEGIN", $wpdb->dbh);
+
 			try {
+				@mysql_query("BEGIN", $wpdb->dbh);
+
+				// Update decision
+				$data = array();
+				$data['link'] = get_request_value('link');
+				$data['short_title'] = get_request_value('short_title');
+				$data['long_title'] = get_request_value('long_title');
+				$data['summary'] = get_request_value('summary');
+				$data['type'] = get_request_value('decision_type');
+				$data['status'] = get_request_value('status');
+				$data['number'] = get_request_value('number');
+				$data['id_treaty'] = get_request_int('id_treaty');
+				$data['published'] = get_request_value('published');
+				$updated = get_request_value('updated');
+				if(!empty($updated)) {
+					$data['updated'] = $updated;
+				}
+				$id_meeting = get_request_int('id_meeting');
+				if(!empty($id_meeting)) {
+					$data['id_meeting'] = $id_meeting;
+				}
+				$data['meeting_title'] = get_request_value('meeting_title');
+				$data['meeting_url'] = get_request_value('meeting_url');
+				$data['body'] = get_request_value('body');
+				$data['rec_created'] = $rec_created;
+				$data['rec_author'] = $user;
+
+				$wpdb->update('ai_decision', $data, array('id' => $id_decision));
+				$this->check_db_error();
+
+				// Update keywords
 				$wpdb->query($wpdb->prepare("DELETE FROM ai_decision_vocabulary WHERE id_decision = %d", $id_decision));
 				foreach($keywords as $keyword) {
 					$success = $wpdb->insert('ai_decision_vocabulary',
@@ -679,6 +720,11 @@ class imea_decisions_page extends imea_page_base_page {
 		$this->actioned = true;
 		$this->success = true;
 		return true;
+	}
+
+
+	function get_allowed_status() {
+		return array('draft', 'active', 'amended', 'retired', 'revised');
 	}
 }
 }
