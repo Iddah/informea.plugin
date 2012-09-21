@@ -194,7 +194,7 @@ $languages = array('en' => 'English', 'fr' => 'French', 'ar' => 'Arabic', 'es' =
 						<select id="id_meeting" name="id_meeting">
 							<option value="">-- Please select --</option>
 							<?php
-								foreach($eventsOb->get_events($id_treaty, 'a.`start_date` DESC') as $event) {
+								foreach($eventsOb->get_events($id_treaty, 'a.`start` DESC') as $event) {
 									$selected = $event->id == $id_event ? ' selected="selected"' : '';
 							?>
 							<option value="<?php echo $event->id; ?>"<?php echo $selected; ?>><?php echo $event->title; ?></option>
