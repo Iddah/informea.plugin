@@ -157,22 +157,22 @@ $featured_country = $countries_data->get_featured_country();
 					<div class="row-item left">
 						<?php $h = $categories['climate-change']; ?>
 						<a class="link" href="<?php echo $h->link; ?>"><img src="<?php echo $h->image; ?>" style="width: 100px; height: 100px;" /></a>
-						<div class="row-item-description"><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
+						<div><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
 					</div>
 					<div class="row-item left">
 						<?php $h = $categories['biological-diversity']; ?>
 						<a class="link" href="<?php echo $h->link; ?>"><img src="<?php echo $h->image; ?>" style="width: 100px;" /></a>
-						<div class="row-item-description"><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
+						<div><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
 					</div>
 					<div class="row-item left">
 						<?php $h = $categories['species']; ?>
 						<a class="link" href="<?php echo $h->link; ?>"><img src="<?php echo $h->image; ?>" style="width: 100px;" /></a>
-						<div class="row-item-description"><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
+						<div><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
 					</div>
 					<div class="row-item left">
 						<?php $h = $categories['wetlands-national-heritage-sites']; ?>
 						<a class="link" href="<?php echo $h->link; ?>"><img src="<?php echo $h->image; ?>" style="width: 100px;" /></a>
-						<div class="row-item-description"><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
+						<div><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
 					</div>
 				</div>
 				<div class="clear"></div>
@@ -180,22 +180,22 @@ $featured_country = $countries_data->get_featured_country();
 					<div class="row-item left">
 						<?php $h = $categories['chemicals-waste']; ?>
 						<a class="link" href="<?php echo $h->link; ?>"><img src="<?php echo $h->image; ?>" style="width: 100px;" /></a>
-						<div class="row-item-description"><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
+						<div><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
 					</div>
 					<div class="row-item left">
 						<?php $h = $categories['international-cooperation']; ?>
 						<a class="link" href="<?php echo $h->link; ?>"><img src="<?php echo $h->image; ?>" style="width: 100px;" /></a>
-						<div class="row-item-description"><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
+						<div><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
 					</div>
 					<div class="row-item left">
 						<?php $h = $categories['financing-trade']; ?>
 						<a class="link" href="<?php echo $h->link; ?>"><img src="<?php echo $h->image; ?>" style="width: 100px;" /></a>
-						<div class="row-item-description"><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
+						<div><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
 					</div>
 					<div class="row-item left">
 						<?php $h = $categories['drylands']; ?>
 						<a class="link" href="<?php echo $h->link; ?>"><img src="<?php echo $h->image; ?>" style="width: 100px;" /></a>
-						<div class="row-item-description"><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
+						<div><a class="link" href="<?php echo $h->link; ?>"><?php echo $h->title; ?></a></div>
 					</div>
 				</div>
 				<div class="clear"></div>
