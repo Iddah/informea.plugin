@@ -136,12 +136,16 @@ def _setup(task):
 @_setup
 def update():
     with cd(env.root):
-	sudo("git pull origin master")
+        sudo("git pull origin master")
+
 
 @_setup
 def clonedb():
     """ Clone SQL database from production to local
     """
+    if not hasattr(env, 'db_user'):
+        print colors.red('Usage fab s:prod clonedb')
+        return
     db = type('obj', (object,), {'db_user' : 'root', 'db_password' : 'root', 'db_database' : 'informea', 'url' : 'http://informea.eaudeweb.ro/'})
     setattr(env, "local", db)
 
@@ -153,6 +157,9 @@ def clonedb():
     # Download the dump
     get(sqldump_file_gz, sqldump_file_gz)
     local("gunzip -f %s" % sqldump_file_gz)
+
+    local("mysql -u %s --password=%s -e \"grant all on informea.* to 'informea'@'localhost' identified by 'informea'\"" % (env.local.db_user, env.local.db_password))
+
     local("cat %s | mysql -u %s --password=%s %s" % (sqldump_file, env.local.db_user, env.local.db_password, env.local.db_database))
     # Fix SQL database variables in WordPress
     local("mysql -u %s --password=%s -e \"update wp_options set option_value='%s' where option_name in ('home', 'siteurl')\" %s" % (env.local.db_user, env.local.db_password, env.local.url, env.local.db_database))
@@ -160,7 +167,7 @@ def clonedb():
     # Cleanup temporary files
     sudo("rm %s" % sqldump_file_gz)
     local("rm %s" % sqldump_file)
-    # grant all on informea.* to 'informea'@'localhost' identified by 'informea';
+
 
 @_setup
 def shell():
