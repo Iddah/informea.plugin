@@ -72,43 +72,30 @@ $letters = $page_data->get_alphabet_letters();
 				$dictionary = $page_data->index_alphabetical();
 				foreach($letters as $letter) {
 			?>
-			<li class="collapsible <?php echo($count % 2)?'odd':'even'; ?>" id="treaty-<?php echo $letter->letter; ?>">
-				<div class="left list-item-content">
-					<div class="list-item-top-details">
-						<div class="left list-item-action">
-							<a href="javascript:void(0); " class="toggle-treaty" id="toggle-treaty-<?php echo $letter->letter; ?>">
-								<img src="<?php bloginfo('template_directory'); ?>/images/expand.gif" alt="Compress" title="<?php _e('Compress content', 'informea'); ?>" />
-							</a>
-						</div>
-						<div class="left list-item-title">
-							<span>
-								<a href="javascript:void(0); " class="toggle-treaty" id="toggle-treaty-<?php echo $letter->letter; ?>">
-								<?php echo $letter->letter; ?>
-								</a>
-							</span>
-						</div>
-
-					</div>
-					<div class="list-item-content-details" style="display: none;">
-						<div class="list-item-details">
-							<?php
-								$terms = $dictionary[$letter->letter];
-								foreach($terms as $term) {
-							?>
-								<table>
-									<td style="width: 200px;">
-										<a href="<?php echo get_permalink() . '/' . $term->id; ?>"  title="<?php _e('Browse', 'informea'); ?> '<?php echo $term->term; ?>'"><?php echo $term->term;?></a>
-									</td>
-									<td>
-										<?php echo $term->description; ?>
-									</td>
-								</table>
-							<?php } ?>
-
-
+				<li class="<?php echo($count % 2)?'odd':'even'; ?>" id="treaty-<?php echo $letter->letter; ?>">
+				<a href="javascript:void(0);" class="left closed list-item-title-click">
+					<div class="list-item-title">
+						<div class="left">
+							<?php echo $letter->letter; ?>
 						</div>
 					</div>
+				</a>
+				<div class="list-item-content hidden">
+				<?php
+					$terms = $dictionary[$letter->letter];
+					foreach($terms as $term) {
+				?>
+					<table>
+						<td style="width: 200px;">
+							<a href="<?php echo get_permalink() . '/' . $term->id; ?>"  title="<?php _e('Browse', 'informea'); ?> '<?php echo $term->term; ?>'"><?php echo $term->term;?></a>
+						</td>
+						<td>
+							<?php echo $term->description; ?>
+						</td>
+					</table>
+				<?php } ?>
 				</div>
+				<div class="clear"></div>
 			</li>
 			<?php
 					$count++;

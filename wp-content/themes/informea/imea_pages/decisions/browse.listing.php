@@ -125,42 +125,34 @@ if($page_data->expand == 'treaty') {
 	<?php
 		if($page_data->expand == 'term') {
 	?>
-	<ul id="term-container" class="list-dropdown">
+	<ul class="list-dropdown">
 		<?php
 			$count = 0;
 			foreach( $page_data->get_themes() as $row ) {
 				$tterms = $page_data->expand_theme_terms($row->id);
 				if(!empty($tterms)) {
 		?>
-		<li class="collapsible  <?php echo($count % 2)?'odd':'even'; ?>" id="treaty-<?php echo $row->id; ?>">
-			<div class="left list-item-content">
-				<div class="list-item-top-details">
-					<div class="left list-item-action">
-						<a href="javascript:void(0); " class="toggle-treaty" id="toggle-treaty-<?php echo $row->id; ?>">
-							<img src="<?php bloginfo('template_directory'); ?>/images/expand.gif" alt="<?php _e('Compress', 'informea'); ?>" title="<?php _e('Compress content', 'informea'); ?>" />
-						</a>
-					</div>
-					<div class="left list-item-title">
-						<span>
-							<a href="<?php echo bloginfo('url'); ?>/terms/<?php echo $row->id; ?>/decisions"><?php echo $row->term; ?></a>
-						</span>
-					</div>
-					<div class="clear"></div>
-				</div>
-
-				<div class="list-item-content-details hidden">
-					<div class="list-item-details">
-						<?php
-							foreach( $tterms as $term ) {
-						?>
-								<div class="letter-box">
-									<a  href="<?php echo bloginfo('url'); ?>/terms/<?php echo $term->id; ?>/decisions"  title="<?php _e('Browse', 'informea'); ?> <?php echo $term->term; ?>"><?php echo $term->term;?></a>
-								</div>
-						<?php } ?>
-						<div class="clear"></div>
+		<li class="<?php echo($count % 2)?'odd':'even'; ?> list-item" id="treaty-<?php echo $treaty->id_treaty; ?>">
+			<a href="javascript:void(0);" class="left closed list-item-title-click">
+				<div class="list-item-title">
+					<div class="left">
+						<?php echo $row->term; ?>
 					</div>
 				</div>
+			</a>
+			<div class="list-item-content hidden">
+				View decisions for: <a href="<?php echo bloginfo('url'); ?>/terms/<?php echo $row->id; ?>/decisions"><?php echo $row->term; ?></a>
+				<div class="clear"></div>
+				<?php
+					foreach( $tterms as $term ) {
+				?>
+						<div class="letter-box">
+							<a  href="<?php echo bloginfo('url'); ?>/terms/<?php echo $term->id; ?>/decisions"  title="<?php _e('Browse', 'informea'); ?> <?php echo $term->term; ?>"><?php echo $term->term;?></a>
+						</div>
+				<?php } ?>
+				<div class="clear"></div>
 			</div>
+			<div class="clear"></div>
 		</li>
 		<?php
 				$count++;

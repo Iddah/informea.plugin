@@ -11,7 +11,7 @@ add_filter('body_class', function ($classes) { $classes[] = 'col-2'; return $cla
 get_header();
 $page_data = new imea_decisions_page(array());
 
-if(!isset($warning_text)) { $warning_text = __('The decisions from Ramsar, UNCCD and UNFCCC and the Kyoto Protocol, other than those listed here, will be accessible in the course of 2012', 'informea'); }
+if(!isset($warning_text)) { $warning_text = __('The decisions from UNCCD and UNFCCC and the Kyoto Protocol, other than those listed here, will be accessible in the course of 2012', 'informea'); }
 
 ?>
 <div id="container">

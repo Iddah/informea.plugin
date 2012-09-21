@@ -34,7 +34,7 @@ $(document).ready(function() {
 	 *    <div class="list-item-content">...</div>
 	 * </li>
 	 */
-	$.each($('.list-item'), function(){
+	$.each($('ul.list-dropdown li'), function(){
 		var listItem = $(this);
 		var clickLink = $(this).find('.list-item-title-click');
 		clickLink.click(function(e) {
@@ -151,12 +151,10 @@ $(document).ready(function() {
 	$('a.expand-button').click(function(e){
 		e.preventDefault();
 		if( ( $('ul.list-dropdown').is(':visible') ) && ( !$(this).hasClass('disabled') ) ){
-				$('.list-item-content-details').slideDown('fast');
-				$('.list-item-action a img').attr({
-					'src': 		images_dir + 'collapse.gif',
-					'title':	'Compress treaty content',
-					'alt':		'Compress'
-				});
+				$('.list-item-content').slideDown('fast');
+				$('.list-item-title-click').removeClass('closed');
+				$('.list-item-title-click').addClass('opened');
+
 		}
 		$('a.compress-button').removeClass('disabled');
 		$(this).addClass('disabled');
@@ -165,12 +163,9 @@ $(document).ready(function() {
 	$('a.compress-button').click(function(e){
 		e.preventDefault();
 		if( ( $('ul.list-dropdown').is(':visible') ) && ( !$(this).hasClass('disabled') ) ){
-			$('.list-item-content-details').slideUp('fast');
-			$('.list-item-action a img').attr({
-				'src':images_dir + 'expand.gif',
-				'title':	'Expand treaty content',
-				'alt':		'Expand'
-			});
+			$('.list-item-content').slideUp('fast');
+			$('.list-item-title-click').removeClass('opened');
+			$('.list-item-title-click').addClass('closed');
 			$('a.expand-button').removeClass('disabled');
 			$(this).addClass('disabled');
 		}

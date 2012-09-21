@@ -24,16 +24,15 @@ if(count($treaties_contacts)) {
 	foreach($treaties_contacts as $treaty) {
 		$contacts = (isset($all_contacts[$treaty->id_treaty])) ? $all_contacts[$treaty->id_treaty] : array();
 ?>
-	<li class="collapsible even list-item" id="treaty-<?php echo $treaty->id_treaty; ?>">
+	<li id="treaty-<?php echo $treaty->id_treaty; ?>">
 		<a name="contact-bookmark-<?php echo $treaty->id_treaty; ?>"></a>
-		<a href="javascript:void(0);" class="left closed list-item-title-click" style="height: 50px;">
+		<a href="javascript:void(0);" class="left closed list-item-title-click">
 			<div class="list-item-title">
-				<img class="left mea-logo" title="<?php echo $treaty->short_title; ?>" alt="<?php _e('Convention logo', 'informea'); ?>" src="<?php echo $treaty->logo_medium; ?>">
+				<img class="left mea-logo" title="<?php echo $treaty->short_title; ?>" alt="<?php _e('Convention logo', 'informea'); ?>" src="<?php echo $treaty->logo_medium; ?>" />
 				<div class="left mea-name"><?php echo $treaty->short_title; ?></div>
 			</div>
 		</a>
-		<div class="<?php echo $showall_div; ?> list-item-content country-nfp-item">
-		<div class="clear"></div>
+		<div class="<?php echo $showall_div; ?> list-item-content">
 		<?php
 		foreach($contacts as $contact) {
 			$highlight = ($contact->id == $id_contact) ? 'highlight' : '';
@@ -76,12 +75,17 @@ if(count($treaties_contacts)) {
 				</div>
 				<?php } ?>
 				<?php if (!empty($contact->email)){ ?>
-					<a href="<?php echo bloginfo('url'); ?>/countries/<?php echo $country->id; ?>/sendmail/<?php echo $contact->id?>/<?php echo $treaty->id_treaty?>" class="tooltip cnt-contact-link" title="<?php _e('Contact this person', 'informea'); ?>"><?php _e('Contact via e-mail', 'informea'); ?></a>&nbsp;&nbsp;
+					<a class="button blue" href="<?php echo bloginfo('url'); ?>/countries/<?php echo $country->id; ?>/sendmail/<?php echo $contact->id?>/<?php echo $treaty->id_treaty?>" class="tooltip cnt-contact-link" title="<?php _e('Contact this person', 'informea'); ?>">
+						<span><?php _e('Contact via e-mail', 'informea'); ?></span>
+					</a>&nbsp;&nbsp;
 				<?php } ?>
-				<a href="<?php echo bloginfo('url'); ?>/vcard?id_contact=<?php echo $contact->id?>" class="tooltip cnt-contact-link" title="<?php _e('Download vCard', 'informea'); ?>"><?php _e('Download vcard', 'informea'); ?></a>
+				<a class="button blue" href="<?php echo bloginfo('url'); ?>/vcard?id_contact=<?php echo $contact->id?>" class="tooltip cnt-contact-link" title="<?php _e('Download vCard', 'informea'); ?>">
+					<span><?php _e('Download vcard', 'informea'); ?></span>
+				</a>
 			</div>
 		<?php } ?>
 		</div>
+		<div class="clear"></div>
 	</li>
 	<?php } ?>
 </ul>

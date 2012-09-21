@@ -113,6 +113,24 @@ table.default td, table.default th { border: 1px solid; }
 table.grey td, table.grey th { border-color: #D7D7D7; }
 table.space-5 td, table.space-5 th { padding: 5px; }
 
+
+/* List drop-down */
+ul.list-dropdown { margin-left: 0px; padding: 0; list-style-type: none; font-size: 12px; margin-bottom: 20px; width: 100%; }
+ul.list-dropdown div.list-item-content { margin-left: 20px; padding-top: 10px; clear: both; }
+ul.list-dropdown li { margin-top: 15px; }
+ul.list-dropdown .list-item-title { font-size: 14px;  font-weight: bold; padding: 0px 0px 0 10px; display: block; overflow: hidden;}
+ul.list-dropdown .mea-logo { padding: 0 10px 0 5px; }
+ul.list-dropdown .mea-name { line-height: 48px; }
+.list-item-title-click { margin-left: 10px; }
+
+body.imea-countries ul.list-dropdown { margin: 0; padding: 0; }
+body.imea-terms ul.list-dropdown  {border-bottom: 1px solid #dfdfdf;}
+body.imea-treaties .treaty_contacts a.list-item-title-click { line-height: 32px; }
+body.imea-treaties .treaty_contacts a.list-item-title-click div { margin-left: 5px; }
+
+body.imea-decisions ul.list-dropdown li { line-height:  18px; margin-top: 5px; }
+body.imea-decisions ul.list-dropdown .list-item-title { padding: 0; }
+
 /* jQuery overrides */
 .ui-state-default, .ui-widget-content .ui-state-default {background-color: #DFEFFC !important; border: 1px solid #C8AD31 !important;}
 .ui-widget-content {border: 1px solid #C8AD31 !important;}
@@ -198,11 +216,11 @@ ul.highlight-stories { list-style-type: none; }
 /* Search page */
 #main #filter ul.main-list { list-style-type: none; margin-left: 0px; padding-left: 0px; }
 #main #filter ul.sublist { list-style-type: none; margin-left: 0px; padding-left: 5px; }
+body.imea-search ul { list-style-type: none; }
 
 /* Terms page */
 body.imea-terms table td { vertical-align: top; }
 body.imea-terms .data ul { list-style-type: none; margin: 0; padding: 0 0 0 10px; }
-
 /* End of clean code */
 
 
@@ -410,17 +428,8 @@ table.datatable thead { -moz-background-clip: border; -moz-background-origin: pa
 
 img.middle { vertical-align: middle;}
 
-ul.list-dropdown { list-style-type: none; font-size: 12px; margin-bottom: 20px; width: 100%; }
-ul.list-dropdown .list-item-content { width: 100%;}
-ul.list-dropdown .list-item-top-details { padding: 10px 0px 0 10px; display: block; overflow: hidden;}
-ul.list-dropdown .list-item-action {  /* margin: 17px 13px 0px 0px; */ margin-right: 5px;}
-ul.list-dropdown .list-item-logo {  margin-right: 10px; width: 48px;  height: 48px;  text-align: center; background: #fff; overflow: hidden;}
-ul.list-dropdown .list-item-logo img { }
-ul.list-dropdown .list-item-title {  font-size: 14px;  font-weight: bold;}
 .list-item-details {background: #fff;}
 .letter-box { padding: 10px 0 10px 10px; width: 200px; margin-right: 30px; float: left}
-body.imea-terms ul.list-dropdown .list-item-top-details  {padding: 0;}
-ul.list-dropdown .list-item-title { padding: 10px 0px 0 10px; display: block; overflow: hidden;}
 
 
 /* Index page specific styles */
@@ -496,9 +505,6 @@ tr.treaty-theme  td {padding: 10px; border-top: 1px solid #fff; border-bottom: 1
 .expand-collapse-buttons  a {margin: 5px 0; display: inline-block;}
 .imea-terms .toolbar { margin-bottom: 15px !important; }
 
-ul.list-dropdown .list-item-logo-nfp { border: none; margin-right: 10px; width: 60px; height: 48px; text-align: center; background: #fff; overflow: hidden; }
-ul.list-dropdown .list-item-logo-nfp img { max-height: 30px; padding-top: 9px; }
-#nfp-countries .list-item-action {margin-top: 15px; position: relative;}
 .portlet-highlights-placeholder { margin-top: 15px; }
 #select-country-party { height: 100px; background-color: #f0f0f0; }
 
@@ -552,7 +558,6 @@ table.datatable tbody tr:hover { cursor: pointer; background-color: #f2f7fc !imp
 #id_country { width: 210px; }
 .country-alphabet-separator { border-bottom: 1px dashed #ddd; margin-bottom: 15px; }
 
-body.imea-countries .left.list-item-action {margin-top: 15px; position: relative;}
 .imea-countries .box-title { margin-bottom: 15px; }
 
 .imea-countries .mea-membership { width: 100%; }
@@ -569,9 +574,6 @@ body.imea-countries .left.list-item-action {margin-top: 15px; position: relative
 .imea-countries .sites th {font-size: 130%; }
 .imea-countries .sites th img {float: left; margin-right: 10px; }
 
-ul.list-dropdown .mea-logo { padding: 0 10px 0 5px; }
-ul.list-dropdown .mea-name { line-height: 50px; }
-ul.list-dropdown .country-nfp-item { margin-left: 20px; }
 
 .quick-country-input {float: left; padding: 0; margin: 0; height: 21px;  background-color: #FFFFFF;  border: 1px solid #BABBB8;}
 #id_form_countries_autocomplete .ui-autocomplete-input { padding: 0 !important; }
@@ -625,13 +627,10 @@ ul.list-dropdown .country-nfp-item { margin-left: 20px; }
 .terms-tabular  td {border-top: 1px solid #dfdfdf; padding: 10px;}
 body.imea-terms #main .details-column-1 h1,
 body.imea-terms #main .details-column-1 p {padding-right: 10px;}
-body.imea-terms ul.list-dropdown  {border-bottom: 1px solid #dfdfdf;}
-body.imea-terms ul.list-dropdown .list-item-top-details a {vertical-align: middle; margin: auto 0;}
 body.imea-terms .list-item-details table {margin-left: 25px;}
 body.imea-terms .list-item-details table td {padding: 0 10px 5px 0;}
 body.imea-terms .list-item-details table td.label {font-weight: bold;}
 body.imea-terms .list-item-content-details {padding-bottom: 10px;}
-body.imea-terms ul.list-dropdown .list-item-action,
 .download-vocabulary { margin-top: 15px; }
 .portlet-terms-tags { margin-top: 15px; }
 
@@ -639,7 +638,6 @@ body.imea-terms ul.list-dropdown .list-item-action,
 ul.vocabulary-download { list-style-type: none !important; }
 ul.vocabulary-download li { margin-left: 10px; }
 
-body.imea-terms .left.list-item-action {margin-top: 15px; position: relative;}
 body.imea-terms .left.list-item-title {margin-top: 15px; position: relative;}
 
 
@@ -776,7 +774,6 @@ a.button.search-explorer-submit:hover>span, a.button.search-explorer-submit:focu
 
 #search-paginator { margin: 20px 0 0 30px; }
 body.imea-search .toolbar {margin-bottom: 10px; }
-.list-item-title-click { margin-left: 10px; }
 
 .matching-article { margin-left: 15px; }
 .matching-paragraphs { margin-left: 30px; }
