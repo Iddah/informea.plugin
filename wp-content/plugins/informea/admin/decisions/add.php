@@ -58,7 +58,7 @@ $languages = array('en' => 'English', 'fr' => 'French', 'ar' => 'Arabic', 'es' =
 						<div style="float: left">
 							<label for="published">Published *</label>
 							<input type="text" id="published" name="published" value="<?php echo get_request_value('published', ''); ?>" style="width: 150px;" />
-							<p>(YYYY-MM-DD)</p>
+							<p>Date when decision was published by the Convention (YYYY-MM-DD)</p>
 						</div>
 
 						<div style="float: left; margin-left: 15px;">
@@ -147,6 +147,7 @@ $languages = array('en' => 'English', 'fr' => 'French', 'ar' => 'Arabic', 'es' =
 					<div class="form-field">
 						<label for="link">Link</label>
 						<input type="text" id="link" name="link" value="<?php echo get_request_value('link', ''); ?>" />
+						<p>Link to online version of the decision, on the convention's website</p>
 					</div>
 
 					<div class="form-field form-required">
@@ -211,6 +212,7 @@ $languages = array('en' => 'English', 'fr' => 'French', 'ar' => 'Arabic', 'es' =
 					<div class="form-field">
 						<label for="meeting_url">Meeting url</label>
 						<input type="text" id="meeting_url" name="meeting_url" value="" />
+						<p>Link to online meeting on Convention's website</p>
 					</div>
 					<?php } ?>
 				</div><!--/col-left -->
