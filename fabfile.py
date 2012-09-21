@@ -34,6 +34,13 @@ except ImportError:
 #         ENVIRONMENTS         #
 ################################
 
+class DictObj(object):
+    def __init__(self, d):
+        self.d = d
+
+    def __getattr__(self, m):
+        return self.d.get(m, None)
+
 def _load_config(**kwargs):
     """Find and parse server config file.
 
@@ -51,6 +58,7 @@ def _load_config(**kwargs):
     # Open file and deserialize settings.
     with open(config + ext) as config_file:
         return loader.load(config_file)
+
 
 def s(*args, **kwargs):
     """Set destination servers or server groups by comma delimited list of names"""
@@ -82,6 +90,9 @@ def s(*args, **kwargs):
     # operate on. No host is added twice, so we can safely add overlaping groups. Each added host is
     # guaranteed to have a config record in `env.group`.
     env.hosts = env.group.keys()
+
+    # Set local as special server
+    setattr(env, 'local', DictObj(config['servers']['local']))
 
 def _build_group(name, servers):
     """Recursively walk through servers dictionary and search for all server records."""
@@ -143,30 +154,69 @@ def update():
 def clonedb():
     """ Clone SQL database from production to local
     """
-    if not hasattr(env, 'db_user'):
+    if not hasattr(env, 'local'):
         print colors.red('Usage fab s:prod clonedb')
         return
-    db = type('obj', (object,), {'db_user' : 'root', 'db_password' : 'root', 'db_database' : 'informea', 'url' : 'http://informea.eaudeweb.ro/'})
-    setattr(env, "local", db)
 
     sqldump_file_gz = "/tmp/informea_dump.sql.gz"
     sqldump_file = "/tmp/informea_dump.sql"
-    # Dump the database
+
+    print colors.green('Dumping production database to %s' % sqldump_file_gz)
     sudo("mysqldump -u %s --password=%s %s | gzip > %s" % (env.db_user, env.db_password, env.db_database, sqldump_file_gz))
 
-    # Download the dump
+    print colors.green('Downloading production dump to %s' % sqldump_file_gz)
     get(sqldump_file_gz, sqldump_file_gz)
+    sudo("rm %s" % sqldump_file_gz)
+
+    print colors.green('Unpacking production dump to %s' % sqldump_file)
     local("gunzip -f %s" % sqldump_file_gz)
 
-    local("mysql -u %s --password=%s -e \"grant all on informea.* to 'informea'@'localhost' identified by 'informea'\"" % (env.local.db_user, env.local.db_password))
+    print colors.green('Setting MySQL view permissions')
+    local("mysql -u %s --password=%s -e \"grant all on informea.* to '%s'@'localhost' identified by '%s'\"" % (env.local.db_user, env.local.db_password, env.local.db_user, env.local.db_password))
 
+    print colors.green('Loading production dump to MySQL (%s)' % env.local.db_database)
     local("cat %s | mysql -u %s --password=%s %s" % (sqldump_file, env.local.db_user, env.local.db_password, env.local.db_database))
+
     # Fix SQL database variables in WordPress
+    print colors.green('Fixing WordpRess config table')
     local("mysql -u %s --password=%s -e \"update wp_options set option_value='%s' where option_name in ('home', 'siteurl')\" %s" % (env.local.db_user, env.local.db_password, env.local.url, env.local.db_database))
 
     # Cleanup temporary files
-    sudo("rm %s" % sqldump_file_gz)
+    print colors.green('Cleaning up ...')
     local("rm %s" % sqldump_file)
+
+
+@_setup
+def clonedb2production():
+    """ Clone SQL database from production to local
+    """
+    if not hasattr(env, 'local'):
+        print colors.red('Usage fab s:prod clonedb')
+        return
+
+    sqldump_file_gz = "/tmp/informea_dump.sql.gz"
+    sqldump_file = "/tmp/informea_dump.sql"
+
+    #print colors.green('Dumping local database to %s' % sqldump_file_gz)
+    #local("mysqldump -u %s --password=%s %s | gzip > %s" % (env.local.db_user, env.local.db_password, env.local.db_database, sqldump_file_gz))
+
+    #print colors.green('Uploading production dump to %s' % sqldump_file_gz)
+    #put(sqldump_file_gz, sqldump_file_gz)
+    #local("rm %s" % sqldump_file_gz)
+
+    #print colors.green('Unpacking remote dump to %s' % sqldump_file)
+    #sudo("gunzip -f %s" % sqldump_file_gz)
+
+    print colors.green('Loading remote dump to MySQL (%s)' % env.db_database)
+    sudo("cat %s | mysql -u %s --password=%s %s" % (sqldump_file, env.db_user, env.db_password, env.db_database))
+
+    # Fix SQL database variables in WordPress
+    print colors.green('Fixing WordpRess config table on production')
+    sudo("mysql -u %s --password=%s -e \"update wp_options set option_value='%s' where option_name in ('home', 'siteurl')\" %s" % (env.db_user, env.db_password, env.url, env.db_database))
+
+    # Cleanup temporary files
+    print colors.green('Cleaning up ...')
+    sudo("rm %s" % sqldump_file)
 
 
 @_setup

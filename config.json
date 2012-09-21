@@ -7,6 +7,14 @@
             "db_user"       : "informea",
             "db_password"   : "dFzQksRAXYqWc1lOPsVd9i",
             "db_database"   : "informea"
+        },
+        "local" : {
+            "host"          : "localhost",
+            "root"          : "/home/cristiroma/workspace/informea/www",
+            "url"           : "http://informea.eaudeweb.ro",
+            "db_user"       : "root",
+            "db_password"   : "root",
+            "db_database"   : "informea"
         }
     }
 }
