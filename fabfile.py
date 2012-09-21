@@ -148,7 +148,8 @@ def _setup(task):
 def update():
     with cd(env.root):
         sudo("git pull origin master")
-
+        sudo("./compress.sh css")
+        sudo("./compress.sh js")
 
 @_setup
 def clonedb():
@@ -184,6 +185,8 @@ def clonedb():
     # Cleanup temporary files
     print colors.green('Cleaning up ...')
     local("rm %s" % sqldump_file)
+
+    print colors.red("Don't forget to disable CSS & JavaScript optimizations from back-end")
 
 
 @_setup
