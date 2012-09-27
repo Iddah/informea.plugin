@@ -15,7 +15,7 @@ $(document).ready(function() {
 <?php
 }
 add_action('js_inject', 'js_inject_country_details_nfp');
-echo "<strong>Disclaimer: </strong>Please note that the focal points of the remaining conventions will be accessible before February 2012";
+echo "<strong>Disclaimer: </strong>Please note that the focal points of the remaining conventions will be accessible in due course.";
 if(count($treaties_contacts)) {
 ?>
 <ul class="list-dropdown">
