@@ -282,6 +282,9 @@ class imeasiteadmin {
 			}
 			return include(dirname(__FILE__) . '/admin/decisions/delete.php');
 		}
+		if($act == 'decision_order') {
+			return include(dirname(__FILE__) . '/admin/decisions/order.php');
+		}
 		return include(dirname(__FILE__) . '/admin/decisions/index_decisions.php');
 	}
 

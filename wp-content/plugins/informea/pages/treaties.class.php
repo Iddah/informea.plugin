@@ -292,8 +292,8 @@ class imea_treaties_page extends imea_page_base_page {
 
 	/**
 	 * We use two algorithms here:
-	 * 		1. Decisions have id_meeting non-null and
-	 * 		2. Decisions have no id_meeting (id_meeting is null), but have valid meeting_title.
+	 * 		1. Decisions have no id_meeting (id_meeting is null), but have valid meeting_title.
+	 * 		2. Decisions have id_meeting non-null
 	 */
 	function group_decisions_by_meeting() {
 		global $wpdb;

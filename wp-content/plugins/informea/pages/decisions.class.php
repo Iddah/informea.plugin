@@ -8,7 +8,7 @@
 
 add_action('wp_ajax_tag_decision_paragraph', array('imea_decisions_page', 'ajax_tag_decision_paragraph'));
 add_action('wp_ajax_delete_decision_paragraph_ajaxurl', array('imea_decisions_page', 'delete_decision_paragraph_ajaxurl'));
-
+add_action('wp_ajax_order_decisions', array('imea_decisions_page', 'ajax_order_decisions'));
 
 if(!class_exists( 'imea_decisions_page')) {
 require_once (dirname(__FILE__) . '/page_base.class.php');
@@ -141,10 +141,25 @@ class imea_decisions_page extends imea_page_base_page {
 		return $wpdb->get_results("SELECT a.* FROM ai_treaty a INNER JOIN ai_decision b ON b.id_treaty = a.id WHERE a.enabled = 1 GROUP BY a.id ORDER BY a.short_title");
 	}
 
-	function get_decisions_for_treaty($id_treaty) {
+	function get_decisions_for_treaty($id_treaty, $order_by = 'a.number, a.published DESC') {
 		if($id_treaty) {
 			global $wpdb;
-			return $wpdb->get_results($wpdb->prepare("SELECT a.* FROM ai_decision a WHERE a.id_treaty = %d GROUP BY a.id ORDER BY a.number, a.published DESC", $id_treaty));
+			return $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT a.* FROM ai_decision a WHERE a.id_treaty = %s GROUP BY a.id ORDER BY $order_by", $id_treaty
+				)
+			);
+		}
+		return array();
+	}
+
+	function get_decisions_for_treaty_meeting($id_treaty, $order_by = 'a.number, a.published DESC') {
+		if($id_treaty) {
+			global $wpdb;
+			return $wpdb->get_results(
+				$wpdb->prepare("SELECT a.*, b.title AS ob_meeting_title FROM ai_decision a
+					LEFT JOIN ai_event b ON a.id_meeting = b.id
+					WHERE a.id_treaty = %d GROUP BY a.id ORDER BY $order_by", $id_treaty));
 		}
 		return array();
 	}
@@ -725,6 +740,38 @@ class imea_decisions_page extends imea_page_base_page {
 
 	function get_allowed_status() {
 		return array('draft', 'active', 'amended', 'retired', 'revised');
+	}
+
+	function ajax_order_decisions() {
+		check_ajax_referer('secret_order_decisions', '_nonce');
+		global $wpdb;
+		$decisions = get_request_value('decisions');
+		$id_treaty = get_request_int('id_treaty');
+		$decisions = explode(',', $decisions);
+		$ret = array();
+
+		$display_order = array();
+		foreach($decisions as $idx => $id_decision) {
+			$display_order[$id_decision] = $idx;
+		}
+		$ids = implode(',', array_keys($display_order));
+		$sql = 'UPDATE ai_decision SET display_order = CASE id ';
+		foreach ($display_order as $id => $ordinal) {
+			$sql .= sprintf("WHEN %d THEN %d ", $id, $ordinal);
+		}
+		$sql .= "END WHERE id IN ($ids) AND id_treaty = $id_treaty";
+		try {
+			$wpdb->query('BEGIN');
+			$wpdb->query($sql);
+			$wpdb->query('COMMIT');
+			$ret = $wpdb->get_results(
+				$wpdb->prepare("SELECT id, display_order AS `order` FROM ai_decision WHERE id_treaty = %d", $id_treaty)
+			);
+		} catch(Exception $e) {
+			$wpdb->query('ROLLBACK');
+			throw $e;
+		}
+		die('1');
 	}
 }
 }

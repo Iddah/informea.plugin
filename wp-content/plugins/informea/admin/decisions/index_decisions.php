@@ -18,6 +18,7 @@ $decisionOb = new imea_decisions_page();
 		<li><a href="<?php echo get_bloginfo('url'); ?>/wp-admin/admin.php?page=informea_decisions&act=decision_add">Add new decision</a></li>
 		<li><a href="<?php echo get_bloginfo('url'); ?>/wp-admin/admin.php?page=informea_decisions&act=decision_delete">Delete decision</a></li>
 		<li><a href="<?php echo get_bloginfo('url'); ?>/wp-admin/admin.php?page=informea_decisions&act=decision_edit_decision">Tag decisions paragraphs</a></li>
+		<li><a href="<?php echo get_bloginfo('url'); ?>/wp-admin/admin.php?page=informea_decisions&act=decision_order">Order decisions</a></li>
 	</ul>
 
 	<h2>Decision Listing</h2>
