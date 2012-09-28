@@ -18,7 +18,7 @@ $(document).ready(function() {
 </script>
 <?php 
 } 
-if($treaty->id == '19' || $treaty->id == '15' || $treaty->id == '17') { 
+if($treaty->id == '19' || $treaty->id == '17') { 
 ?>
 <div class="warning">
 	<div class="content">
