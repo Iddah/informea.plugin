@@ -305,7 +305,7 @@ class imea_treaties_page extends imea_page_base_page {
 		if(count($c) == 1 && $c[0]->id_meeting == NULL) {
 			// Case 2)
 			$sql = "SELECT id, link, short_title, long_title, summary, type, status, number, id_treaty, id_meeting, meeting_title, meeting_url, real_meeting_title,
-					published FROM view_decision_meetings WHERE id_treaty = {$this->id_treaty} ORDER BY meeting_title DESC";
+					published FROM view_decision_meetings WHERE id_treaty = {$this->id_treaty} ORDER BY display_order DESC";
 			$decisions = $wpdb->get_results($sql);
 			foreach($decisions as &$decision) {
 				$decision->order = intval(ereg_replace("[^0-9]", "", $decision->number));
@@ -335,7 +335,7 @@ class imea_treaties_page extends imea_page_base_page {
 					$sql = "SELECT id, link, short_title, long_title, summary, type, status, number,
 								id_treaty, id_meeting, meeting_title, meeting_url, real_meeting_title, published
 							FROM view_decision_meetings
-							WHERE id_meeting = {$meeting->id} ORDER BY TRIM(number)";
+							WHERE id_meeting = {$meeting->id} ORDER BY display_order";
 					$decisions = $wpdb->get_results($sql);
 					foreach($decisions as &$decision) {
 						$decision->order = intval(ereg_replace("[^0-9]", "", $decision->number));
@@ -355,12 +355,12 @@ class imea_treaties_page extends imea_page_base_page {
 	
 	function get_cites_decisions() {
 		global $wpdb;
-		return $wpdb->get_results("SELECT * FROM view_decision_meetings WHERE id_treaty=3 AND status <> 'retired' and type='decision' ORDER BY published DESC");
+		return $wpdb->get_results("SELECT * FROM ai_decision WHERE id_treaty=3 AND status <> 'retired' and type='decision' ORDER BY display_order DESC");
 	}
 
 	function get_cites_resolutions() {
 		global $wpdb;
-		return $wpdb->get_results("SELECT * FROM view_decision_meetings WHERE id_treaty=3 AND status <> 'retired' and type='resolution' ORDER BY published DESC");
+		return $wpdb->get_results("SELECT * FROM ai_decision WHERE id_treaty=3 AND status <> 'retired' and type='resolution' ORDER BY display_order DESC");
 	}
 
 	/**
