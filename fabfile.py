@@ -145,6 +145,13 @@ def _setup(task):
 #############################
 
 @_setup
+def db_backup():
+    """ TODO: Not implemented yet. Backup the remote production database
+    """
+    pass
+
+
+@_setup
 def update():
     with cd(env.root):
         sudo("git pull origin master")
@@ -188,6 +195,27 @@ def clonedb():
     local("rm %s" % sqldump_file)
 
     print colors.red("Don't forget to disable CSS & JavaScript optimizations from back-end")
+
+
+@_setup
+def prod_update_wordpress():
+    """ Update WordPress on production. Install into another base
+        directory on production then manually move the synmlink to point
+        to this new directory.
+    """
+    # 1. Create target folder
+    # 2. Download and unpack latest wordpress
+    # 3. Remove wp-content directory
+    # 4. Clone repository here
+    # 5. Run minification
+    # 6. Create symlinks to www.informea.org.resources (uploads, wp-content/uploads)
+    if not hasattr(env, 'basedir'):
+        print 'Usage fab prod_update_wordpress'
+        return
+
+    new_root = os.path.join(env.basedir, 'www.informea.org.%s' % date('Ymd'))
+    print new_root
+    pass
 
 
 @_setup

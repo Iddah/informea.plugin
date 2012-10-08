@@ -2,6 +2,7 @@
     "servers" : {
         "prod" : {
             "host"          : "www.informea.org",
+            "basedir"       : "/var/local/",
             "root"          : "/var/local/www.informea.org",
             "url"           : "http://www.informea.org",
             "db_user"       : "informea",
