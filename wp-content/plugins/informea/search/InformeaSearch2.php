@@ -1,5 +1,5 @@
 <?php
-include_once ("AbstractSearch2.php");
+include_once ("AbstractSearch.php");
 include_once ("SearchResult2.php");
 include_once ("SolrInvoker.php");
 
@@ -54,7 +54,7 @@ class InformeaSearchResult2 {
 }
 
 
-class InformeaSearch2 extends AbstractSearch2 {
+class InformeaSearch2 extends AbstractSearch {
 
 	public $solr_invoker = null;
 
