@@ -108,6 +108,8 @@ body.col-3 #main .details-column-1 {width: 230px; display: block;}
 body.col-3 #main .details-column-2 {width: 488px;}
 body.home.col-3 #content {background: url('images/column-borders-3home.gif') repeat-y 20px 0;}
 
+body.informea div#container { min-height: 600px; }
+
 table.default { border-collapse: collapse; border: 1px solid; }
 table.default td, table.default th { border: 1px solid; }
 table.grey td, table.grey th { border-color: #D7D7D7; }
