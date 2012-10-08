@@ -151,6 +151,7 @@ def update():
         sudo("./compress.sh css")
         sudo("./compress.sh js")
 
+
 @_setup
 def clonedb():
     """ Clone SQL database from production to local
@@ -187,39 +188,6 @@ def clonedb():
     local("rm %s" % sqldump_file)
 
     print colors.red("Don't forget to disable CSS & JavaScript optimizations from back-end")
-
-
-@_setup
-def clonedb2production():
-    """ Clone SQL database from production to local
-    """
-    if not hasattr(env, 'local'):
-        print colors.red('Usage fab s:prod clonedb')
-        return
-
-    sqldump_file_gz = "/tmp/informea_dump.sql.gz"
-    sqldump_file = "/tmp/informea_dump.sql"
-
-    #print colors.green('Dumping local database to %s' % sqldump_file_gz)
-    #local("mysqldump -u %s --password=%s %s | gzip > %s" % (env.local.db_user, env.local.db_password, env.local.db_database, sqldump_file_gz))
-
-    #print colors.green('Uploading production dump to %s' % sqldump_file_gz)
-    #put(sqldump_file_gz, sqldump_file_gz)
-    #local("rm %s" % sqldump_file_gz)
-
-    #print colors.green('Unpacking remote dump to %s' % sqldump_file)
-    #sudo("gunzip -f %s" % sqldump_file_gz)
-
-    print colors.green('Loading remote dump to MySQL (%s)' % env.db_database)
-    sudo("cat %s | mysql -u %s --password=%s %s" % (sqldump_file, env.db_user, env.db_password, env.db_database))
-
-    # Fix SQL database variables in WordPress
-    print colors.green('Fixing WordpRess config table on production')
-    sudo("mysql -u %s --password=%s -e \"update wp_options set option_value='%s' where option_name in ('home', 'siteurl')\" %s" % (env.db_user, env.db_password, env.url, env.db_database))
-
-    # Cleanup temporary files
-    print colors.green('Cleaning up ...')
-    sudo("rm %s" % sqldump_file)
 
 
 @_setup
