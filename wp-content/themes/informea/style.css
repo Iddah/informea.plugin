@@ -742,33 +742,33 @@ a.button.search-explorer-submit:hover>span, a.button.search-explorer-submit:focu
 #search_tab1 { margin-top: 15px; width: 100%; }
 #search_tab1 tr td { padding: 3px; }
 #search_tab1 tr td.data { padding-top: 20px; color: #555; }
-#search_tab1 tr td.icon { width: 1%; }
-#search_tab1 tr td.expand { width: 1%; padding: 0px; padding-top: 20px; }
+#search_tab1 tr td.icon { width: 1%; vertical-align: top; }
+#search_tab1 tr td.expand { width: 1%; padding: 0px; padding-top: 20px; vertical-align: top; }
 #search_tab1 tr td div.matching-documents { margin: 0 !important; }
 #search_tab1 tr { border-bottom: 1px dashed #ddd; }
 
 #search_tab2 { margin-top: 15px; width: 100%; }
 #search_tab2 tr td { padding: 3px; }
-#search_tab2 tr td.icon { width: 1%; }
+#search_tab2 tr td.icon { width: 1%; vertical-align: top; }
 #search_tab2 tr td.data { padding-top: 20px; color: #555; }
 #search_tab2 tr td.data div.description { color: #555; }
-#search_tab2 tr td.expand { width: 1%; padding: 0px; padding-top: 20px; }
+#search_tab2 tr td.expand { width: 1%; padding: 0px; padding-top: 20px; vertical-align: top; }
 #search_tab2 tr { border-bottom: 1px dashed #ddd; }
 
 #search_tab3 { margin-top: 15px; width: 100%; }
 #search_tab3 tr td { padding: 3px; }
-#search_tab3 tr td.icon { width: 1%; }
+#search_tab3 tr td.icon { width: 1%; vertical-align: top; }
 #search_tab3 tr td.data { padding-top: 20px; color: #555; }
 #search_tab3 tr td.data div.description { color: #555; }
-#search_tab3 tr td.expand { width: 1%; padding: 0px; padding-top: 20px; }
+#search_tab3 tr td.expand { width: 1%; padding: 0px; padding-top: 20px; vertical-align: top; }
 #search_tab3 tr { border-bottom: 1px dashed #ddd; }
 
 #search_tab4 { margin-top: 15px; width: 100%; }
 #search_tab4 tr td { padding: 3px; }
-#search_tab4 tr td.icon { width: 1%; }
+#search_tab4 tr td.icon { width: 1%; vertical-align: top; }
 #search_tab4 tr td.data { padding-top: 20px; color: #555; }
 #search_tab4 tr td.data div.description { color: #555; }
-#search_tab4 tr td.expand { width: 1%; padding: 0px; padding-top: 20px; }
+#search_tab4 tr td.expand { width: 1%; padding: 0px; padding-top: 20px; vertical-align: top; }
 #search_tab4 tr { border-bottom: 1px dashed #ddd; }
 
 
