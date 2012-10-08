@@ -8,7 +8,7 @@ class InformeaSolrInvoker {
 	public function __construct($request, $solr_server_cfg) {
 		$this->request = $request;
 		$this->solr = new SolrClient($solr_server_cfg);
-		$this->search_ui = new AbstractSearch2($request);
+		$this->search_ui = new AbstractSearch($request);
 	}
 
 

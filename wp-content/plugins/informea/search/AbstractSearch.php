@@ -3,7 +3,7 @@ function _date_parse_error2($errno, $errstr, $errfile, $errline) {
 	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 }
 
-class AbstractSearch2 {
+class AbstractSearch {
 	private static $CHECKBOX_CHECKED = ' checked="checked"';
 	private static $SELECT_SELECTED = ' selected="selected"';
 	private static $EMPTY_STRING = '';
@@ -493,63 +493,63 @@ class AbstractSearch2 {
 
 
 	public function ui_check_page_size_10() {
-		echo $this->get_page_size() == 10 ? AbstractSearch2::$CHECKBOX_CHECKED : AbstractSearch2::$EMPTY_STRING;
+		echo $this->get_page_size() == 10 ? AbstractSearch::$CHECKBOX_CHECKED : AbstractSearch::$EMPTY_STRING;
 	}
 
 	public function ui_check_page_size_20() {
-		echo $this->get_page_size() == 20 ? AbstractSearch2::$CHECKBOX_CHECKED : AbstractSearch2::$EMPTY_STRING;
+		echo $this->get_page_size() == 20 ? AbstractSearch::$CHECKBOX_CHECKED : AbstractSearch::$EMPTY_STRING;
 	}
 
 	public function ui_check_page_size_50() {
-		echo $this->get_page_size() == 50 ? AbstractSearch2::$CHECKBOX_CHECKED : AbstractSearch2::$EMPTY_STRING;
+		echo $this->get_page_size() == 50 ? AbstractSearch::$CHECKBOX_CHECKED : AbstractSearch::$EMPTY_STRING;
 	}
 
 	public function ui_check_use_decisions() {
 		if(!defined('INFORMEA_SEARCH_PAGE')) {
-			echo AbstractSearch2::$CHECKBOX_CHECKED; // for explorer
+			echo AbstractSearch::$CHECKBOX_CHECKED; // for explorer
 		}
-		echo $this->is_use_decisions() ? AbstractSearch2::$CHECKBOX_CHECKED : AbstractSearch2::$EMPTY_STRING;
+		echo $this->is_use_decisions() ? AbstractSearch::$CHECKBOX_CHECKED : AbstractSearch::$EMPTY_STRING;
 	}
 
 	public function ui_checkbox_css_decisions() {
 		if(!defined('INFORMEA_SEARCH_PAGE')) {
-			echo AbstractSearch2::$CSS_CHECKBOX_CHECKED; // for explorer
+			echo AbstractSearch::$CSS_CHECKBOX_CHECKED; // for explorer
 		}
-		echo $this->is_use_decisions() ? AbstractSearch2::$CSS_CHECKBOX_CHECKED : AbstractSearch2::$CSS_CHECKBOX_UNCHECKED;
+		echo $this->is_use_decisions() ? AbstractSearch::$CSS_CHECKBOX_CHECKED : AbstractSearch::$CSS_CHECKBOX_UNCHECKED;
 	}
 
 	public function ui_check_use_treaties() {
 		if(!defined('INFORMEA_SEARCH_PAGE')) {
-			echo AbstractSearch2::$CHECKBOX_CHECKED; // for explorer
+			echo AbstractSearch::$CHECKBOX_CHECKED; // for explorer
 		}
-		echo $this->is_use_treaties() ? AbstractSearch2::$CHECKBOX_CHECKED : AbstractSearch2::$EMPTY_STRING;
+		echo $this->is_use_treaties() ? AbstractSearch::$CHECKBOX_CHECKED : AbstractSearch::$EMPTY_STRING;
 	}
 
 	public function ui_checkbox_css_treaties() {
 		if(!defined('INFORMEA_SEARCH_PAGE')) {
-			echo AbstractSearch2::$CSS_CHECKBOX_CHECKED; // for explorer
+			echo AbstractSearch::$CSS_CHECKBOX_CHECKED; // for explorer
 		}
-		echo $this->is_use_treaties() ? AbstractSearch2::$CSS_CHECKBOX_CHECKED : AbstractSearch2::$CSS_CHECKBOX_UNCHECKED;
+		echo $this->is_use_treaties() ? AbstractSearch::$CSS_CHECKBOX_CHECKED : AbstractSearch::$CSS_CHECKBOX_UNCHECKED;
 	}
 
 	public function ui_check_use_meetings() {
-		echo $this->is_use_meetings() ? AbstractSearch2::$CHECKBOX_CHECKED : AbstractSearch2::$EMPTY_STRING;
+		echo $this->is_use_meetings() ? AbstractSearch::$CHECKBOX_CHECKED : AbstractSearch::$EMPTY_STRING;
 	}
 
 	public function ui_checkbox_css_meetings() {
-		echo $this->is_use_meetings() ? AbstractSearch2::$CSS_CHECKBOX_CHECKED : AbstractSearch2::$CSS_CHECKBOX_UNCHECKED;
+		echo $this->is_use_meetings() ? AbstractSearch::$CSS_CHECKBOX_CHECKED : AbstractSearch::$CSS_CHECKBOX_UNCHECKED;
 	}
 
 	public function ui_write_option($value, $label, $selected) {
-		$s = $selected ? AbstractSearch2::$SELECT_SELECTED : AbstractSearch2::$EMPTY_STRING;
+		$s = $selected ? AbstractSearch::$SELECT_SELECTED : AbstractSearch::$EMPTY_STRING;
 		echo "<option value=\"$value\"$s>$label</option>";
 	}
 
 	public function ui_radio_terms_or($negate = false) {
 		if($negate) {
-			echo $this->is_terms_or() ? AbstractSearch2::$CHECKBOX_CHECKED : AbstractSearch2::$EMPTY_STRING;
+			echo $this->is_terms_or() ? AbstractSearch::$CHECKBOX_CHECKED : AbstractSearch::$EMPTY_STRING;
 		} else {
-			echo $this->is_terms_or() ? AbstractSearch2::$EMPTY_STRING : AbstractSearch2::$CHECKBOX_CHECKED;
+			echo $this->is_terms_or() ? AbstractSearch::$EMPTY_STRING : AbstractSearch::$CHECKBOX_CHECKED;
 		}
 	}
 
