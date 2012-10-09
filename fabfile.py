@@ -34,8 +34,8 @@ cfg = {
     },
     'local' : {
             'host'          : 'localhost',
-            'root'          : '/home/cristiroma/workspace/informea/www',
-            'url'           : 'http://informea.eaudeweb.ro',
+            'root'          : '/Users/cristiroma/Work/informea/www',
+            'url'           : 'http://informea.localhost',
             'db_user'       : 'root',
             'db_password'   : 'root',
             'db_database'   : 'informea'

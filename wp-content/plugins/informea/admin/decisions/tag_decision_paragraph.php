@@ -38,12 +38,12 @@ $documents = $page_data->get_decision_documents($id_decision);
 <script src="<?php bloginfo('template_directory'); ?>/scripts/dhtmlxtree/dhtmlxcommon.js" type="text/javascript"></script>
 <script src="<?php bloginfo('template_directory'); ?>/scripts/dhtmlxmenu/dhtmlxmenu.js" type="text/javascript"></script>
 <script src="<?php bloginfo('template_directory'); ?>/scripts/dhtmlxmenu/ext/dhtmlxmenu_ext.js" type="text/javascript"></script>
-<script type="text/javascript" src="http://informea.eaudeweb.ro/wp-content/themes/informea/scripts/tipsy.js"></script>
+<script type="text/javascript" src="http://informea.org/wp-content/themes/informea/scripts/tipsy.js"></script>
 <script src="<?php bloginfo('url'); ?>/wp-content/plugins/informea/admin/decisions/tag_decision_paragraph.js" type="text/javascript"></script>
 
 <link rel="stylesheet" type="text/css" href="<?php bloginfo('template_directory'); ?>/scripts/dhtmlxmenu/skins/dhtmlxmenu_dhx_skyblue.css" />
 <link rel='stylesheet' href='<?php bloginfo('template_directory'); ?>/ui.css' type='text/css' media='screen' />
-<link rel="stylesheet" type="text/css" media="screen" href="http://informea.eaudeweb.ro/wp-content/themes/informea/tipsy.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="http://informea.org/wp-content/themes/informea/tipsy.css" />
 
 
 <div id="tdialog">

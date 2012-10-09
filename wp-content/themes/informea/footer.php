@@ -97,7 +97,7 @@
 		}
 	</script>
 
-	<script type="text/javascript" src="http://informea.eaudeweb.ro/clickheat/js/clickheat.js"></script>
+	<script type="text/javascript" src="http://informea.org/clickheat/js/clickheat.js"></script>
 		<noscript><p><a href="http://www.dugwood.com/clickheat/index.html">ClickHeat</a></p></noscript>
 		<script type="text/javascript">
 		<!--
