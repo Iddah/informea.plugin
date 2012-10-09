@@ -11,11 +11,11 @@ To get specific command help type:
     - Handle local installations (update/rebuild) my instance from scratch
     - Add sql dumps from production or devel
 """
+import os.path
 
 import os
 from datetime import datetime
 from fabric.api import *
-from fabric.utils import puts
 from fabric import colors
 import fabric.network
 import fabric.state
@@ -38,7 +38,8 @@ cfg = {
             'url'           : 'http://informea.localhost',
             'db_user'       : 'root',
             'db_password'   : 'root',
-            'db_database'   : 'informea'
+            'db_database'   : 'informea',
+            'testsdir'       : '/Users/cristiroma/Work/informea/tests',
     }
 }
 
@@ -154,6 +155,22 @@ def prod_update_wordpress():
         sudo('./compress.sh css')
 
     print colors.green('New InforMEA ready @: %s' % new_root)
+
+
+def test():
+    """ Run InforMEA unit and functional tests against a test database
+
+        Setup WordPress testing framework following instructions from here:
+        http://codex.wordpress.org/Automated_Testing
+    """
+    if not os.path.exists(env.local.testsdir):
+        print colors.red("Framework path does not exists %s" % env.local.testsdir)
+    else:
+        print colors.green("Using WordPress test framework in %s" % env.local.testsdir)
+    
+    with lcd(env.local.testsdir):
+        local('phpunit --group informea')
+
 
 
 def shell():
