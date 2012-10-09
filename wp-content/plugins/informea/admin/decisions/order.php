@@ -1,6 +1,6 @@
 <?php
 $id_treaty = get_request_int('id_treaty');
-$decisionOb = new imea_decisions_page(NULL);
+$decisionOb = new imea_decisions_page();
 ?>
 <style>
 	.sortable {

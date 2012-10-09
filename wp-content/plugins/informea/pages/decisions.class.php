@@ -16,7 +16,7 @@ class imea_decisions_page extends imea_page_base_page {
 
 	public $expand = NULL;
 
-	function __construct($id_treaty, $arr_parameters = array()) {
+	function __construct($arr_parameters = array()) {
 		parent::__construct($arr_parameters);
 		$this->expand = get_request_variable('expand', 'str', 'treaty'); // or term
 	}
@@ -316,7 +316,7 @@ class imea_decisions_page extends imea_page_base_page {
 		global $current_user;
 		$ret = array('success' => false, 'message' => 'Unknown failure');
 
-		$THIS = new imea_decisions_page(null);
+		$THIS = new imea_decisions_page();
 		$THIS->security_check('delete_decision_tags');
 
 		//
@@ -352,7 +352,7 @@ class imea_decisions_page extends imea_page_base_page {
 		global $current_user;
 		$ret = array('success' => false, 'message' => 'Unknown failure');
 
-		$THIS = new imea_decisions_page(null);
+		$THIS = new imea_decisions_page();
 		check_ajax_referer('edit_decision_tags');
 
 		$id_decision = get_request_int('id_decision');

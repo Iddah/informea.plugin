@@ -255,7 +255,7 @@ class imeasiteadmin {
 	function page_decisions() {
 
 		$success = False;
-		$page_data = new imea_decisions_page(null);
+		$page_data = new imea_decisions_page();
 		$actioned = get_request_boolean('actioned');
 		$act = get_request_value('act');
 		if($act == 'decision_edit_decision') {

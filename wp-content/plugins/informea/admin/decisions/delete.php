@@ -12,7 +12,7 @@ $id_treaty = get_request_int('id_treaty');
 $id_event = get_request_int('id_event');
 $treatyOb = new imea_treaties_page();
 $eventsOb = new imea_events_page();
-$decisionsOb = new imea_decisions_page(null);
+$decisionsOb = new imea_decisions_page();
 ?>
 <script type="text/javascript">
 
