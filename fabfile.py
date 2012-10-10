@@ -163,13 +163,10 @@ def test():
         Setup WordPress testing framework following instructions from here:
         http://codex.wordpress.org/Automated_Testing
     """
-    if not os.path.exists(env.local.testsdir):
-        print colors.red("Framework path does not exists %s" % env.local.testsdir)
-    else:
-        print colors.green("Using WordPress test framework in %s" % env.local.testsdir)
-    
-    with lcd(env.local.testsdir):
-        local('phpunit --group informea')
+    env.hosts = [env.local.host]
+    print '%s/wp-content/plugins/informea/tests/' % env.local.root
+    with lcd('%s/wp-content/plugins/informea/' % env.local.root):
+        local('phpunit')
 
 
 
@@ -178,5 +175,5 @@ def shell():
     """
 
     from fabric.operations import open_shell
-    with cd(env.root):
-        open_shell("cd %s" % env.root)
+    with cd(env.prod.root):
+        open_shell("cd %s" % env.prod.root)
