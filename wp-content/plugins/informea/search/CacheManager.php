@@ -10,7 +10,16 @@ class CacheManager {
      */
     private function __construct() {}
 
-    
+
+    /**
+     * Clear the cache
+     */
+    static function clear() {
+        self::$cache_treaty_treatyparagraph = array();
+        self::$cache_treaty_decisionparagraph = array();
+    }
+
+
     /**
      * Find treaty for a treaty paragraph
      * @param type $id_paragraph ID of the treaty's paragraph to retrieve
