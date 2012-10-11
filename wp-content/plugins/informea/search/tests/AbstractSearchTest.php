@@ -314,4 +314,110 @@ class AbstractSearchTest extends WP_UnitTestCase {
     }
 
 
+    function test_results_add_treaty() {
+        $results = array();
+        $ob = new AbstractSearchTestImpl(array());
+        $ob->results_add_treaty($results, '1');
+        $ob->results_add_treaty($results, '2');
+
+        $this->assertEquals(array('articles' => array(), 'decisions' => array()), $results[1]);
+        $this->assertEquals(array('articles' => array(), 'decisions' => array()), $results[2]);
+        $this->assertEquals(2, count($results));
+    }
+
+
+    function test_results_add_article() {
+        $results = array();
+        $ob = new AbstractSearchTestImpl(array());
+
+        $art1 = new stdClass();
+        $art1->id_parent = '46';
+        $art1->id_entity = '12';
+        $ob->results_add_article($results, $art1);
+
+        $art2 = new stdClass();
+        $art2->id_parent = '46';
+        $art2->id_entity = '49';
+        $ob->results_add_article($results, $art2);
+
+        $this->assertEquals(1, count($results));
+        $this->assertEquals(array(), $results[46]['articles'][12]);
+        $this->assertEquals(array(), $results[46]['articles'][49]);
+        $this->assertEquals(array(46), array_keys($results));
+        $this->assertEquals(array(12, 49), array_keys($results[46]['articles']));
+    }
+
+
+    function test_results_add_treaty_paragraph() {
+        $results = array();
+        $ob = new AbstractSearchTestImpl(array());
+
+        $p1 = new stdClass();
+        $p1->id_parent = '1405';
+        $p1->id_entity = '7715';
+        $ob->results_add_treaty_paragraph($results, $p1);
+
+        $this->assertEquals(1, count($results));
+        $this->assertEquals(1, count($results[46]['articles']));
+        $this->assertEquals(array(7715), $results[46]['articles'][1405]);
+
+        $p2 = new stdClass();
+        $p2->id_parent = '1405';
+        $p2->id_entity = '7716';
+        $ob->results_add_treaty_paragraph($results, $p2);
+
+        $this->assertEquals(1, count($results));
+        $this->assertEquals(1, count($results[46]['articles']));
+        $this->assertEquals(2, count($results[46]['articles'][1405]));
+        $this->assertEquals(array(7715, 7716), $results[46]['articles'][1405]);
+    }
+
+
+    function test_results_add_decision() {
+        $results = array();
+        $ob = new AbstractSearchTestImpl(array());
+
+        $d1 = new stdClass();
+        $d1->id_parent = '46';
+        $d1->id_entity = '10303';
+        $ob->results_add_decision($results, $d1);
+
+        $this->assertEquals(1, count($results));
+        $this->assertEquals(1, count($results[46]['decisions']));
+        $this->assertEquals(array(10303 => array()), $results[46]['decisions']);
+
+        $d2 = new stdClass();
+        $d2->id_parent = '46';
+        $d2->id_entity = '10304';
+        $ob->results_add_decision($results, $d2);
+
+        $this->assertEquals(1, count($results));
+        $this->assertEquals(2, count($results[46]['decisions']));
+        $this->assertEquals(array(10303 => array(), 10304 => array()), $results[46]['decisions']);
+    }
+
+
+    function test_results_add_decision_paragraph() {
+        $results = array();
+        $ob = new AbstractSearchTestImpl(array());
+
+        $p1 = new stdClass();
+        $p1->id_parent = '10303';
+        $p1->id_entity = '35';
+        $ob->results_add_decision_paragraph($results, $p1);
+
+        $this->assertEquals(1, count($results));
+        $this->assertEquals(1, count($results[46]['decisions']));
+        $this->assertEquals(1, count($results[46]['decisions'][10303]));
+        $this->assertEquals(array(35), $results[46]['decisions'][10303]);
+
+        $p2 = new stdClass();
+        $p2->id_parent = '10304';
+        $p2->id_entity = '35';
+        $ob->results_add_decision_paragraph($results, $p2);
+
+        $this->assertEquals(1, count($results));
+        $this->assertEquals(2, count($results[46]['decisions']));
+        $this->assertEquals(array(10303 => array(35), 10304 => array(35)), $results[46]['decisions']);
+    }
 }

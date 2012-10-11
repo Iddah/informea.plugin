@@ -382,6 +382,95 @@ class AbstractSearch {
 
     /* Various utilities */
 
+    /**
+     * Add an treaty to the search results
+     * @param array $results Reference to the actual results
+     * @param string $id_treaty ID of the treaty
+     */
+    function results_add_treaty(&$results, $id_treaty) {
+        $id_treaty = intval($id_treaty);
+        if(!array_key_exists($id_treaty, $results)) {
+            $results[$id_treaty] = array(
+                'articles' => array(),
+                'decisions' => array()
+            );
+        }
+    }
+
+
+    /**
+     * Add an article to the search results (via attached treaty)
+     * @param array $results Reference to the actual results
+     * @param type $ob Actual RAW object (id_entity = article id & id_parent = id_treaty)
+     */
+    function results_add_article(&$results, $ob) {
+        $id_article = intval($ob->id_entity);
+        $id_treaty = intval($ob->id_parent);
+        // Add treaty if it doesn't exist
+        $this->results_add_treaty($results, $id_treaty);
+        if(!array_key_exists($id_article, $results[$id_treaty]['articles'])) {
+            $results[$id_treaty]['articles'][$id_article] = array();
+        }
+    }
+
+
+    /**
+     * Add treaty article paragraph to the list of results
+     * @param type $results Reference to the actual results
+     * @param type $ob Actual RAW object (id_entity = paragraph id & id_parent = article id)
+     */
+    function results_add_treaty_paragraph(&$results, $ob) {
+        $id_paragraph = intval($ob->id_entity);
+        $id_article = intval($ob->id_parent);
+        $id_treaty = CacheManager::get_treaty_for_treaty_paragraph($id_paragraph);
+        $this->results_add_treaty($results, $id_treaty);
+
+        $article = new stdClass();
+        $article->id_entity = $id_article;
+        $article->id_parent = $id_treaty;
+        $this->results_add_article($results, $article);
+
+        if(!array_key_exists($id_paragraph, $results[$id_treaty]['articles'][$id_article])) {
+            $results[$id_treaty]['articles'][$id_article][] = $id_paragraph;
+        }
+    }
+
+
+    /**
+     * Add decision to the list of results
+     * @param array $results Reference to the actual results
+     * @param type $ob Actual RAW object (id_entity = id_decision & id_parent = id_treaty)
+     */
+    function results_add_decision(&$results, $ob) {
+        $id_treaty = intval($ob->id_parent);
+        $id_decision = intval($ob->id_entity);
+        $this->results_add_treaty($results, $id_treaty);
+        if(!array_key_exists($id_decision, $results[$id_treaty]['decisions'])) {
+            $results[$id_treaty]['decisions'][$id_decision] = array();
+        }
+    }
+
+
+    /**
+     * Add decision paragraph to the list of results
+     * @param type $results Reference to the actual results
+     * @param type $ob Actual RAW object (id_entity = id_paragraph & id_parent = id_decision)
+     */
+    function results_add_decision_paragraph(&$results, $ob) {
+        $id_paragraph = intval($ob->id_entity);
+        $id_decision = intval($ob->id_parent);
+        $id_treaty = CacheManager::get_treaty_for_decision_paragraph($id_paragraph);
+        $this->results_add_treaty($results, $id_treaty);
+
+        $decision = new stdClass();
+        $decision->id_entity = $id_decision;
+        $decision->id_parent = $id_treaty;
+        $this->results_add_decision($results, $decision);
+
+        if(!array_key_exists($id_paragraph, $results[$id_treaty]['decisions'][$id_decision])) {
+            $results[$id_treaty]['decisions'][$id_decision][] = $id_paragraph;
+        }
+    }
 
 
 	/* ==== USER INTERFACE METHODS ==== */
