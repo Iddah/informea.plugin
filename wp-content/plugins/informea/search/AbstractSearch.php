@@ -1,8 +1,8 @@
 <?php
-function _date_parse_error2($errno, $errstr, $errfile, $errline) {
-	throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-}
 
+/**
+ * Basic search functionality such as extracting search parameters from request
+ */
 class AbstractSearch {
 	private static $CHECKBOX_CHECKED = ' checked="checked"';
 	private static $SELECT_SELECTED = ' selected="selected"';
@@ -10,218 +10,137 @@ class AbstractSearch {
 	private static $CSS_CHECKBOX_CHECKED = ' checked';
 	private static $CSS_CHECKBOX_UNCHECKED = ' unchecked';
 
-
-	protected static $INPUT_DATE_FORMAT = '%d/%m/%Y';
+    protected static $INPUT_DATE_FORMAT = '%d/%m/%Y';
 	protected static $OUTPUT_DATE_FORMAT = '%Y-%m-%d';
 	protected $request;
 
-	private $dirty_terms;
-	private $filtering_terms;
-	private $cache_solr_query;
-	private $search_terms_parsed = false;
-
+    /**
+     * Constructor
+     * @param type $request Array with request variables. Can be $_REQUEST
+     */
 	public function __construct($request) {
-		$this->search_terms_parsed = false;
 		$this->request = $request;
 	}
 
-	/**
-	 * Discover search terms and return them as array
-	 */
-	private function parse_query_string() {
-		$freetext = $this->get_freetext('*');
-		if($freetext == '*') { return $freetext; }
-		$exploded = array();
-		$str = ''; $in_quote = false;
-		$freetext = str_split($freetext);
-		$fl_1 = count($freetext) - 1;
-		foreach($freetext as $idx => $ch) {
-			if($ch == ',') {
-				if(!$in_quote) { // End of keyword: string 1,# string2
-					$str = trim($str);
-					if(!empty($str)) { // Do not put empty strings
-						$exploded[] = $str;
-					}
-					$str = '';
-					continue;
-				} else {
-					$str .= $ch;
-				}
-			} else if($ch == '"') {
-				$str .= $ch;
-				$in_quote = !$in_quote;
-				if($in_quote == false) { // Just finished the word: "string 1"#, string 2
-					$exploded[] = str_replace('"', '', $str);
-					$str = '';
-					continue;
-				}
-			} else if($idx == $fl_1) { // End of string: string 1, string 2#
-				$str .= $ch; $exploded[] = $str; break;
-			} else {
-				$str .= $ch;
-			}
-		}
 
-		// Search inside Solr for synonyms of the specified terms
-		//$base_terms = $this->get_request_value('q_term', array(), false);
-		// Get their synonyms
-		//global $wpdb;
-		//foreach($base_terms as $id_term) {
-		//	//var_dump($id_term);
-		//	$synonyms = $wpdb->get_col($wpdb->prepare('SELECT CONCAT(\'"\', synonym, \'"\') FROM voc_synonym WHERE id_concept=%d', $id_term));
-		//	$exploded = array_merge($exploded, $synonyms);
-		//}
-
-		return $exploded;
-	}
-
-	public function get_dirty_terms() {
-		$this->parse_terms();
-		return $this->dirty_terms;
-	}
-
-
-	public function get_solr_query() {
-		$this->parse_terms();
-		return $this->cache_solr_query;
-	}
-
-
+    /**
+     * Do we have freetext search?
+     * @return boolean True or False
+     */
 	public function is_dirty_search() {
-		$this->parse_terms();
-		return !empty($this->dirty_terms);
+        return strlen($this->get_freetext()) > 0;
 	}
 
-	private function parse_terms() {
-		if($this->search_terms_parsed) {
-			return;
-		}
-		// $db = debug_backtrace();
-		// var_dump($db[1]['file'] . ' ' . $db[1]['line']); echo '<hr />';
-		global $wpdb;
-		$this->dirty_terms = array();
-		$this->filtering_terms = array();
-
-		$freetext = $this->parse_query_string();
-		if($freetext == '*') { return $freetext; }
-
-		// Clean the terms and look for their synonyms
-		foreach($freetext as &$el) {
-			$el = trim($el);
-			$clean = $el;
-			if(!empty($clean)) {
-				$this->dirty_terms[] = $clean;
-			}
-		}
-
-		$cc = count($this->dirty_terms);
-		if($cc > 1) {
-			$this->cache_solr_query = '(';
-			foreach($this->dirty_terms as $idx => $w) {
-				$this->cache_solr_query .= '"' . $w . '"';
-				if($idx < $cc - 1) {
-					$this->cache_solr_query .= ' AND ';
-				}
-			}
-			$this->cache_solr_query .= ')';
-		} else if(count($this->dirty_terms) == 1) {
-			$this->cache_solr_query = '"' . $this->dirty_terms[0] . '"';
-		}
-		$this->search_terms_parsed = true;
-	}
-
-
-	function clear_cache() {}
 
 	/**
-	 * Retrieve request parameter also from GET
-	 * @param $name Parameter name
-	 * @param $default Default value
-	 * @param $trim Trim resulting string
-	 * @return parameter value or empty string if not set
+	 * Retrieve search parameter
+	 * @param string $name Parameter name
+	 * @param mixed $default Default value
+	 * @param boolean $trim Trim resulting string
+	 * @return mixed parameter value (string, integer, array) or default value
 	 */
 	function get_request_value($name, $default = NULL, $trim = TRUE) {
 		$ret = $default;
-		if (isset($this->request[$name]) && $this->request[$name] != '') {
-			$ret = $this->request[$name];
-			if($trim) {
-				$ret = trim($ret);
-			}
+		if (!empty($this->request[$name])) {
+            $ret = $this->request[$name];
+            if(is_numeric($ret)) {
+                $ret = $ret + 0;
+            } else if(is_array($ret)) {
+                if($trim) {
+                    foreach($ret as &$item) {
+                        $item = trim($item);
+                    }
+                }
+            } else if(is_string($ret)) {
+                if($trim) {
+                    $ret = trim($ret);
+                }
+            }
 		}
 		return $ret;
 	}
 
-	function get_request_int($name, $default = NULL) {
-		$ret = $this->get_request_value($name, $default, TRUE);
-		if(!empty($ret)) {
-			$ret = intval($ret);
-		}
-		return $ret;
-	}
 
+    /**
+     * Retrieve integer from request
+     * @param string $name Parameter name
+     * @param integer $default Default value
+     * @return integer Parameter value or default
+     */
+    function get_request_int($name, $default = 1) {
+        $ret = $this->get_request_value($name, $default, FALSE);
+        return intval($ret);
+    }
 
-	/* ==== PROCESS REQUEST PARAMETERS ==== */
 
 	/**
-	 * Get the list of treaties to filter
-	 * @return An array with IDs of the selected treaties
+	 * Get the list of treaties to filter by
+	 * @return array Array with IDs of the selected treaties
 	 */
 	function get_treaties() {
 		$ret = array();
-		$tmp_treaties = $this->get_request_value('q_treaty', array(), false);
-		foreach($tmp_treaties as $id) { $ret[] = intval($id); }
+		$tmp_treaties = $this->get_request_value('q_treaty');
+        if(!empty($tmp_treaties)) {
+            foreach($tmp_treaties as $id) {
+                $ret[] = intval($id);
+            }
+        }
 		return $ret;
 	}
 
+
 	/**
-	 * If true, when multiple terms are returned by get_terms, then
-	 * use OR operator to expand the results. Otherwise is AND (Default)
+     * Checks to see if we have AND or OR between terms
+     * @return boolean TRUE if we have OR between terms.
 	 */
 	function is_terms_or() {
 		return $this->get_request_value('q_term_or') == 'or';
 	}
 
+
 	/**
-	 * If non-null, user selected some terms to filter entities.
-	 * If size > 1, then lookup is_terms_or/is_terms_and to see how to
-	 * handle relationship between terms (expand - or/restrict - and)
+	 * If non-null, user selected some terms to lookup entities
+     * @return array Array with terms we want to add to the search
 	 */
 	function get_terms() {
-		$this->parse_terms();
 		$ret = array();
 		$terms = $this->get_request_value('q_term', array(), false);
-		// Sanitize input
 		foreach($terms as $id) {
 			$ret[] = intval($id);
 		}
-		// Merge with terms from the input box
-		return array_unique(array_merge($ret, array_keys($this->filtering_terms)));
+		return $ret;
 	}
 
+
 	/**
+     * Checks to see if we have terms entered
 	 * @return true if we have filtering on terms
 	 */
 	function is_using_terms() {
-		$terms = $this->get_terms();
-		return !empty($terms);
+		$r = $this->get_terms();
+        return !empty($r);
 	}
 
+
 	/**
-	 * If non-null, user entered dirty word search (and use it to lookup in documents, titles etc. - depends on selected entities)
+	 * Get full text search string
+     * @param string $default Default values. Empty string.
+     * @return string Text to search
 	 */
 	function get_freetext($default = '') {
-		$ret = $this->get_request_value('q_freetext');
+		$ret = $this->get_request_value('q_freetext', $default);
 		return stripslashes($ret);
 	}
 
 	/**
-	 * If non-null, lookup entities that are dated in time after this date (>=)
+	 * Get the minimal (oldest) filter date
+     * @param boolean $solr If true, format according to SOLR standard
 	 */
 	function get_start_date($solr = false) {
 		$ret = null;
-		$sm = !empty($this->request['q_start_month']) ? intval($this->request['q_start_month']) : null;
-		$sy = !empty($this->request['q_start_year']) ? intval($this->request['q_start_year']) : null;
-		if($sm !== null && $sy !== null) {
+		$sm = $this->get_request_int('q_start_month', 0);
+		$sy = $this->get_request_int('q_start_year', 0);
+		if($sm > 0 && $sm < 13 && $sy > 0) {
 			if($solr) {
 				$ret = sprintf("%04d-%02d-01T00:00:00Z", $sy, $sm);
 			} else {
@@ -232,13 +151,14 @@ class AbstractSearch {
 	}
 
 	/**
-	 * If non-null, lookup entities that are dated in time up to this date (<=)
+	 * Get the maximal (newest) filter date
+     * @param boolean $solr If true, format according to SOLR standard
 	 */
 	function get_end_date($solr = false) {
 		$ret = null;
-		$em = !empty($this->request['q_end_month']) ? intval($this->request['q_end_month']) : null;
-		$ey = !empty($this->request['q_end_year']) ? intval($this->request['q_end_year']) : null;
-		if($em !== null && $ey !== null) {
+		$em = $this->get_request_int('q_end_month', 0);
+		$ey = $this->get_request_int('q_end_year', 0);
+		if($em > 0 && $em < 13 && $ey > 0) {
 			if($solr) {
 				$ret = sprintf("%04d-%02d-31T00:00:00Z", $ey, $em);
 			} else {
@@ -248,56 +168,66 @@ class AbstractSearch {
 		return $ret;
 	}
 
+
 	/**
-	 * Lookup into 'treaties' - Checkbox treaties
+	 * Get status of checkbox "search in treaties"
+     * @return boolean True if paramter on request
 	 */
 	function is_use_treaties() {
-		$tab = $this->get_q_tab();
 		return isset($this->request['q_use_treaties']);
 	}
 
+
 	/**
-	 * Lookup into 'decisions/recommendations' - Checkbox decisions
+	 * Get status of checkbox "search in decisions"
+     * @return boolean True if paramter on request
 	 */
 	function is_use_decisions() {
-		$tab = $this->get_q_tab();
 		return isset($this->request['q_use_decisions']);
 	}
 
+
 	/**
-	 * Lookup into 'meetings' - Checkbox meetings
+	 * Get status of checkbox "search in meetings"
+     * @return boolean True if paramter on request
 	 */
 	function is_use_meetings() {
-		$tab = $this->get_q_tab();
 		return isset($this->request['q_use_meetings']);
 	}
 
 
 	/**
-	 * Which of the three tabs are displayed to the user
+	 * Get the currently selected tab
+     * @return integer The current tab. Default 1
 	 */
 	function get_q_tab() {
-		return $this->get_request_int('q_tab', 1);
+        $ret = $this->get_request_int('q_tab', 1);
+        return $ret == 0 ? 1 : $ret;
 	}
 
+
 	/**
-	 * Get the start page index of results - for pagination
+	 * Get the current results page
+     * @return integer The current results page. Default 0
 	 */
-	function get_page($default = 0) {
-		return $this->get_request_int('q_page', $default);
+	function get_page() {
+		return $this->get_request_int('q_page', 0);
 	}
+
 
 	/**
 	 * Get the number of results returned per page
+     * @return integer The results per page. Default 10
 	 */
-	function get_page_size($default = 10) {
-		return $this->get_request_int('q_page_size', $default);
+	function get_page_size() {
+		$ret = $this->get_request_int('q_page_size', 10);
+        return $ret == 0 ? 10 : $ret;
 	}
+
 
 	/**
 	 * Get the sorting direction for results.
-	 * Analyze q_sort_direction request parameter. Possible values (ASC/DESC). Default DESC.
-	 * Sanitizes input.
+	 * @return string Possible values (ASC/DESC). Default DESC.
 	 */
 	function get_sort_direction() {
 		$order = $this->get_request_value('q_sort_direction', 'DESC');
@@ -308,26 +238,8 @@ class AbstractSearch {
 		}
 	}
 
-	protected function parse_date($ds, $input_format = null, $output_format = null) {
-		$ret = null;
-		$iformat = $input_format === null ? AbstractSearch::$INPUT_DATE_FORMAT : $input_format;
-		$oformat = $output_format === null ? AbstractSearch::$OUTPUT_DATE_FORMAT : $output_format;
 
-		$ret = null;
-		set_error_handler("_date_parse_error2");
-		try {
-			$d = strptime($ds, $iformat);
-			$ts = mktime($d['tm_hour'], $d['tm_min'], $d['tm_sec'], ++$d['tm_mon'], $d['tm_mday'], $d['tm_year'] + 1900);
-			$ret = strftime($oformat, $ts);
-		} catch(ErrorException $e) {
-			// Handle the error? or log it? - TODO
-		}
-		restore_error_handler();
-		return $ret;
-	}
-
-
-	/**
+    /**
 	 * Get the search form (HTML form)
 	 * @param boolean $get If true, form is an GET URL, otherwise it's an POST form
 	 * @param array $exclude Strings with id of the fields to exclude
@@ -337,7 +249,6 @@ class AbstractSearch {
 		if($get) {
 			$ret = '?1=1';
 		}
-
 		$params = $this->get_search_parameters($exclude);
 		foreach($params as $key => $value) {
 			if(is_array($value)) {
@@ -468,8 +379,8 @@ class AbstractSearch {
 		return "<input type=\"hidden\" name=\"$key\" value=\"$value\" />";
 	}
 
-	/* ==== END PROCESS REQUEST PARAMETERS ==== */
 
+    /* Various utilities */
 
 
 
@@ -478,17 +389,9 @@ class AbstractSearch {
 		return '';
 	}
 
+
 	function ui_get_freetext($default = null) {
-		$ret = '';
-		$terms = $this->get_dirty_terms();
-		$c = count($terms);
-		foreach($terms as $i => $t) {
-			$ret .= $t;
-			if($i < $c - 1) {
-				$ret .= ',';
-			}
-		}
-		return $ret;
+		return $this->get_freetext($default);
 	}
 
 
@@ -625,8 +528,7 @@ class AbstractSearch {
 		return $ret;
 	}
 
-	function ui_get_treaties_ids($rec_children = null) {
-		// return array(1, 8, 9, 3, 4, 10, 14, 18, 16, 2, 20, 5, 15, 17, 19, 6, 7);
+	function ui_get_treaties_ids() {
 		global $wpdb;
 		return $wpdb->get_col('SELECT id FROM `ai_treaty` WHERE `enabled` = 1');
 	}
