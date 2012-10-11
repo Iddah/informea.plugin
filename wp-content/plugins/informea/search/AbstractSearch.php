@@ -388,7 +388,6 @@ class AbstractSearch {
      * @param string $id_treaty ID of the treaty
      */
     function results_add_treaty(&$results, $id_treaty) {
-        $id_treaty = intval($id_treaty);
         if(!array_key_exists($id_treaty, $results)) {
             $results[$id_treaty] = array(
                 'articles' => array(),
