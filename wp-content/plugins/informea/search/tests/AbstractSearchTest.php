@@ -384,7 +384,7 @@ class AbstractSearchTest extends WP_UnitTestCase {
 
         $this->assertEquals(1, count($results));
         $this->assertEquals(1, count($results[46]['decisions']));
-        $this->assertEquals(array(10303 => array()), $results[46]['decisions']);
+        $this->assertEquals(array(10303 => array('paragraphs' => array(), 'documents' => array())), $results[46]['decisions']);
 
         $d2 = new stdClass();
         $d2->id_parent = '46';
@@ -393,7 +393,14 @@ class AbstractSearchTest extends WP_UnitTestCase {
 
         $this->assertEquals(1, count($results));
         $this->assertEquals(2, count($results[46]['decisions']));
-        $this->assertEquals(array(10303 => array(), 10304 => array()), $results[46]['decisions']);
+        $this->assertEquals(array(
+            10303 => array(
+                'paragraphs' => array(), 'documents' => array()
+            ),
+            10304 => array(
+                'paragraphs' => array(), 'documents' => array()
+            )
+        ), $results[46]['decisions']);
     }
 
 
@@ -408,8 +415,8 @@ class AbstractSearchTest extends WP_UnitTestCase {
 
         $this->assertEquals(1, count($results));
         $this->assertEquals(1, count($results[46]['decisions']));
-        $this->assertEquals(1, count($results[46]['decisions'][10303]));
-        $this->assertEquals(array(35), $results[46]['decisions'][10303]);
+        $this->assertEquals(1, count($results[46]['decisions'][10303]['paragraphs']));
+        $this->assertEquals(array(35), $results[46]['decisions'][10303]['paragraphs']);
 
         $p2 = new stdClass();
         $p2->id_parent = '10304';
@@ -418,6 +425,13 @@ class AbstractSearchTest extends WP_UnitTestCase {
 
         $this->assertEquals(1, count($results));
         $this->assertEquals(2, count($results[46]['decisions']));
-        $this->assertEquals(array(10303 => array(35), 10304 => array(35)), $results[46]['decisions']);
+        $this->assertEquals(array(
+            10303 => array(
+                'paragraphs' => array(35), 'documents' => array()
+            ),
+            10304 => array(
+                'paragraphs' => array(35), 'documents' => array()
+            )
+        ), $results[46]['decisions']);
     }
 }

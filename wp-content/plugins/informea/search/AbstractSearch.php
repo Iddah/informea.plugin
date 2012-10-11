@@ -445,7 +445,7 @@ class AbstractSearch {
         $id_decision = intval($ob->id_entity);
         $this->results_add_treaty($results, $id_treaty);
         if(!array_key_exists($id_decision, $results[$id_treaty]['decisions'])) {
-            $results[$id_treaty]['decisions'][$id_decision] = array();
+            $results[$id_treaty]['decisions'][$id_decision] = array('paragraphs' => array(), 'documents' => array());
         }
     }
 
@@ -467,7 +467,28 @@ class AbstractSearch {
         $this->results_add_decision($results, $decision);
 
         if(!array_key_exists($id_paragraph, $results[$id_treaty]['decisions'][$id_decision])) {
-            $results[$id_treaty]['decisions'][$id_decision][] = $id_paragraph;
+            $results[$id_treaty]['decisions'][$id_decision]['paragraphs'][] = $id_paragraph;
+        }
+    }
+
+    /**
+     * Add decision document to the list of results
+     * @param type $results Reference to the actual results
+     * @param type $ob Actual RAW object (id_entity = id_document & id_parent = id_decision)
+     */
+    function results_add_decision_document(&$results, $ob) {
+        $id_document = intval($ob->id_entity);
+        $id_decision = intval($ob->id_parent);
+        $id_treaty = CacheManager::get_treaty_for_decision($id_decision);
+        $this->results_add_treaty($results, $id_treaty);
+
+        $decision = new stdClass();
+        $decision->id_entity = $id_decision;
+        $decision->id_parent = $id_treaty;
+        $this->results_add_decision($results, $decision);
+
+        if(!array_key_exists($id_document, $results[$id_treaty]['decisions'][$id_decision])) {
+            $results[$id_treaty]['decisions'][$id_decision]['documents'][] = $id_document;
         }
     }
 
