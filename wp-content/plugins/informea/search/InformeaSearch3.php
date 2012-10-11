@@ -8,9 +8,23 @@
  */
 class InformeaSearch3 extends AbstractSearch {
 
-	public function __construct($request) {
+    protected $solr = null;
+
+    /**
+     * Construct new search object
+     * @param array $request HTTP request parameters
+     * @param array $solr_cfg SOLR configuration. Array must contain the following
+     * values: array('hostname' => 'localhost', 'path' => '/informea-solr', 'port' => '8081');
+     */
+	public function __construct($request, $solr_cfg = array()) {
 		parent::__construct($request);
+        $cfg = array_merge(
+                array('hostname' => '127.0.0.1', 'path' => '/informea-solr', 'port' => '8081'),
+                $solr_cfg
+        );
+        $this->solr = new SolrClient($cfg);
 	}
+
 
 	/**
 	 * @return dictionary with search results. Primary entities are
@@ -18,11 +32,24 @@ class InformeaSearch3 extends AbstractSearch {
 	 */
 	public function search() {
         $ret = $this->db_search();
-
+        $ret += $this->solr_search();
         return $ret;
 	}
 
 
+    /**
+     * Search the database, if we have tagging
+     * @global object $wpdb WordPress database access
+     * @return array Array with results in the form:
+     * array(id_treaty :
+     *      array(
+     *          'articles' => array(1 : array( id_paragraph, ...)),
+     *          'decisions' : array(1 :
+     *              'paragraphs' => array(id_paragraph, ...)
+     *          )
+     *      )
+     * )
+     */
     protected function db_search() {
         $ret = array();
         if(!$this->is_using_terms()) {
@@ -73,10 +100,109 @@ class InformeaSearch3 extends AbstractSearch {
                     break;
             }
         }
+        return array('treaties' => $ret);
+    }
+
+
+    /* SOLR Search */
+
+    /**
+     * Search the SOLR, if we have free text
+     * @return array Array with results in the form:
+     * array(id_treaty :
+     *      array(
+     *          'articles' => array(1 : array( id_paragraph, ...)),
+     *          'decisions' : array(1 :
+     *              'paragraphs' => array(id_paragraph, ...),
+     *              'documents' => array(id_document, ...)
+     *          )
+     *      )
+     * )
+     */
+    protected function solr_search() {
+        $ret = array('treaties' => array(), 'events' => array());
+        $phrase = $this->get_freetext();
+        if(!$this->is_dirty_search() || empty($phrase) || $phrase == '*' || $phrase == '?') {
+            return $ret;
+        }
+
+		$query = new SolrQuery($phrase);
+		$query->addField('id')->addField('entity_type')->addField('decision_id')->addField('treaty_article_id')->addField('treaty_id');
+		$query->addFilterQuery($this->solr_entity_filter());
+		$query->setRows(99999);
+		try {
+			$q_resp = $this->solr->query($query);
+			$q_resp->setParseMode(SolrQueryResponse::PARSE_SOLR_DOC);
+			$resp = $q_resp->getResponse();
+			if(empty($resp->response->docs)) {
+                return $ret;
+            }
+            foreach($resp->response->docs as $doc) {
+                $id_entity = intval($doc->getField('id')->values[0]);
+                $type = $doc->getField('entity_type')->values[0];
+                $ob = new stdClass();
+                switch($type) {
+                    case 'treaty';
+                        $this->results_add_treaty($ret['treaties'], $id_entity);
+                        break;
+                    case 'treaty_article';
+                        $ob->id_entity = $id_entity;
+                        $ob->id_parent = $doc->treaty_id->values[0]; // id_treaty
+                        $this->results_add_article($ret['treaties'], $ob);
+                        break;
+                    case 'treaty_article_paragraph';
+                        $ob->id_entity = $id_entity;
+                        $ob->id_parent = $doc->treaty_article_id->values[0]; // id_article
+                        $this->results_add_treaty_paragraph($ret['treaties'], $ob);
+                        break;
+                    case 'decision';
+                        $ob->id_entity = $id_entity;
+                        $ob->id_parent = CacheManager::get_treaty_for_decision($id_entity); // id_treaty
+                        $this->results_add_decision($ret['treaties'], $ob);
+                        break;
+                    case 'decision_paragraph';
+                        $ob->id_entity = $id_entity;
+                        $ob->id_parent = $doc->decision_id->values[0]; // id_decision
+                        $this->results_add_decision_paragraph($ret['treaties'], $ob);
+                        break;
+                    case 'decision_document';
+                        $ob->id_entity = $id_entity;
+                        $ob->id_parent = $doc->decision_id->values[0]; // id_decision
+                        $this->results_add_decision_document($ret['treaties'], $ob);
+                        break;
+                    case 'event':
+                        $ret['events'][] = $id_entity;
+                        break;
+                    default:
+                        throw new Exception('Unknown entity type:' . $type);
+                }
+            }
+		} catch(Exception $e) {
+			error_log('Failed Solr query');
+			error_log(print_r($e, true));
+		}
         return $ret;
     }
 
-    protected function solr_search() {
 
-    }
+	protected function solr_entity_filter() {
+		$arr = array();
+		if($this->is_use_decisions()) {
+			$arr[] = 'entity_type:decision';
+			$arr[] = 'entity_type:decision_paragraph';
+			$arr[] = 'entity_type:decision_document';
+		}
+		if($this->is_use_meetings()) {
+			$arr[] = 'entity_type:event';
+		}
+		if($this->is_use_treaties()) {
+			$arr[] = 'entity_type:treaty';
+			$arr[] = 'entity_type:treaty_article';
+			$arr[] = 'entity_type:treaty_article_paragraph';
+		}
+		if(!count($arr)) {
+			$arr[] = 'entity_type:dummy_yield_zero_results';
+		}
+		return '(' . implode(' OR ', $arr) . ')';
+	}
 }
