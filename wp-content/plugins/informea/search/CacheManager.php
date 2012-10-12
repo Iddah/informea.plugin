@@ -15,6 +15,9 @@ class CacheManager {
     public static $DECISION = 'decision';
     public static $EVENT = 'event';
     public static $DOCUMENT = 'document';
+    public static $TREATY_ARTICLE = 'treaty_article';
+    public static $TREATY_PARAGRAPH = 'treaty_paragraph';
+    public static $DECISION_PARAGRAPH = 'decision_paragraph';
 
     /**
      * Cannot be instantiated
@@ -35,7 +38,10 @@ class CacheManager {
             self::$TREATY => array(),
             self::$DECISION => array(),
             self::$EVENT => array(),
-            self::$DOCUMENT => array()
+            self::$DOCUMENT => array(),
+            self::$TREATY_ARTICLE => array(),
+            self::$TREATY_PARAGRAPH => array(),
+            self::$DECISION_PARAGRAPH => array()
         );
     }
 
@@ -48,34 +54,131 @@ class CacheManager {
     static function load_entity($skeleton) {
         $ret = null;
         if($skeleton) {
-            switch($skeleton->type) {
-                case 'treaty':
-                    $ret = self::get(self::$TREATY, intval($skeleton->id_entity));
-                    if($ret) {
-                        $ret->entity_type = 'treaty';
-                    }
-                    break;
-                case 'decision':
-                    $ret = self::get(self::$DECISION, intval($skeleton->id_entity));
-                    if($ret) {
-                        $ret->entity_type = 'decision';
-                    }
-                    break;
-                case 'event':
-                    $ret = self::get(self::$EVENT, intval($skeleton->id_entity));
-                    if($ret) {
-                        $ret->entity_type = 'event';
-                    }
-                    break;
-                case 'document':
-                    $ret = self::get(self::$DOCUMENT, intval($skeleton->id_entity));
-                    if($ret) {
-                        $ret->entity_type = 'document';
-                    }
-                    break;
+            $ret = self::get($skeleton->type, intval($skeleton->id_entity));
+            if($ret) {
+                $ret->entity_type = $skeleton->type;
             }
         }
         return $ret;
+    }
+
+
+    /**
+     * Load a single treaty object
+     * @param mixed $id Treaty Id
+     * @return object Treaty object or null
+     */
+    static function load_treaty($id) {
+        return self::get(self::$TREATY, intval($id));
+    }
+
+
+    /**
+     * Load a single treaty article object
+     * @param mixed $id Article Id
+     * @return object Treaty article object or null
+     */
+    static function load_treaty_article($id) {
+        $ob = new stdClass();
+        $ob->type = self::$TREATY_ARTICLE;
+        $ob->id_entity = $id;
+        return self::load_entity($ob);
+    }
+
+
+    /**
+     * Load a single treaty paragraph object
+     * @param mixed $id Paragraph Id
+     * @return object Treaty paragraph object or null
+     */
+    static function load_treaty_paragraph($id) {
+        $ob = new stdClass();
+        $ob->type = self::$TREATY_PARAGRAPH;
+        $ob->id_entity = $id;
+        return self::load_entity($ob);
+    }
+
+
+    /**
+     * Load a single decision
+     * @param mixed $id Decision Id
+     * @return object Decision or null
+     */
+    static function load_decision($id) {
+        $ob = new stdClass();
+        $ob->type = self::$DECISION;
+        $ob->id_entity = $id;
+        return self::load_entity($ob);
+    }
+
+
+    /**
+     * Load a single decision paragraph
+     * @param mixed $id Decision Id
+     * @return object Decision paragraph or null
+     */
+    static function load_decision_paragraph($id) {
+        $ob = new stdClass();
+        $ob->type = self::$DECISION_PARAGRAPH;
+        $ob->id_entity = $id;
+        return self::load_entity($ob);
+    }
+
+
+    /**
+     * Load a single decision document
+     * @param mixed $id Document Id
+     * @return object Decision or null
+     */
+    static function load_document($id) {
+        $ob = new stdClass();
+        $ob->type = self::$DOCUMENT;
+        $ob->id_entity = $id;
+        return self::load_entity($ob);
+    }
+
+
+    /**
+     * Load a treaty tree of objects from database
+     * @param integer $id Treaty ID
+     * @param array $data Data array('articles' => array(...), 'decisions' => array(...))
+     * @return Object with properties
+     * TREATY
+     *   -> articles => array( ARTICLE -> paragraphs = array())
+     *   -> decisions => array( DECISION -> paragraphs = array())
+     */
+    static function load_treaty_hierarchy($id, $data) {
+        $treaty = self::load_treaty($id);
+        $treaty->articles = array();
+        $treaty->decision = array();
+
+        foreach($data['articles'] as $id_article => $paragraphs) {
+            $article = self::load_treaty_article($id_article);
+            $article->paragraphs = array();
+            $treaty->articles[] = $article;
+            foreach($paragraphs as $id_paragraph) {
+                $paragraph = self::load_treaty_paragraph($id_paragraph);
+                $article->paragraphs[] = $paragraph;
+            }
+        }
+
+        foreach($data['decisions'] as $id_decision => $inner) {
+            $decision = self::load_decision($id_decision);
+            $treaty->decisions[] = $decision;
+
+            $decision->paragraphs = array();
+            foreach($inner['paragraphs'] as $id_paragraph) {
+                $paragraph = self::load_decision_paragraph($id_paragraph);
+                $decision->paragraphs[] = $paragraph;
+            }
+
+            $decision->documents = array();
+            foreach($inner['documents'] as $id_document) {
+                $document = self::load_document($id_document);
+                $decision->documents[] = $document;
+            }
+        }
+        return $treaty;
     }
 
 
@@ -138,11 +241,18 @@ class CacheManager {
 
     protected static function get($cache_name, $key) {
         if(empty(self::$cache[$cache_name])) {
-            call_user_func('self::load_cache_' . $cache_name);
+            $method = 'load_cache_' . $cache_name;
+            if(method_exists('CacheManager', $method)) {
+                call_user_func('self::' . $method);
+            } else {
+                error_log("Cannot load cache $cache_name");
+            }
         }
-        return array_key_exists($key, self::$cache[$cache_name]) ? self::$cache[$cache_name][$key] : null;
+        return isset(self::$cache[$cache_name]) && array_key_exists($key, self::$cache[$cache_name]) ? self::$cache[$cache_name][$key] : null;
     }
 
+
+    // Cache loading functions in format load_cache_CACHE_NAME
 
     protected static function load_cache_treaty_treatyparagraph() {
         global $wpdb;
@@ -237,6 +347,36 @@ class CacheManager {
         $rows = $wpdb->get_results($sql);
         foreach($rows as $row) {
             self::$cache[self::$DOCUMENT][intval($row->id)] = $row;
+        }
+    }
+
+
+    protected static function load_cache_treaty_article() {
+        global $wpdb;
+        $sql = "SELECT a.* FROM ai_treaty_article a";
+        $rows = $wpdb->get_results($sql);
+        foreach($rows as $row) {
+            self::$cache[self::$TREATY_ARTICLE][intval($row->id)] = $row;
+        }
+    }
+
+
+    protected static function load_cache_treaty_paragraph() {
+        global $wpdb;
+        $sql = "SELECT a.* FROM ai_treaty_article_paragraph a";
+        $rows = $wpdb->get_results($sql);
+        foreach($rows as $row) {
+            self::$cache[self::$TREATY_PARAGRAPH][intval($row->id)] = $row;
+        }
+    }
+
+
+    protected static function load_cache_decision_paragraph() {
+        global $wpdb;
+        $sql = "SELECT a.* FROM ai_decision_paragraph a";
+        $rows = $wpdb->get_results($sql);
+        foreach($rows as $row) {
+            self::$cache[self::$DECISION_PARAGRAPH][intval($row->id)] = $row;
         }
     }
 }

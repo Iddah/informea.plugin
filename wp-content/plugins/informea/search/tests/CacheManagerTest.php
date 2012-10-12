@@ -184,4 +184,31 @@ class CacheManagerTest extends WP_UnitTestCase {
         $this->assertNull($results[2]);
         $this->assertNull($results[3]);
     }
+
+
+    function test_load_treaty_hierarchy() {
+        $data = array(
+            'articles' => array( 1405 => array( 7715, 7716 ) ),
+            'decisions' => array( 10303 => array(
+                'paragraphs' => array(35),
+                'documents' => array(4969, 4970)
+            ))
+        );
+        $ob = CacheManagerTestImpl::load_treaty_hierarchy('46', $data);
+        $this->assertNotNull($ob);
+        $this->assertEquals('The test treaty title', $ob->short_title);
+        $this->assertEquals(1, count($ob->articles));
+        $this->assertEquals('First article', $ob->articles[0]->title);
+        $this->assertEquals(2, count($ob->articles[0]->paragraphs));
+        $this->assertEquals('First paragraph of the first article', $ob->articles[0]->paragraphs[0]->content);
+
+        $this->assertEquals(1, count($ob->decisions));
+        $this->assertEquals('Test decision for test treaty xxxx', $ob->decisions[0]->short_title);
+        $this->assertEquals(1, count($ob->decisions[0]->paragraphs));
+        $this->assertEquals('TEST OF DOCUMENT003 FOR DECISION 1', $ob->decisions[0]->paragraphs[0]->content);
+
+        $this->assertEquals(2, count($ob->decisions[0]->documents));
+        $this->assertEquals('Paulo Coelho - Al cincilea munte.pdf', $ob->decisions[0]->documents[0]->filename);
+        $this->assertEquals('Dictionar Proverbe.pdf', $ob->decisions[0]->documents[1]->filename);
+    }
 }
