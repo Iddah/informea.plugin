@@ -4,25 +4,14 @@ require_once(dirname(__FILE__) . '/../CacheManager.php');
 
 class CacheManagerTestImpl extends CacheManager {
 
-
-    public static function get_cache_treaty_treatyparagraph() {
-        return parent::$cache_treaty_treatyparagraph;
-    }
-
-
-    public static function get_cache_treaty_decisionparagraph() {
-        return parent::$cache_treaty_decisionparagraph;
-    }
-
-    public static function get_cache_treaty_article() {
-        return parent::$cache_article_treaty;
-    }
-
-    public static function get_cache_treaty_decision() {
-        return parent::$cache_decision_treaty;
+    public static function get_cache($cache_name) {
+        return self::$cache[$cache_name];
     }
 }
 
+/**
+ * @group cache
+ */
 class CacheManagerTest extends WP_UnitTestCase {
 
 
@@ -30,12 +19,12 @@ class CacheManagerTest extends WP_UnitTestCase {
 
         CacheManagerTestImpl::clear();
 
-        $cache = CacheManagerTestImpl::get_cache_treaty_treatyparagraph();
+        $cache = CacheManagerTestImpl::get_cache(CacheManager::$TREATY_TREATYPARAGRAPH);
         $this->assertEquals(array(), $cache);
 
         $this->assertEquals(46, CacheManagerTestImpl::get_treaty_for_treaty_paragraph('7715'));
 
-        $cache1 = CacheManagerTestImpl::get_cache_treaty_treatyparagraph();
+        $cache1 = CacheManagerTestImpl::get_cache(CacheManager::$TREATY_TREATYPARAGRAPH);
         $this->assertNotEquals(array(), $cache1);
     }
 
@@ -50,12 +39,12 @@ class CacheManagerTest extends WP_UnitTestCase {
 
         CacheManagerTestImpl::clear();
 
-        $cache = CacheManagerTestImpl::get_cache_treaty_decisionparagraph();
+        $cache = CacheManagerTestImpl::get_cache(CacheManager::$TREATY_DECISIONPARAGRAPH);
         $this->assertEquals(array(), $cache);
 
         $this->assertEquals(46, CacheManagerTestImpl::get_treaty_for_decision_paragraph('35'));
 
-        $cache1 = CacheManagerTestImpl::get_cache_treaty_decisionparagraph();
+        $cache1 = CacheManagerTestImpl::get_cache(CacheManager::$TREATY_DECISIONPARAGRAPH);
         $this->assertNotEquals(array(), $cache1);
     }
 
@@ -70,12 +59,12 @@ class CacheManagerTest extends WP_UnitTestCase {
 
         CacheManagerTestImpl::clear();
 
-        $cache = CacheManagerTestImpl::get_cache_treaty_article();
+        $cache = CacheManagerTestImpl::get_cache(CacheManager::$ARTICLE_TREATY);
         $this->assertEquals(array(), $cache);
 
         $this->assertEquals(46, CacheManagerTestImpl::get_treaty_for_article('1405'));
 
-        $cache1 = CacheManagerTestImpl::get_cache_treaty_article();
+        $cache1 = CacheManagerTestImpl::get_cache(CacheManager::$ARTICLE_TREATY);
         $this->assertNotEquals(array(), $cache1);
     }
 
@@ -90,12 +79,12 @@ class CacheManagerTest extends WP_UnitTestCase {
 
         CacheManagerTestImpl::clear();
 
-        $cache = CacheManagerTestImpl::get_cache_treaty_decision();
+        $cache = CacheManagerTestImpl::get_cache(CacheManager::$DECISION_TREATY);
         $this->assertEquals(array(), $cache);
 
         $this->assertEquals(46, CacheManagerTestImpl::get_treaty_for_decision('10303'));
 
-        $cache1 = CacheManagerTestImpl::get_cache_treaty_decision();
+        $cache1 = CacheManagerTestImpl::get_cache(CacheManager::$DECISION_TREATY);
         $this->assertNotEquals(array(), $cache1);
     }
 
