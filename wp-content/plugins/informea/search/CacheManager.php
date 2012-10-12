@@ -51,15 +51,27 @@ class CacheManager {
             switch($skeleton->type) {
                 case 'treaty':
                     $ret = self::get(self::$TREATY, intval($skeleton->id_entity));
+                    if($ret) {
+                        $ret->entity_type = 'treaty';
+                    }
                     break;
                 case 'decision':
                     $ret = self::get(self::$DECISION, intval($skeleton->id_entity));
+                    if($ret) {
+                        $ret->entity_type = 'decision';
+                    }
                     break;
                 case 'event':
                     $ret = self::get(self::$EVENT, intval($skeleton->id_entity));
+                    if($ret) {
+                        $ret->entity_type = 'event';
+                    }
                     break;
                 case 'document':
                     $ret = self::get(self::$DOCUMENT, intval($skeleton->id_entity));
+                    if($ret) {
+                        $ret->entity_type = 'document';
+                    }
                     break;
             }
         }
