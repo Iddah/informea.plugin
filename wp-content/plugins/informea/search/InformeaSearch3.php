@@ -206,3 +206,69 @@ class InformeaSearch3 extends AbstractSearch {
 		return '(' . implode(' OR ', $arr) . ')';
 	}
 }
+
+
+
+/**
+ * Handle results for the first tab - ordered chronologically + paginated
+ */
+class InformeaSearch3Tab1 extends InformeaSearch3 {
+
+    /**
+     * Construct new search object
+     * @param array $request HTTP request parameters
+     * @param array $solr_cfg SOLR configuration. Array must contain the following
+     * values: array('hostname' => 'localhost', 'path' => '/informea-solr', 'port' => '8081');
+     */
+	public function __construct($request, $solr_cfg = array()) {
+		parent::__construct($request, $solr_cfg);
+	}
+
+
+    /**
+     * Do the search and return renderable items
+     * @param boolean $all Return all results, ignoring pagination
+     * @return array Array of loaded entities
+     */
+    public function search($all = TRUE) {
+        $results = parent::search();
+
+        $treaties = $this->is_use_treaties() ? array_keys($results['treaties']) : array();
+        $decisions = array();
+        if($this->is_use_decisions()) {
+            foreach(array_keys($results['treaties']) as $id_treaty) {
+                $decisions += array_keys($results['treaties'][$id_treaty]['decisions']);
+            }
+        }
+        $events = $this->is_use_meetings() ? $results['events'] : array();
+        $ids = $this->sort_and_paginate($treaties, $decisions, $events, $all);
+        return CacheManager::load_entities($ids);
+    }
+
+
+    protected function sort_and_paginate($treaties, $decisions, $events, $all = FALSE) {
+        global $wpdb;
+        // Apply sorting and pagination
+        $where_treaty = count($treaties) > 0 ? sprintf('WHERE id IN (%s)', implode(',', $treaties)) : ' WHERE 1 <> 1 ';
+        $where_decision = count($decisions) > 0 ? sprintf('WHERE id IN (%s)', implode(',', $decisions)) : ' WHERE 1 <> 1 ';
+        $where_events = count($events) > 0 ? sprintf('WHERE id IN (%s)', implode(',', $events)) : ' WHERE 1 <> 1 ';
+        $start = $this->get_page_size() * $this->get_page();
+        $end = $this->get_page_size();
+        $limit = $all ? '' : sprintf(' LIMIT %s, %s', $start, $end);
+        $sql = sprintf("
+            SELECT * FROM (
+                SELECT id as `id_entity`, 'treaty' as `type`, `start` as `date` FROM ai_treaty %s
+                UNION
+                SELECT id as `id_entity`, 'decision' as `type`, published as `date` FROM ai_decision %s
+                UNION
+                SELECT id as `id_entity`, 'event' as `type`, start as `date` FROM ai_event %s
+            ) soup ORDER BY `date` %s %s",
+            $where_treaty,
+            $where_decision,
+            $where_events,
+            $this->get_sort_direction(),
+            $limit
+        );
+        return $wpdb->get_results($sql);
+    }
+}
