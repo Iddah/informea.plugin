@@ -83,8 +83,8 @@ div.warning {
 	background: #FFF5C2 url(images/warning-big.png) no-repeat;
 	background-position: 5px 10px;
 	min-height: 70px;
-	margin: 5px; padding: 5px; 
-	border: 2px solid #FFE974; background-color: ;
+	margin: 5px; padding: 5px;
+	border: 2px solid #FFE974;
 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
 }
 div.warning .content { margin-left: 70px; }
@@ -169,11 +169,11 @@ body.informea .tag11 { font-size:200%;}
 
 .portlet { margin-top: 15px; display: block; overflow: hidden; }
 .portlet .pre-title { border-bottom: 1px solid #2CA0D2; }
-.portlet .title { 
-	background: #EEE; 
-	padding: 7px 10px; color: #2CA0D2; 
-	font-size: 18px; letter-spacing: -1px; 
-	line-height: 22px; display: inline-block; 
+.portlet .title {
+	background: #EEE;
+	padding: 7px 10px; color: #2CA0D2;
+	font-size: 18px; letter-spacing: -1px;
+	line-height: 22px; display: inline-block;
 }
 .portlet img { vertical-align: middle; }
 .portlet .content { padding-top: 10px !important; }
@@ -306,8 +306,8 @@ a.more-link {font-weight: bold;}
 .lof-slidecontent { color:#FFF; position : relative; overflow : hidden; margin-bottom: 20px;}
 .lof-slidecontent .preload{ height:100%; width:100%; position:absolute; top:0; left:0; z-index:100000; text-align:center; background:#FFF}
 .lof-slidecontent .preload div { height:100%; width:100%; background:transparent url(images/slideimages/load-indicator.gif) no-repeat scroll 50% 50%;}
-.lof-main-outer { position:relative; height:100%; width:900px; z-index:3px; overflow:hidden;}
-.lof-main-item-desc{ font-size : 110%; z-index:100px; position:absolute; top:50px; left:0px; width:330px; background:url(images/slideimages/bg_trans.png); height:100px; /* filter:0.7(opacity:60) */ padding:10px;}
+.lof-main-outer { position:relative; height:100%; width:900px; z-index: 3; overflow:hidden;}
+.lof-main-item-desc{ font-size : 110%; z-index:100;  position:absolute; top:50px; left:0px; width:330px; background:url(images/slideimages/bg_trans.png); height:100px; /* filter:0.7(opacity:60) */ padding:10px;}
 .lof-main-item-desc h3 { display : inline; font-size:75% !important; background:#C01F25 !important; border: none !important; padding : 2px 3px !important; margin:0; color: #FFFFFF !important; text-transform : uppercase !important;}
 .lof-main-item-desc .italic { font-style : italic;}
 .lof-main-item-desc a { color : lightblue; text-decoration : none;}
@@ -318,12 +318,12 @@ ul.lof-main-wapper { /* margin-right:auto; */ overflow:hidden; background:transp
 ul.lof-main-wapper li{ overflow:hidden; padding:0px; margin:0px; float:left; position:relative; }
 ul.lof-main-wapper li img{ padding:0px; height: 200px !important; /* max-width: 1024px !important; cristiroma - not working on current CBD pictures */}
 .lof-opacity { overflow:visible  !important;; position:absolute !important;}
-.lof-opacity li{ position:absolute  !important; top:0; left:0; float:inherit  !important;}
+.lof-opacity li{ position:absolute  !important; top:0; left:0;}
 /* item navigator */
 .lof-navigator-wapper { position:absolute; bottom:10px; right:10px; background: url("images/slideimages/bg_trans.png") repeat scroll 0 0 transparent; padding:5px 15px; -moz-border-radius:5px 5px 5px 5px;}
 .lof-navigator-outer{ position:relative; z-index:100; height:180px; width:310px; overflow:hidden; color:#FFF; float:left}
 ul.lof-navigator{ top:0; padding:0; margin:0; position:absolute; width:100%;}
-ul.lof-navigator li{ cursor:hand; cursor:pointer; list-style:none; padding:0; margin-left:0px; overflow:hidden; float:left; display:block; text-align:center;}
+ul.lof-navigator li{ cursor: pointer; cursor:pointer; list-style:none; padding:0; margin-left:0px; overflow:hidden; float:left; display:block; text-align:center;}
 ul.lof-navigator li.active , ul.lof-navigator li:hover  { background:#FFF; color:#000; display:block;}
 /* END - Styles for the index page image slider */
 
@@ -503,7 +503,7 @@ a.newsletter-button {display:inline-block; height:23px; padding: 0; font-size:11
 .treaty-icon  span {color: #666}
 tr.treaty-theme  td {padding: 10px; border-top: 1px solid #fff; border-bottom: 1px solid #fff;}
 .column-select {width: 220px; margin-bottom: 10px;}
-.expand-collapse-buttons {display: block; padding: 10px 0; margin-bottom:}
+.expand-collapse-buttons {display: block; padding: 10px 0;}
 .expand-collapse-buttons  a {margin: 5px 0; display: inline-block;}
 .imea-terms .toolbar { margin-bottom: 15px !important; }
 
@@ -690,7 +690,7 @@ body.imea-events .column-search label {margin-bottom: 5px;}
 .calendar-prev { float: left; border-right: 1px solid #ccc;}
 .calendar-next { float: right; border-left: 1px solid #ccc;}
 .calendar {width: 100%; }
-.calendar td { padding: 5px; padding:0px\9; padding-top:4px\9;margin: 0; border: 1px solid #e6e6e6; text-align: center; height: 50px; width: 40px; color: #555; background: #fff; }
+.calendar td { padding: 5px; padding:0px ; padding-top:4px ;margin: 0; border: 1px solid #e6e6e6; text-align: center; height: 50px; width: 40px; color: #555; background: #fff; }
 .calendar .event-logo { display: inline; margin: 5px 5px 0 0; width: 16px; height: 22px; }
 .calendar .today-day { background-color: #ececec!important; color: black; font-weight: bold;}
 .calendar .today-day a { font-weight:bold;}
@@ -738,9 +738,7 @@ a.button.search-explorer-submit:hover>span, a.button.search-explorer-submit:focu
 .decision-treaty {width: 100px;height: 120px;float: left;text-align: center}
 .letter-box {padding: 10px 0 10px 10px;width: 100px;margin-right: 30px;float: left}
 
-/* search results */
-
-/* Tab #1 */
+/* search results
 #search_tab1 { margin-top: 15px; width: 100%; }
 #search_tab1 tr td { padding: 3px; }
 #search_tab1 tr td.data { padding-top: 20px; color: #555; }
@@ -775,6 +773,9 @@ a.button.search-explorer-submit:hover>span, a.button.search-explorer-submit:focu
 
 
 #search-paginator { margin: 20px 0 0 30px; }
+*/
+
+
 body.imea-search .toolbar {margin-bottom: 10px; }
 
 .matching-article { margin-left: 15px; }
@@ -799,8 +800,8 @@ a.toggle-result, a.toggle-result:hover, a.toggle-result:visited, a.toggle-result
 .index_and_or {margin-right: 10px;float:left; margin-top: -5px;width:40px}
 .index_and_or label {font-size:8px;float:left;}
 
-#q_term_and_index {border:0px!important;*margin-left:1px!important;}
-#q_term_or_index {border:0px!important;*margin-left:-31px!important;margin-left:-19px\9!important;}
+#q_term_and_index {border:0px!important; margin-left:1px!important;}
+#q_term_or_index {border:0px!important; margin-left:-31px !important; margin-left:-19px !important;}
 
 
 div.latest-news { height: 336px; }
