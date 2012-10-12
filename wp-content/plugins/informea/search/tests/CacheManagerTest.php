@@ -7,6 +7,11 @@ class CacheManagerTestImpl extends CacheManager {
     public static function get_cache($cache_name) {
         return self::$cache[$cache_name];
     }
+
+
+    public static function get($cache_name, $key) {
+        return parent::get($cache_name, $key);
+    }
 }
 
 /**
@@ -91,5 +96,92 @@ class CacheManagerTest extends WP_UnitTestCase {
 
     function test_get_treaty_for_decision() {
         $this->assertEquals(46, CacheManagerTestImpl::get_treaty_for_decision('10303'));
+    }
+
+
+    function test_get() {
+        $ob1 = CacheManagerTestImpl::get('treaty', '46');
+        $this->assertNotNull($ob1);
+
+        $ob2 = CacheManagerTestImpl::get('decision', '10303');
+        $this->assertNotNull($ob2);
+
+        $ob3 = CacheManagerTestImpl::get('event', '2481');
+        $this->assertNotNull($ob3);
+
+        $ob4 = CacheManagerTestImpl::get('document', '4969');
+        $this->assertNotNull($ob4);
+    }
+
+
+    function test_load_entity_treaty() {
+        CacheManagerTestImpl::clear();
+
+        $ob = new stdClass();
+        $ob->type = 'treaty';
+        $ob->id_entity = '46';
+
+        $ob1 = CacheManagerTestImpl::load_entity($ob);
+        $this->assertEquals('The test treaty title', $ob1->short_title);
+    }
+
+    function test_load_entity_decision() {
+        CacheManagerTestImpl::clear();
+
+        $ob = new stdClass();
+        $ob->type = 'decision';
+        $ob->id_entity = '10303';
+
+        $ob1 = CacheManagerTestImpl::load_entity($ob);
+        $this->assertEquals('Test decision for test treaty xxxx', $ob1->short_title);
+        $this->assertEquals('http://informea.localhost/wp-content/uploads/2012/10/pivotal_tracker-256-copy.png', $ob1->logo_medium);
+    }
+
+    function test_load_entity_event() {
+        CacheManagerTestImpl::clear();
+
+        $ob = new stdClass();
+        $ob->type = 'event';
+        $ob->id_entity = '2481';
+
+        $ob1 = CacheManagerTestImpl::load_entity($ob);
+        $this->assertEquals('First Meeting', $ob1->title);
+        $this->assertEquals('http://informea.localhost/wp-content/uploads/2012/10/pivotal_tracker-256-copy.png', $ob1->logo_medium);
+    }
+
+    function test_load_entity_document() {
+        CacheManagerTestImpl::clear();
+
+        $ob = new stdClass();
+        $ob->type = 'document';
+        $ob->id_entity = '4969';
+
+        $ob1 = CacheManagerTestImpl::load_entity($ob);
+        $this->assertEquals('Paulo Coelho - Al cincilea munte.pdf', $ob1->filename);
+    }
+
+    function test_load_entities() {
+        CacheManagerTestImpl::clear();
+
+        $ob1 = new stdClass();
+        $ob1->type = 'treaty';
+        $ob1->id_entity = '46';
+
+        $ob2 = new stdClass();
+        $ob2->type = 'document';
+        $ob2->id_entity = '4969';
+
+        $ob3 = new stdClass();
+        $ob3->type = 'unknown';
+        $ob3->id_entity = 'xxx';
+
+        $ob4 = null;
+
+        $results = CacheManagerTestImpl::load_entities(array($ob1, $ob2, $ob3, $ob4));
+        $this->assertEquals(4, count($results));
+        $this->assertEquals('The test treaty title', $results[0]->short_title);
+        $this->assertEquals('Paulo Coelho - Al cincilea munte.pdf', $results[1]->filename);
+        $this->assertNull($results[2]);
+        $this->assertNull($results[3]);
     }
 }
