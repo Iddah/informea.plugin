@@ -12,9 +12,7 @@ class InformeaSearch3TestImpl extends InformeaSearch3 {
     }
 }
 
-/**
- * @group search3
- */
+
 class InformeaSearch3Test extends WP_UnitTestCase {
 
     function test_search_database_decision() {
