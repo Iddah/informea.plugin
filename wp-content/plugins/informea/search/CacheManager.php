@@ -139,6 +139,19 @@ class CacheManager {
 
 
     /**
+     * Load a single event
+     * @param mixed $id Event Id
+     * @return object Decision or null
+     */
+    static function load_event($id) {
+        $ob = new stdClass();
+        $ob->type = self::$EVENT;
+        $ob->id_entity = $id;
+        return self::load_entity($ob);
+    }
+
+
+    /**
      * Load a treaty tree of objects from database
      * @param integer $id Treaty ID
      * @param array $data Data array('articles' => array(...), 'decisions' => array(...))
@@ -150,7 +163,8 @@ class CacheManager {
     static function load_treaty_hierarchy($id, $data) {
         $treaty = self::load_treaty($id);
         $treaty->articles = array();
-        $treaty->decision = array();
+        $treaty->decisions = array();
+        $treaty->events = array();
 
         foreach($data['articles'] as $id_article => $paragraphs) {
             $article = self::load_treaty_article($id_article);
@@ -161,7 +175,6 @@ class CacheManager {
                 $article->paragraphs[] = $paragraph;
             }
         }
-
         foreach($data['decisions'] as $id_decision => $inner) {
             $decision = self::load_decision($id_decision);
             $treaty->decisions[] = $decision;
