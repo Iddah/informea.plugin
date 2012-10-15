@@ -8,6 +8,20 @@
  */
 class InformeaSearch3 extends AbstractSearch {
 
+    protected $results = null;
+
+    public static function get_searcher() {
+		$goptions = get_option('informea_options');
+		$options = array(
+			'hostname' => $goptions['solr_server'],
+			'path' => $goptions['solr_path'],
+			'port' => $goptions['solr_port']
+		);
+        $tab = get_request_int('q_tab', 2);
+        $type = 'InformeaSearch3Tab' . $tab;
+        return new $type($_REQUEST, $options);
+    }
+
     protected $solr = null;
 
     /**
@@ -31,10 +45,33 @@ class InformeaSearch3 extends AbstractSearch {
 	 * keys: treaties, events, decisions.
 	 */
 	public function search() {
-        $ret = $this->db_search();
-        $ret += $this->solr_search();
+        $ret_db = $this->db_search();
+        $ret_dec = $this->solr_search();
+        $ret = $this->merge_results($ret_db, $ret_dec);
         return $ret;
 	}
+
+
+    private function merge_results($db, $solr) {
+        $ret = $solr;
+        foreach($db['treaties'] as $id_treaty => $arr_treaty) {
+            // Merge articles
+            if(!isset($ret['treaties'][$id_treaty])) {
+                $ret['treaties'][$id_treaty] = array('articles' => array(), 'decisions' => array('paragraphs' => array(), 'documents' => array()));
+            }
+            $ret['treaties'][$id_treaty]['articles'] += $arr_treaty['articles'];
+
+            // Merge decisions
+            foreach($arr_treaty['decisions'] as $id_decision => $arr_decision) {
+                if(!isset($ret['treaties'][$id_treaty]['decisions'][$id_decision])) {
+                    $ret['treaties'][$id_treaty]['decisions'][$id_decision] = array('paragraphs' => array(), 'documents' => array());
+                }
+                $ret['treaties'][$id_treaty]['decisions'][$id_decision]['paragraphs'] += $arr_decision['paragraphs'];
+                $ret['treaties'][$id_treaty]['decisions'][$id_decision]['documents'] += $arr_decision['documents'];
+            }
+        }
+        return $ret;
+    }
 
 
     /**
@@ -51,7 +88,7 @@ class InformeaSearch3 extends AbstractSearch {
      * )
      */
     protected function db_search() {
-        $ret = array();
+        $ret = array('treaties' => array());
         if(!$this->is_using_terms()) {
             return $ret;
         }
@@ -245,7 +282,18 @@ class InformeaSearch3Tab1 extends InformeaSearch3 {
         }
         $events = $this->is_use_meetings() ? $results['events'] : array();
         $ids = $this->sort_and_paginate($treaties, $decisions, $events, $all);
-        return CacheManager::load_entities($ids);
+        $this->results = CacheManager::load_entities($ids);
+        return $this->results;
+    }
+
+
+    // @todo: move to parent class
+    public function render($all = FALSE) {
+        if($this->results == null) {
+            $this->search($all);
+        }
+        $renderer = new InformeaSearchRendererTab1();
+        return $renderer->render($this->results);
     }
 
 
@@ -307,7 +355,17 @@ class InformeaSearch3Tab2 extends InformeaSearch3 {
             }
             $ret[$id_treaty] = CacheManager::load_treaty_hierarchy($id_treaty, $data);
         }
-        return $ret;
+        $this->results = $ret;
+        return $this->results;
+    }
+
+    // @todo: move to parent class
+    public function render($all = FALSE) {
+        if($this->results == null) {
+            $this->search($all);
+        }
+        $renderer = new InformeaSearchRendererTab2();
+        return $renderer->render($this->results);
     }
 }
 

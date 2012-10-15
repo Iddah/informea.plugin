@@ -167,4 +167,21 @@ class InformeaSearch3Test extends WP_UnitTestCase {
         $ob3 = new InformeaSearch3TestImpl(array('q_use_decisions' => 1, 'q_use_treaties' => 1, 'q_use_meetings' => 1));
         $this->assertEquals('(entity_type:decision OR entity_type:decision_paragraph OR entity_type:decision_document OR entity_type:event OR entity_type:treaty OR entity_type:treaty_article OR entity_type:treaty_article_paragraph)', $ob3->solr_entity_filter());
     }
+
+
+    function test_search_combined_with_tags() {
+        $ob = new InformeaSearch3(array(
+            'q_term' => 1,
+            'q_use_decisions' => 1,
+            'q_freetext' => 'test',
+            'q_term' => array('581')
+        ));
+        $results = $ob->search();
+        #var_dump($results);
+        $treaty = $results['treaties'][46];
+        $this->assertEquals(35, $treaty['decisions'][10303]['paragraphs'][0]);
+        $this->assertEquals(4970, $treaty['decisions'][10303]['documents'][0]);
+        $this->assertEquals(7715, $treaty['articles'][1405][0]);
+
+    }
 }
