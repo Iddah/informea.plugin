@@ -57,17 +57,21 @@ class InformeaSearch3 extends AbstractSearch {
         foreach($db['treaties'] as $id_treaty => $arr_treaty) {
             // Merge articles
             if(!isset($ret['treaties'][$id_treaty])) {
-                $ret['treaties'][$id_treaty] = array('articles' => array(), 'decisions' => array('paragraphs' => array(), 'documents' => array()));
+                $ret['treaties'][$id_treaty] = array('articles' => array(), 'decisions' => array());
             }
-            $ret['treaties'][$id_treaty]['articles'] += $arr_treaty['articles'];
+            if(!empty($arr_treaty['articles'])) {
+                $ret['treaties'][$id_treaty]['articles'] += $arr_treaty['articles'];
+            }
 
             // Merge decisions
-            foreach($arr_treaty['decisions'] as $id_decision => $arr_decision) {
-                if(!isset($ret['treaties'][$id_treaty]['decisions'][$id_decision])) {
-                    $ret['treaties'][$id_treaty]['decisions'][$id_decision] = array('paragraphs' => array(), 'documents' => array());
+            if(!empty($arr_treaty['decisions'])) {
+                foreach($arr_treaty['decisions'] as $id_decision => $arr_decision) {
+                    if(!isset($ret['treaties'][$id_treaty]['decisions'][$id_decision])) {
+                        $ret['treaties'][$id_treaty]['decisions'][$id_decision] = array('paragraphs' => array(), 'documents' => array());
+                    }
+                    $ret['treaties'][$id_treaty]['decisions'][$id_decision]['paragraphs'] += $arr_decision['paragraphs'];
+                    $ret['treaties'][$id_treaty]['decisions'][$id_decision]['documents'] += $arr_decision['documents'];
                 }
-                $ret['treaties'][$id_treaty]['decisions'][$id_decision]['paragraphs'] += $arr_decision['paragraphs'];
-                $ret['treaties'][$id_treaty]['decisions'][$id_decision]['documents'] += $arr_decision['documents'];
             }
         }
         return $ret;
@@ -88,9 +92,9 @@ class InformeaSearch3 extends AbstractSearch {
      * )
      */
     protected function db_search() {
-        $ret = array('treaties' => array());
+        $ret = array();
         if(!$this->is_using_terms()) {
-            return $ret;
+            return array('treaties' => array());
         }
         global $wpdb;
         $terms = $this->get_terms();
