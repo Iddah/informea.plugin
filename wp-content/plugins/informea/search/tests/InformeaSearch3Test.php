@@ -184,4 +184,19 @@ class InformeaSearch3Test extends WP_UnitTestCase {
         $this->assertEquals(7715, $treaty['articles'][1405][0]);
 
     }
+
+
+    function test_solr_highlight_treaty_paragraph() {
+        $ob = new InformeaSearch3(array('q_freetext' => 'article'));
+        $ret = $ob->solr_highlight('7715', 'treaty_article_paragraph');
+        $this->assertEquals(1, count($ret));
+        $this->assertEquals('First paragraph of the first <strong>article</strong>', $ret[0]);
+    }
+
+    function test_solr_highlight_decision_document() {
+        $ob = new InformeaSearch3(array('q_freetext' => 'test'));
+        $ret = $ob->solr_highlight('4970', 'decision_document');
+        $this->assertEquals(1, count($ret));
+        $this->assertEquals('<strong>TEST</strong> OF DOCUMENT003 FOR DECISION 1 IN ODT.', $ret[0]);
+    }
 }
