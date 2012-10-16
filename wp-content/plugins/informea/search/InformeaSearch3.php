@@ -1,5 +1,26 @@
 <?php
 
+
+
+add_action('wp_ajax_nopriv_search_highlight', 'ajax_search_highlight');
+add_action('wp_ajax_search_highlight', 'ajax_search_highlight');
+
+function ajax_search_highlight() {
+    $ret = '';
+    $search = InformeaSearch3::get_plain_searcher();
+    $id_entity = $search->get_request_int('id');
+    $entity_type = $search->get_request_value('entity');
+    $items = $search->solr_highlight($id_entity, $entity_type);
+    foreach($items as $item) {
+        $ret .= '<div>' . $item . '</div>';
+    }
+
+	header('Content-Type:text/html');
+    echo $ret;
+	die();
+}
+
+
 /**
  *
  * START ===> FREETEXT? === [yes] ===> SOLR:solr ===> KEYWORDSEARCH? === [yes] ===> DB:db ===> MERGE(solr, db): results ===> ...
@@ -20,6 +41,16 @@ class InformeaSearch3 extends AbstractSearch {
         $tab = get_request_int('q_tab', 2);
         $type = 'InformeaSearch3Tab' . $tab;
         return new $type($_REQUEST, $options);
+    }
+
+    public static function get_plain_searcher() {
+		$goptions = get_option('informea_options');
+		$options = array(
+			'hostname' => $goptions['solr_server'],
+			'path' => $goptions['solr_path'],
+			'port' => $goptions['solr_port']
+		);
+        return new InformeaSearch3($_REQUEST, $options);
     }
 
     protected $solr = null;
@@ -249,6 +280,55 @@ class InformeaSearch3 extends AbstractSearch {
 		}
 		return '(' . implode(' OR ', $arr) . ')';
 	}
+
+
+    public function solr_highlight($id_entity, $entity_type, $fragment_size = 500) {
+        $ret = array();
+        $phrase = $this->get_freetext();
+        if(!$this->is_dirty_search() || empty($phrase) || $phrase == '*' || $phrase == '?') {
+            return $ret;
+        }
+        $excerpt = '';
+		$query = new SolrQuery($phrase);
+		$query->addField('id')->addField('entity_type')->addField('decision_id')->addField('treaty_article_id')->addField('treaty_id');
+		$query->addFilterQuery('entity_type:' . $entity_type . ' AND id:' . $id_entity);
+		$query->setRows(99999);
+        $query->setHighlight(true);
+        $query->addHighlightField('text');
+        $query->setHighlightSnippets(5);
+        $query->setHighlightSimplePre('$$$$$');
+        $query->setHighlightSimplePost('#####');
+        $query->setHighlightFragsize($fragment_size);
+        $query->setHighlightMaxAnalyzedChars(200000); // To analyse entire document
+        $uid = "$id_entity $entity_type";
+        try {
+			$q_resp = $this->solr->query($query);
+			$q_resp->setParseMode(SolrQueryResponse::PARSE_SOLR_DOC);
+			$resp = $q_resp->getResponse();
+			if(isset($resp->response->docs[0])) {
+				if(isset($resp->highlighting)) {
+					if($resp->highlighting->offsetExists($uid)) {
+						$field = $resp->highlighting->offsetGet($uid);
+						$field = $field->offsetGet('text');
+						if($field) {
+							foreach($field as $snippet) {
+								$excerpt .= htmlspecialchars(strip_tags($snippet));
+							}
+							$excerpt = str_replace('$$$$$', '<strong>', $excerpt);
+							$excerpt = str_replace('#####', '</strong>', $excerpt);
+							$excerpt = str_replace('&nbsp;', ' ', $excerpt);
+                            $excerpt = trim($excerpt);
+                            $ret[] = $excerpt;
+						}
+					}
+				}
+			}
+		} catch(Exception $e) {
+			error_log('Failed Solr query');
+			error_log(print_r($e, true));
+		}
+        return $ret;
+    }
 }
 
 
