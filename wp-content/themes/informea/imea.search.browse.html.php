@@ -7,25 +7,13 @@
  * This is the controller for the 'Search results' pages.
  */
 $start = microtime_float();
-$request = $_REQUEST;
-$search2 = new InformeaSearch2($request);
-$tab = $search2->get_q_tab();
-$results = $search2->search();
-$total_results = $results->get_count();
-$dir = $search2->get_sort_direction();
-$page_size = $search2->get_page_size();
-
-
+$tab = get_request_int('q_tab', 2);
+$search = InformeaSearch3::get_searcher();
 add_filter('body_class', function ($classes) {
 	$classes[] = 'col-2';
 	return $classes;
 });
 get_header();
-
-$tab1_disabled = ($tab == '1') ? 'disabled' : '';
-$tab2_disabled = ($tab == '2') ? 'disabled' : '';
-$tab3_disabled = ($tab == '3' || $tab == '4') ? 'disabled' : '';
-define('INFORMEA_SEARCH_PAGE', true);
 ?>
 <div id="container">
 	<br />
@@ -39,29 +27,20 @@ define('INFORMEA_SEARCH_PAGE', true);
 				<?php _e('Search results', 'informea'); ?>
 			</h1>
 			<?php
-				if($total_results > 0 || in_array($tab, array('3', '4', '5'))) {
+				if(in_array($tab, array(1, 2, 3, 4, 5))) {
 			?>
 			<div class="view-mode">
 				<form action="">
 					<label for="view-mode"><?php _e('View', 'informea'); ?></label>
 					<select id="view-mode" name="view-mode" onchange="setTab($(this).val());">
-						<?php $selected = ($tab == '1') ? 'selected="selected "' : ''; ?>
-						<option <?php echo $selected;?>value="1"><?php _e('as timeline', 'informea'); ?></option>
-						<?php $selected = ($tab == '2') ? 'selected="selected "' : ''; ?>
-						<option <?php echo $selected;?>value="2"><?php _e('grouped by treaty', 'informea'); ?></option>
-						<?php $selected = ($tab == '3' ||  $tab == '4') ? 'selected="selected "' : ''; ?>
-						<option <?php echo $selected;?>value="3"><?php _e('treaties/decisions', 'informea'); ?></option>
+						<option <?php echo $tab == 1 ? 'selected="selected "' : '';?>value="1"><?php _e('as timeline', 'informea'); ?></option>
+						<option <?php echo $tab == 2 ? 'selected="selected "' : '';?>value="2"><?php _e('grouped by treaty', 'informea'); ?></option>
+						<option <?php echo $tab == 3 ||  $tab == 4 ? 'selected="selected "' : '';?>value="3"><?php _e('treaties/decisions', 'informea'); ?></option>
 					</select>
 				</form>
 			</div>
 			<?php
 					include(dirname(__FILE__) . "/imea_pages/search/results.tab$tab.inc.php");
-				} else {
-					echo 'Oops, no results have been found.';
-					$q = $search2->get_freetext();
-					if(!empty($q)) {
-						echo ' <a target="_blank" href="https://www.google.com/?#sclient=psy-ab&hl=en&source=hp&q=' . esc_attr($q) . '+site:informea.org">Try Google?</a>';
-					}
 				}
 			?>
 			<div class="clear"></div>

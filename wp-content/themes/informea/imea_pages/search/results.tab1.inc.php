@@ -76,7 +76,7 @@
 <?php
 // Inject JS into footer
 function js_inject_search_results_tab1() {
-	global $search2;
+	global $search;
 ?>
 <script type="text/javascript">
 	$(document).ready(function(){

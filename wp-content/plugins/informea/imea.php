@@ -44,6 +44,10 @@ include_once ("pages/events.class.php");
 include_once ("pages/highlights.class.php");
 
 include_once ("search/InformeaSearch2.php");
+include_once ("search/AbstractSearch.php");
+include_once ("search/CacheManager.php");
+include_once ("search/InformeaSearchRenderer.php");
+include_once ("search/InformeaSearch3.php");
 
 include_once ("rss.php");
 

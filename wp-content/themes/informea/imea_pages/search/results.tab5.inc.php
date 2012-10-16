@@ -45,7 +45,7 @@ if(count($items)) {
 <?php
 // Inject JS into footer
 function js_inject_search_results_tab5() {
-	global $search2;
+	global $search;
 ?>
 <script type="text/javascript">
 	$(document).ready(function(){

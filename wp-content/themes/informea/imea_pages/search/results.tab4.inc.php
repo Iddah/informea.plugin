@@ -45,7 +45,7 @@ No decisions have been found
 <?php
 // Inject JS into footer
 function js_inject_search_results_tab4() {
-	global $search2;
+	global $search;
 ?>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -54,10 +54,10 @@ function js_inject_search_results_tab4() {
 
 			resultID = $(this).attr('id').split('-')[2];
 			if($('#result-' + resultID).is(':visible') == true){
-				$('img', this).attr('src', '<?php $search2->img('images/expand.gif'); ?>');
+				$('img', this).attr('src', '<?php $search->img('images/expand.gif'); ?>');
 				$('#result-' + resultID).slideUp(100);
 			}else {
-				$('img', this).attr('src', '<?php $search2->img('images/collapse.gif'); ?>');
+				$('img', this).attr('src', '<?php $search->img('images/collapse.gif'); ?>');
 				$('#result-' + resultID).slideDown(100);
 			}
 		});
