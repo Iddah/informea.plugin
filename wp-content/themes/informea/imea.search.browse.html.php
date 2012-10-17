@@ -8,6 +8,7 @@
  */
 $start = microtime_float();
 $tab = get_request_int('q_tab', 2);
+define('INFORMEA_SEARCH_PAGE', true);
 $search = InformeaSearch3::get_searcher();
 add_filter('body_class', function ($classes) {
 	$classes[] = 'col-2';
@@ -35,7 +36,6 @@ get_header();
 					<select id="view-mode" name="view-mode" onchange="setTab($(this).val());">
 						<option <?php echo $tab == 1 ? 'selected="selected "' : '';?>value="1"><?php _e('as timeline', 'informea'); ?></option>
 						<option <?php echo $tab == 2 ? 'selected="selected "' : '';?>value="2"><?php _e('grouped by treaty', 'informea'); ?></option>
-						<option <?php echo $tab == 3 ||  $tab == 4 ? 'selected="selected "' : '';?>value="3"><?php _e('treaties/decisions', 'informea'); ?></option>
 					</select>
 				</form>
 			</div>

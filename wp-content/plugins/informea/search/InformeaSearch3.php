@@ -5,6 +5,9 @@
 add_action('wp_ajax_nopriv_search_highlight', 'ajax_search_highlight');
 add_action('wp_ajax_search_highlight', 'ajax_search_highlight');
 
+add_action('wp_ajax_nopriv_search_more_results', 'ajax_search_more_results');
+add_action('wp_ajax_search_more_results', 'ajax_search_more_results');
+
 function ajax_search_highlight() {
     $ret = '';
     $search = InformeaSearch3::get_plain_searcher();
@@ -12,7 +15,7 @@ function ajax_search_highlight() {
     $entity_type = $search->get_request_value('entity');
     $items = $search->solr_highlight($id_entity, $entity_type);
     foreach($items as $item) {
-        $ret .= '<div>' . $item . '</div>';
+        $ret .= '<div class="highlight">' . $item . '</div>';
     }
 
 	header('Content-Type:text/html');
@@ -20,6 +23,20 @@ function ajax_search_highlight() {
 	die();
 }
 
+function ajax_search_more_results() {
+    $goptions = get_option('informea_options');
+    $options = array(
+        'hostname' => $goptions['solr_server'],
+        'path' => $goptions['solr_path'],
+        'port' => $goptions['solr_port']
+    );
+    $search = new InformeaSearch3Tab1($_REQUEST, $options);
+
+	header('Content-Type:text/html');
+    $ret = $search->render_ajax();
+    echo $ret;
+	die();
+}
 
 /**
  *
@@ -314,7 +331,7 @@ class InformeaSearch3 extends AbstractSearch {
 							foreach($field as $snippet) {
 								$excerpt .= htmlspecialchars(strip_tags($snippet));
 							}
-							$excerpt = str_replace('$$$$$', '<strong>', $excerpt);
+							$excerpt = str_replace('$$$$$', '<strong class="highlight">', $excerpt);
 							$excerpt = str_replace('#####', '</strong>', $excerpt);
 							$excerpt = str_replace('&nbsp;', ' ', $excerpt);
                             $excerpt = trim($excerpt);
@@ -356,17 +373,33 @@ class InformeaSearch3Tab1 extends InformeaSearch3 {
      */
     public function search($all = TRUE) {
         $results = parent::search();
-
         $treaties = $this->is_use_treaties() ? array_keys($results['treaties']) : array();
+        $cache_decisions = array();
         $decisions = array();
         if($this->is_use_decisions()) {
             foreach(array_keys($results['treaties']) as $id_treaty) {
                 $decisions += array_keys($results['treaties'][$id_treaty]['decisions']);
+                $cache_decisions += $results['treaties'][$id_treaty]['decisions'];
             }
         }
         $events = $this->is_use_meetings() ? $results['events'] : array();
         $ids = $this->sort_and_paginate($treaties, $decisions, $events, $all);
-        $this->results = CacheManager::load_entities($ids);
+        $ret = array();
+        foreach($ids as $skeleton) {
+            if($skeleton->type == 'decision') {
+                $cached = $cache_decisions[$skeleton->id_entity];
+                $ret[] = CacheManager::load_decision_hierarchy($skeleton->id_entity, $cached);
+            } else if($skeleton->type == 'treaty') {
+                $cached = $results['treaties'][$skeleton->id_entity];
+                $cached['decisions'] = array();
+                $ret[] = CacheManager::load_treaty_hierarchy($skeleton->id_entity, $cached);
+            } else if($skeleton->type == 'event') {
+                $ret[] = CacheManager::load_event($skeleton->id_entity);
+            } else {
+                throw new Exception($skeleton->type);
+            }
+        }
+        $this->results = $ret;
         return $this->results;
     }
 
@@ -377,6 +410,14 @@ class InformeaSearch3Tab1 extends InformeaSearch3 {
             $this->search($all);
         }
         $renderer = new InformeaSearchRendererTab1();
+        return $renderer->render($this->results);
+    }
+
+    public function render_ajax() {
+        if($this->results == null) {
+            $this->search(FALSE);
+        }
+        $renderer = new InformeaSearchRendererTab1Ajax();
         return $renderer->render($this->results);
     }
 
@@ -421,8 +462,6 @@ class InformeaSearch3Tab2 extends InformeaSearch3 {
      */
 	public function __construct($request, $solr_cfg = array()) {
 		parent::__construct($request, $solr_cfg);
-        $this->request['q_use_treaties'] = 1;
-        unset($this->request['q_use_meetings']); //@TODO: We could add events to the results
 	}
 
 
@@ -467,9 +506,6 @@ class InformeaSearch3Tab3 extends InformeaSearch3 {
      */
 	public function __construct($request, $solr_cfg = array()) {
 		parent::__construct($request, $solr_cfg);
-        $this->request['q_use_treaties'] = 1;
-        unset($this->request['q_use_decisions']);
-        unset($this->request['q_use_meetings']); //@TODO: We could add events to the results
 	}
 
 
@@ -504,9 +540,6 @@ class InformeaSearch3Tab5 extends InformeaSearch3 {
      */
 	public function __construct($request, $solr_cfg = array()) {
 		parent::__construct($request, $solr_cfg);
-        $this->request['q_use_treaties'] = 1;
-        $this->request['q_use_decisions'] = 1;
-        unset($this->request['q_use_meetings']); //@TODO: We could add events to the results
 	}
 
 

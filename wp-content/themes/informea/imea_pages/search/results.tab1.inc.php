@@ -1,3 +1,6 @@
+<?php
+$dir = $search->get_sort_direction();
+?>
 <div class="toolbar">
 	<form action="">
 		<label for="view-mode"><?php _e('Order', 'informea'); ?></label>
@@ -7,100 +10,99 @@
 			<?php $selected = ($dir == 'ASC') ? 'selected="selected "' : ''; ?>
 			<option <?php echo $selected;?>value="asc"><?php _e('Oldest first', 'informea'); ?></option>
 		</select>
-		<label for="view-mode"><?php _e('Results per page', 'informea'); ?></label>
-		<select id="page_size" name="page_size" onchange="setPageSize($(this).val());">
-			<?php $selected = ($page_size == '10') ? 'selected="selected "' : ''; ?>
-			<option <?php echo $selected;?>value="10"><?php _e('10', 'informea'); ?></option>
-			<?php $selected = ($page_size == '20') ? 'selected="selected "' : ''; ?>
-			<option <?php echo $selected;?>value="20"><?php _e('20', 'informea'); ?></option>
-			<?php $selected = ($page_size == '50') ? 'selected="selected "' : ''; ?>
-			<option <?php echo $selected;?>value="50"><?php _e('50', 'informea'); ?></option>
-		</select>
 	</form>
 </div>
-
-<div class="clear"></div>
-<table id="search_tab1">
 <?php
-	foreach($results->get_results() as $idx => $result) {
-		$icon = $result->get_icon(1);
-		$title = $result->get_title(1);
-		// $description = $result->get_description(1);
-		$content = $result->get_content(1);
-		$url = $result->get_item_url();
-?>
-	<tr>
-		<td class="expand">
-		<?php if(!empty($content)) { ?>
-			<a id="toggle-result-<?php echo $idx; ?>" class="toggle-result closed" href="javascript:void(0);">&nbsp;</a>
-		<?php } ?>
-		</td>
-		<td class="icon"><?php echo $icon; ?></td>
-		<td class="data">
-			<a id="title-result-<?php echo $idx; ?>" class="toggle-result" href="javascript:void(0);"><?php echo $title; ?></a>
-			<a href="<?php echo $url; ?>"><img class="middle" src="<?php bloginfo('template_directory'); ?>/images/external.png" /></a>
-			<?php if(!empty($content)) { ?>
-			<div id="result-<?php echo $idx; ?>" class="hidden">
-				<?php echo $content; ?>
-			</div>
-		</td>
-	</tr>
-	<?php } ?>
-<?php } ?>
-</table>
-
-<div id="search-paginator">
-<?php
-	$current_page = $results->get_current_page();
-	$total_pages = $results->get_pages_count();
-?>
-	Found: <?php echo $total_results; ?> results, showing page <?php echo ($current_page + 1); ?> of <?php echo $total_pages; ?>
-	<?php if($results->has_prev_page()) { ?>
-		&nbsp;<a class="link" href="javascript:prevPage(<?php echo $current_page - 1; ?>);">&laquo; Prev</a>&nbsp;
-	<?php
-		}
-	?>
-<?php
-	if($results->has_next_page()) {
-		if($results->has_prev_page()) {
-			echo '&nbsp;&middot;&nbsp;';
-		}
-?>
-		&nbsp;<a class="link" href="javascript:nextPage(<?php echo ($current_page + 1); ?>);">Next &raquo;</a>
-<?php
-	}
-?>
-</div>
-</div>
-
-<?php
+echo $search->render();
 // Inject JS into footer
 function js_inject_search_results_tab1() {
-	global $search;
 ?>
 <script type="text/javascript">
-	$(document).ready(function(){
-		$('a.toggle-result').click(function(e){
-			e.preventDefault();
-			var id = $(this).attr('id').split('-')[2];
-			if($('#result-' + id).is(':visible')) {
-				$('#toggle-result-' + id).removeClass('opened').addClass('closed');
-			} else {
-				$('#toggle-result-' + id).removeClass('closed').addClass('opened');
-			}
-			$('#result-' + id).toggle(100);
-		});
+    var is_loading = false;
+    var current_page = 0;
+    var search_end = false;
+	$(document).ready(function() {
+        init_toggle();
+        $(window).scroll(function() {
+            if(is_loading) {
+                return;
+            }
+            current = $(window).scrollTop() + $('#footer').height();
+            max = $(document).height() - $(window).height();
+            if(current > max) {
+                if(search_end) {
+                    return;
+                }
+                $('#search_results').append(
+                    '<li id="loader" class="center"><img src="<?php echo bloginfo('template_directory'); ?>/images/loading-big.gif" /></li>'
+                )
+                is_loading = true;
+                current_page += 1;
+                var data = $("#filter").serialize();
+                data += '&action=search_more_results';
+                data += '&q_page=' + current_page;
+                $.post(ajax_url, data, function(response) {
+                    search_end = (response == '');
+                    $('#loader').remove();
+                    $('#search_results').append(response);
+                    init_toggle();
+                    is_loading = false;
+                });
+                return false;
+            }
+        });
 	});
 
-	function nextPage(page) {
-		$('#q_page_filters').attr('value', page);
-		doFilter();
-	}
+    function init_toggle() {
+        $.each($('a.toggle-result'), function(i, item) {
+            if(!$(this).hasClass('processed')) {
+                $(this).addClass('processed');
+                $(this).click(function(e){
+                    e.preventDefault();
+                    var id = $(this).attr('id').split('-')[2];
+                    var entity = $(this).attr('id').split('-')[1];
+                    var target = $('#result-' + entity + '-' + id);
+                    if(target.is(':visible')) {
+                        $('#arrow-' + entity + '-' + id).removeClass('opened').addClass('closed');
+                    } else {
+                        $('#arrow-' + entity + '-' + id).removeClass('closed').addClass('opened');
+                    }
+                    target.toggle(100);
+                });
+            }
+        });
 
-	function prevPage(page) {
-		$('#q_page_filters').attr('value', page);
-		doFilter();
-	}
+        $.each($('a.ajax-expand'), function(i, item) {
+            if(!$(this).hasClass('processed')) {
+                $(this).addClass('processed');
+                $(this).click(function(e){
+                    e.preventDefault();
+                    var id = $(this).attr('id').split('-')[2];
+                    var entity = $(this).attr('id').split('-')[1];
+                    var target = $('#result-' + entity + '-' + id);
+                    if(target.is(':visible')) {
+                        if($(this).hasClass('arrow')) {
+                            $(this).removeClass('opened').addClass('closed');
+                        }
+                        $('#arrow-' + entity + '-' + id).removeClass('opened').addClass('closed');
+                        target.toggle(100);
+                        // Do nothing, just collapse
+                    } else {
+                        var data = { action: 'search_highlight', 'q_freetext' : $('#filter_q_freetext').val(), entity: entity, id: id };
+                        if(target.text() == '') {
+                            $.post(ajax_url, data, function(response) {
+                                target.append(response);
+                                $('#arrow-' + entity + '-' + id).removeClass('closed').addClass('opened');
+                            });
+                        } else {
+                            $('#arrow-' + entity + '-' + id).removeClass('closed').addClass('opened');
+                        }
+                        target.toggle(100);
+                    }
+                });
+            }
+        });
+    }
 
 	function sort_descending() {
 		$('#q_sort_direction_filters').attr('value', 'DESC');
