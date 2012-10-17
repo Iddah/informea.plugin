@@ -32,3 +32,4 @@ wp-trackback.php
 wp-settings.php
 xmlrpc.php
 nbproject/
+.DS_Store

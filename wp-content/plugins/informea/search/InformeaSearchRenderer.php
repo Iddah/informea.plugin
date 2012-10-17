@@ -233,3 +233,42 @@ class InformeaSearchRendererTab2 extends InformeaBaseSearchRenderer {
         return $ret;
     }
 }
+
+
+class InformeaSearchRendererTab3 extends InformeaSearchRendererTab2 {
+
+    function render($results) {
+        $ret = '<ul class="search-results tab3">';
+        foreach($results as $treaty) {
+            $ret .= $this->render_treaty($treaty);
+        }
+        $ret .= '</ul>';
+        return $ret;
+    }
+
+}
+
+class InformeaSearchRendererTab4 extends InformeaSearchRendererTab2 {
+
+    function render($results) {
+        $ret = '<ul class="search-results tab4">';
+        foreach($results as $treaty) {
+            $ret .= $this->render_treaty($treaty);
+        }
+        $ret .= '</ul>';
+        return $ret;
+    }
+}
+
+class InformeaSearchRendererTab5 extends InformeaSearchRendererTab2 {
+
+    function render($results) {
+        $ret = '<ul class="search-results tab5">';
+        foreach($results as $treaty) {
+            $ret .= $this->render_treaty($treaty);
+        }
+        $ret .= '</ul>';
+        return $ret;
+    }
+
+}

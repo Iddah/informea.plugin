@@ -100,6 +100,22 @@ class InformeaSearch3 extends AbstractSearch {
 	}
 
 
+    /**
+     * Render the results by choosing the correct renderer
+     * @param boolean $all Render all results (for tab 1). Default FALSE
+     * @return string HTML content
+     */
+    public function render($all = FALSE) {
+        if($this->results == null) {
+            $this->search($all);
+        }
+        $tab = $this->get_q_tab();
+        $klass = 'InformeaSearchRendererTab'.$tab;
+        $renderer = new $klass();
+        return $renderer->render($this->results);
+    }
+
+
     private function merge_results($db, $solr) {
         $ret = $solr;
         foreach($db['treaties'] as $id_treaty => $arr_treaty) {
@@ -404,15 +420,6 @@ class InformeaSearch3Tab1 extends InformeaSearch3 {
     }
 
 
-    // @todo: move to parent class
-    public function render($all = FALSE) {
-        if($this->results == null) {
-            $this->search($all);
-        }
-        $renderer = new InformeaSearchRendererTab1();
-        return $renderer->render($this->results);
-    }
-
     public function render_ajax() {
         if($this->results == null) {
             $this->search(FALSE);
@@ -481,15 +488,6 @@ class InformeaSearch3Tab2 extends InformeaSearch3 {
         $this->results = $ret;
         return $this->results;
     }
-
-    // @todo: move to parent class
-    public function render($all = FALSE) {
-        if($this->results == null) {
-            $this->search($all);
-        }
-        $renderer = new InformeaSearchRendererTab2();
-        return $renderer->render($this->results);
-    }
 }
 
 
@@ -517,15 +515,51 @@ class InformeaSearch3Tab3 extends InformeaSearch3 {
         $results = parent::search();
         $ret = array();
         foreach($results['treaties'] as $id_treaty => &$data) {
-            $treaty = CacheManager::load_treaty($id_treaty);
-            if(intval($treaty->regional) == 0) {
+            if(!$this->is_use_decisions()) {
                 $data['decisions'] = array();
+            }
+            $treatyOb = CacheManager::load_treaty($id_treaty);
+            if($treatyOb->regional == '0') {
                 $ret[$id_treaty] = CacheManager::load_treaty_hierarchy($id_treaty, $data);
             }
         }
-        return $ret;
+        $this->results = $ret;
+        return $this->results;
     }
 }
+
+/**
+ * Handle results for the second tab - tree structure with treaties as roots
+ */
+class InformeaSearch3Tab4 extends InformeaSearch3 {
+
+    /**
+     * Construct new search object
+     * @param array $request HTTP request parameters
+     * @param array $solr_cfg SOLR configuration. Array must contain the following
+     * values: array('hostname' => 'localhost', 'path' => '/informea-solr', 'port' => '8081');
+     */
+	public function __construct($request, $solr_cfg = array()) {
+		parent::__construct($request, $solr_cfg);
+	}
+
+
+    /**
+     * Do the search and return the treaties (root nodes) that match the results
+     * @return array Array of loaded treaties
+     */
+    public function search() {
+        $results = parent::search();
+        $ret = array();
+        foreach($results['treaties'] as $id_treaty => &$data) {
+            $data['articles'] = array();
+            $ret[$id_treaty] = CacheManager::load_treaty_hierarchy($id_treaty, $data);
+        }
+        $this->results = $ret;
+        return $this->results;
+    }
+}
+
 
 /**
  * Handle results for the second tab - tree structure with treaties as roots
@@ -551,12 +585,15 @@ class InformeaSearch3Tab5 extends InformeaSearch3 {
         $results = parent::search();
         $ret = array();
         foreach($results['treaties'] as $id_treaty => &$data) {
-            $treaty = CacheManager::load_treaty($id_treaty);
-            if(intval($treaty->regional) == 1) {
-                $data['articles'] = array();
+            if(!$this->is_use_decisions()) {
+                $data['decisions'] = array();
+            }
+            $treatyOb = CacheManager::load_treaty($id_treaty);
+            if($treatyOb->regional == '1') {
                 $ret[$id_treaty] = CacheManager::load_treaty_hierarchy($id_treaty, $data);
             }
         }
-        return $ret;
+        $this->results = $ret;
+        return $this->results;
     }
 }
