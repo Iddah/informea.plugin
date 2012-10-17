@@ -220,8 +220,8 @@ class AbstractSearch {
      * @return integer The results per page. Default 10
 	 */
 	function get_page_size() {
-		$ret = $this->get_request_int('q_page_size', 10);
-        return $ret == 0 ? 10 : $ret;
+		$ret = $this->get_request_int('q_page_size', 20);
+        return $ret == 0 ? 20 : $ret;
 	}
 
 
@@ -230,12 +230,8 @@ class AbstractSearch {
 	 * @return string Possible values (ASC/DESC). Default DESC.
 	 */
 	function get_sort_direction() {
-		$order = $this->get_request_value('q_sort_direction', 'DESC');
-		if(strcasecmp('ASC', $order) == 0) {
-			return 'ASC';
-		} else {
-			return 'DESC';
-		}
+		$order = strtoupper($this->get_request_value('q_sort_direction', 'DESC'));
+		return ($order == 'ASC') ? 'ASC' : 'DESC';
 	}
 
 
@@ -329,18 +325,15 @@ class AbstractSearch {
 			}
 		}
 
-		$q_use_treaties = $this->is_use_treaties();
-		if(!in_array('q_use_treaties', $exclude) && !empty($q_use_treaties)) {
+		if(!in_array('q_use_treaties', $exclude) && !$this->is_use_treaties()) {
 			$params['q_use_treaties'] = '1';
 		}
 
-		$q_use_meetings = $this->is_use_meetings();
-		if(!in_array('q_use_meetings', $exclude) && !empty($q_use_meetings)) {
+		if(!in_array('q_use_meetings', $exclude) && !$this->is_use_meetings()) {
 			$params['q_use_meetings'] = '1';
 		}
 
-		$q_use_decisions = $this->is_use_decisions();
-		if(!in_array('q_use_decisions', $exclude) && !empty($q_use_decisions)) {
+		if(!in_array('q_use_decisions', $exclude) && !$this->is_use_decisions()) {
 			$params['q_use_decisions'] = '1';
 		}
 
@@ -519,6 +512,7 @@ class AbstractSearch {
 	public function ui_check_use_decisions() {
 		if(!defined('INFORMEA_SEARCH_PAGE')) {
 			echo AbstractSearch::$CHECKBOX_CHECKED; // for explorer
+            return;
 		}
 		echo $this->is_use_decisions() ? AbstractSearch::$CHECKBOX_CHECKED : AbstractSearch::$EMPTY_STRING;
 	}
@@ -526,6 +520,7 @@ class AbstractSearch {
 	public function ui_checkbox_css_decisions() {
 		if(!defined('INFORMEA_SEARCH_PAGE')) {
 			echo AbstractSearch::$CSS_CHECKBOX_CHECKED; // for explorer
+            return;
 		}
 		echo $this->is_use_decisions() ? AbstractSearch::$CSS_CHECKBOX_CHECKED : AbstractSearch::$CSS_CHECKBOX_UNCHECKED;
 	}
@@ -533,6 +528,7 @@ class AbstractSearch {
 	public function ui_check_use_treaties() {
 		if(!defined('INFORMEA_SEARCH_PAGE')) {
 			echo AbstractSearch::$CHECKBOX_CHECKED; // for explorer
+            return;
 		}
 		echo $this->is_use_treaties() ? AbstractSearch::$CHECKBOX_CHECKED : AbstractSearch::$EMPTY_STRING;
 	}
