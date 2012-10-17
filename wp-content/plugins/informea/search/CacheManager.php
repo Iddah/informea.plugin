@@ -162,6 +162,7 @@ class CacheManager {
      */
     static function load_treaty_hierarchy($id, $data) {
         $treaty = self::load_treaty($id);
+        $treaty->entity_type = 'treaty';
         $treaty->articles = array();
         $treaty->decisions = array();
         $treaty->events = array();
@@ -192,6 +193,28 @@ class CacheManager {
             }
         }
         return $treaty;
+    }
+
+
+
+    static function load_decision_hierarchy($id, $data) {
+        $decision = self::load_decision($id);
+        if($decision) {
+            $decision->paragraphs = array();
+            foreach($data['paragraphs'] as $id_paragraph) {
+                $paragraph = self::load_decision_paragraph($id_paragraph);
+                $decision->paragraphs[] = $paragraph;
+            }
+
+            $decision->documents = array();
+            foreach($data['documents'] as $id_document) {
+                $document = self::load_document($id_document);
+                if($document) { // Obsolete documents
+                    $decision->documents[] = $document;
+                }
+            }
+        }
+        return $decision;
     }
 
 
@@ -340,7 +363,7 @@ class CacheManager {
         global $wpdb;
         $sql = "
             SELECT a.id, a.id_treaty, a.title, a.description, a.`start`, a.`end`, a.repetition, a.kind, a.`type`,
-                a.access, a.`status`, a.image, a.image_copyright, a.id_country, b.`name` as country, a.latitude, a.longitude,
+                a.access, a.`status`, a.image, a.image_copyright, a.id_country, a.event_url, b.`name` as country, a.latitude, a.longitude,
                 c.short_title as treaty_title, c.logo_medium
             FROM ai_event a
             LEFT JOIN ai_country b ON a.id_country = b.id
