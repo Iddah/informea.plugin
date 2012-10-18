@@ -329,7 +329,7 @@ class imea_treaties_page extends imea_page_base_page {
 				foreach($c as $ob) {
 					$ids[] = $ob->id_meeting;
 				}
-				$sql = 'SELECT * FROM ai_event WHERE id IN (' . implode(',', $ids) .') ORDER BY start DESC, end DESC';
+				$sql = 'SELECT * FROM ai_event WHERE id IN (' . implode(',', $ids) .') AND type="cop" ORDER BY start DESC, end DESC';
 				$meetings = $wpdb->get_results($sql);
 				foreach($meetings as $meeting) {
 					$sql = "SELECT id, link, short_title, long_title, summary, type, status, number,
@@ -352,7 +352,7 @@ class imea_treaties_page extends imea_page_base_page {
 		$ret = array('decisions' => $ret_dec, 'meetings' => $ret_meet);
 		return $ret;
 	}
-	
+
 	function get_cites_decisions() {
 		global $wpdb;
 		return $wpdb->get_results("SELECT * FROM ai_decision WHERE id_treaty=3 AND status <> 'retired' and type='decision' ORDER BY display_order DESC");
