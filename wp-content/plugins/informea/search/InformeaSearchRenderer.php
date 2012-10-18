@@ -16,7 +16,7 @@ abstract class InformeaBaseSearchRenderer {
      */
     function render_treaty($treaty) {
         $ret = '<li class="treaty">';
-        $tooltips = array(_('Click to see treaty content', 'informea'), _('Convention logo', 'informea'), _('Click to open treaty text into a new window', 'informea'));
+        $tooltips = array(__('Click to see treaty content', 'informea'), __('Convention logo', 'informea'), __('Click to open treaty text into a new window', 'informea'));
 
         $css = count($treaty->articles) || count($treaty->decisions) ? 'toggle-result' : 'ajax-expand';
 
@@ -44,9 +44,9 @@ abstract class InformeaBaseSearchRenderer {
             return '';
         }
         $ret = '<span>';
-        $ret .= sprintf('<h2>%s</h2>', _('Articles', 'informea'));
+        $ret .= sprintf('<h2>%s</h2>', __('Articles', 'informea'));
         $ret .= '<ul class="articles">';
-        $tooltips = array(_('Click to see article content', 'informea'));
+        $tooltips = array(__('Click to see article content', 'informea'));
         foreach($treaty->articles as $article) {
             $ret .= '<li>';
             $css = count($article->paragraphs) ? 'toggle-result' : 'ajax-expand';
@@ -70,7 +70,7 @@ abstract class InformeaBaseSearchRenderer {
     function render_treaty_paragraphs($article) {
         $ret = '';
         if(count($article->paragraphs) > 0) {
-            $tooltips = array(_('Click to see paragraph content', 'informea'), _('Click to see paragraph inside treaty text, into a new window', 'informea'));
+            $tooltips = array(__('Click to see paragraph content', 'informea'), __('Click to see paragraph inside treaty text, into a new window', 'informea'));
             $ret .= '<h3>Paragraphs</h3>';
             $ret .= '<ul class="paragraphs">';
             foreach($article->paragraphs as $paragraph) {
@@ -155,7 +155,7 @@ class InformeaSearchRendererTab1 extends InformeaBaseSearchRenderer {
     }
 
     function render_decision($decision) {
-        $tooltips = array(_('Click to see decision content', 'informea'), _('Convention logo', 'informea'), _('Click to open decision into treaty context', 'informea'));
+        $tooltips = array(__('Click to see decision content', 'informea'), __('Convention logo', 'informea'), __('Click to open decision into treaty context', 'informea'));
         $ret .= '<li class="decision">';
         $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
         $ret .= sprintf('<a id="arrow-decision-%s" href="javascript:void(0);" class="%s arrow closed left"></a>' , $decision->id, $css);
@@ -174,7 +174,7 @@ class InformeaSearchRendererTab1 extends InformeaBaseSearchRenderer {
     }
 
     function render_event($row) {
-        $tooltips = array(_('Convention logo', 'informea'), _('Click to open decision into treaty context', 'informea'));
+        $tooltips = array(__('Convention logo', 'informea'), __('Click to open decision into treaty context', 'informea'));
         $ret .= '<li class="event">';
         $ret .= sprintf('<a id="arrow-event-%s" href="javascript:void(0);" class="arrow left"></a>', $row->id);
         $ret .= sprintf('<div class="logo-medium left" title="%s"><img src="%s" /></div>', $tooltips[0], $row->logo_medium);
@@ -225,7 +225,7 @@ class InformeaSearchRendererTab2 extends InformeaBaseSearchRenderer {
         }
         $ret = '<h2>Decisions</h2>';
         $ret .= '<ul>';
-        $tooltips = array(_('Click to see decision in context of the treaty', 'informea'));
+        $tooltips = array(__('Click to see decision in context of the treaty', 'informea'));
         foreach($treaty->decisions as $decision) {
             $ret .= '<li>';
             $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
