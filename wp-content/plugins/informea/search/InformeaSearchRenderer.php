@@ -12,19 +12,20 @@ abstract class InformeaBaseSearchRenderer {
      * @return string Rendered output
      */
     function render_treaty($treaty) {
-        $ret = '<li>';
+        $ret = '<li class="treaty">';
         $tooltips = array(_('Click to see treaty content', 'informea'), _('Convention logo', 'informea'), _('Click to open treaty text into a new window', 'informea'));
 
         $css = count($treaty->articles) || count($treaty->decisions) ? 'toggle-result' : 'ajax-expand';
 
         $ret .= sprintf('<a id="arrow-treaty-%s" class="%s arrow closed arrow left" title="%s" href="javascript:void(0);"></a>', $treaty->id, $css, $tooltips[0]);
-        $ret .= sprintf('<div class="logo-medium left" title="%s"><img src="%s" /></div>', $tooltips[1], $treaty->logo_medium);
+        $ret .= sprintf('<img title="%s" src="%s" />', $tooltips[1], $treaty->logo_medium);
         $ret .= sprintf('<a id="expand-treaty-%s" class="%s title left" title="%s" href="javascript:void(0);">%s</a>', $treaty->id, $css, $tooltips[0], $treaty->short_title);
         $ret .= sprintf('<a href="%s" class="external title" target="_blank" title="%s"></a>', get_bloginfo('url') . '/treaties/' . $treaty->id, $tooltips[2]);
         $ret .= '<div class="clear"></div>';
         $ret .= sprintf('<div id="result-treaty-%s" class="content hidden">', $treaty->id);
         $ret .= $this->render_articles($treaty);
         $ret .= $this->render_decisions($treaty);
+        $ret .= '<div class="clear"></div>';
         $ret .= '</div>';
         $ret .= '</li>';
         return $ret;
@@ -39,7 +40,7 @@ abstract class InformeaBaseSearchRenderer {
         if(empty($treaty->articles)) {
             return '';
         }
-        $ret = '<span class="articles">';
+        $ret = '<span>';
         $ret .= sprintf('<h2>%s</h2>', _('Articles', 'informea'));
         $ret .= '<ul class="articles">';
         $tooltips = array(_('Click to see article content', 'informea'));
@@ -149,7 +150,7 @@ class InformeaSearchRendererTab1 extends InformeaBaseSearchRenderer {
 
     function render_decision($decision) {
         $tooltips = array(_('Click to see decision content', 'informea'), _('Convention logo', 'informea'), _('Click to open decision into treaty context', 'informea'));
-        $ret .= '<li>';
+        $ret .= '<li class="decision">';
         $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
         $ret .= sprintf('<a id="arrow-decision-%s" href="javascript:void(0);" class="%s arrow closed left"></a>' , $decision->id, $css);
         $ret .= sprintf('<div class="logo-medium left" title="%s"><img src="%s" /></div>', $tooltips[1], $decision->logo_medium);
@@ -168,10 +169,11 @@ class InformeaSearchRendererTab1 extends InformeaBaseSearchRenderer {
 
     function render_event($row) {
         $tooltips = array(_('Convention logo', 'informea'), _('Click to open decision into treaty context', 'informea'));
-        $ret .= '<li>';
+        $ret .= '<li class="event">';
+        $ret .= sprintf('<a id="arrow-event-%s" href="javascript:void(0);" class="arrow left"></a>', $row->id);
         $ret .= sprintf('<div class="logo-medium left" title="%s"><img src="%s" /></div>', $tooltips[0], $row->logo_medium);
         $ret .= '<div class="title left">';
-        $ret .= empty($row->event_url) ? $row->title : sprintf('<a href="%s" target="_blank" class="left">%s</a>', $row->event_url, $row->title);
+        $ret .= empty($row->event_url) ? subwords($row->title) : sprintf('<a href="%s" target="_blank" title="%s" class="left">%s</a>', $row->event_url, $row->title, subwords($row->title));
         $ret .= sprintf('&nbsp; - %s', format_mysql_date($row->start));
         $ret .= '</div>';
         $ret .= '<div class="clear"></div>';
