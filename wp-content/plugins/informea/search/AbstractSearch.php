@@ -415,15 +415,14 @@ class AbstractSearch {
         $id_paragraph = intval($ob->id_entity);
         $id_article = intval($ob->id_parent);
         $id_treaty = CacheManager::get_treaty_for_treaty_paragraph($id_paragraph);
-        $this->results_add_treaty($results, $id_treaty);
-
-        $article = new stdClass();
-        $article->id_entity = $id_article;
-        $article->id_parent = $id_treaty;
-        $this->results_add_article($results, $article);
-
-        if(!array_key_exists($id_paragraph, $results[$id_treaty]['articles'][$id_article])) {
-            $results[$id_treaty]['articles'][$id_article][] = $id_paragraph;
+        if($id_treaty != null) {
+            $article = new stdClass();
+            $article->id_entity = $id_article;
+            $article->id_parent = $id_treaty;
+            $this->results_add_article($results, $article);
+            if(!isset($results[$id_treaty]['articles'][$id_article][$id_paragraph])) {
+                $results[$id_treaty]['articles'][$id_article][] = $id_paragraph;
+            }
         }
     }
 

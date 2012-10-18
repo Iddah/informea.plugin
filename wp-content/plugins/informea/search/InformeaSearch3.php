@@ -478,14 +478,13 @@ class InformeaSearch3Tab2 extends InformeaSearch3 {
      */
     public function search() {
         $results = parent::search();
-        $ret = array();
+        $this->results = array();
         foreach($results['treaties'] as $id_treaty => &$data) {
             if(!$this->is_use_decisions()) {
                 $data['decisions'] = array();
             }
-            $ret[$id_treaty] = CacheManager::load_treaty_hierarchy($id_treaty, $data);
+            $this->results[$id_treaty] = CacheManager::load_treaty_hierarchy($id_treaty, $data);
         }
-        $this->results = $ret;
         return $this->results;
     }
 }
