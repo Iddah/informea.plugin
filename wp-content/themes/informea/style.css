@@ -75,8 +75,8 @@ body.informea .center { text-align: center; }
 body.informea .separator-10px { padding-bottom: 10px }
 body.informea .top-10px { margin-top: 10px }
 body.informea .padding-5px { padding: 5px; }
-body.informea a.opened { background: transparent url('images/collapse.gif') no-repeat left center; }
-body.informea a.closed { background: transparent url('images/expand.gif') no-repeat left center; }
+body.informea a.opened { padding-left: 15px; background: transparent url('images/collapse.gif') no-repeat left center; }
+body.informea a.closed { padding-left: 15px; background: transparent url('images/expand.gif') no-repeat left center; }
 body.informea a.loading { padding-left: 15px; background: transparent url('images/loading-arrow.gif') no-repeat left center; }
 body.informea .separator {height: 1px; background-color: #EBEBEB; margin: 10px 0px; clear: both;}
 body.informea .skip-link {display: none}
@@ -742,6 +742,8 @@ a.button.search-explorer-submit:hover>span, a.button.search-explorer-submit:focu
 
 /* search results */
 ul.search-results { list-style-type: none; margin: 0; padding: 0;}
+ul.search-results a.closed { background: transparent url('images/expand.gif') no-repeat left center; }
+ul.search-results a.loading { background: transparent url('images/loading-arrow.gif') no-repeat left center; }
 ul.search-results h2 { color: black; font-weight: bold; font-size: 14px; margin: 3px; padding: 0; }
 ul.search-results h3 { color: black; font-weight: bold; font-size: 14px; margin: 3px; padding: 0; }
 ul.search-results li { padding: 5px 0 0 0; }

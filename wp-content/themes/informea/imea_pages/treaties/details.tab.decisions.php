@@ -2,8 +2,8 @@
 	$showall = get_request_variable('showall', 'str'); // showall
 ?>
 <div class="tab-content">
-<?php 
-if($showall) { 
+<?php
+if($showall) {
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -16,9 +16,9 @@ $(document).ready(function() {
 	}
 });
 </script>
-<?php 
-} 
-if($treaty->id == '19' || $treaty->id == '17') { 
+<?php
+}
+if($treaty->id == '19' || $treaty->id == '17') {
 ?>
 <div class="warning">
 	<div class="content">
@@ -131,6 +131,6 @@ if($treaty->id == '19' || $treaty->id == '17') {
 </ul>
 <?php
 }
-} 
+}
 ?>
 </div>
