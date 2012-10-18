@@ -5,6 +5,9 @@ abstract class InformeaBaseSearchRenderer {
 
     abstract function render($results);
 
+    function no_results() {
+        return '<p>' . __('No results found', 'informea') . '</p>';
+    }
 
     /**
      * Render top-level treaty
@@ -134,6 +137,9 @@ class InformeaSearchRendererTab1 extends InformeaBaseSearchRenderer {
 
 
     function render($results) {
+        if(empty($results)) {
+            return $this->no_results();
+        }
         $ret = '<ul id="search_results" class="search-results tab1">';
         foreach($results as $row) {
             $ret .= call_user_func(array($this, 'render_' . $row->entity_type), $row);
@@ -202,6 +208,9 @@ class InformeaSearchRendererTab2 extends InformeaBaseSearchRenderer {
      * @return string Rendered result
      */
     function render($results) {
+        if(empty($results)) {
+            return $this->no_results();
+        }
         $ret = '<ul class="search-results tab2">';
         foreach($results as $treaty) {
             $ret .= $this->render_treaty($treaty);
@@ -240,6 +249,9 @@ class InformeaSearchRendererTab2 extends InformeaBaseSearchRenderer {
 class InformeaSearchRendererTab3 extends InformeaSearchRendererTab2 {
 
     function render($results) {
+        if(empty($results)) {
+            return $this->no_results();
+        }
         $ret = '<ul class="search-results tab3">';
         foreach($results as $treaty) {
             $ret .= $this->render_treaty($treaty);
@@ -253,6 +265,9 @@ class InformeaSearchRendererTab3 extends InformeaSearchRendererTab2 {
 class InformeaSearchRendererTab4 extends InformeaSearchRendererTab2 {
 
     function render($results) {
+        if(empty($results)) {
+            return $this->no_results();
+        }
         $ret = '<ul class="search-results tab4">';
         foreach($results as $treaty) {
             $ret .= $this->render_treaty($treaty);
@@ -265,6 +280,9 @@ class InformeaSearchRendererTab4 extends InformeaSearchRendererTab2 {
 class InformeaSearchRendererTab5 extends InformeaSearchRendererTab2 {
 
     function render($results) {
+        if(empty($results)) {
+            return $this->no_results();
+        }
         $ret = '<ul class="search-results tab5">';
         foreach($results as $treaty) {
             $ret .= $this->render_treaty($treaty);
