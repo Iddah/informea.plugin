@@ -161,7 +161,7 @@ class InformeaSearchRendererTab1 extends InformeaBaseSearchRenderer {
         $ret .= sprintf('<a id="arrow-decision-%s" href="javascript:void(0);" class="%s arrow closed left"></a>' , $decision->id, $css);
         $ret .= sprintf('<div class="logo-medium left" title="%s"><img src="%s" /></div>', $tooltips[1], $decision->logo_medium);
         $url = sprintf('%s/treaties/%s/decisions?showall=true#decision-%s', get_bloginfo('url'), $decision->id_treaty, $decision->id);
-        $ret .= sprintf('<a id="expand-decision-%s" href="javascript:void(0);" class="%s left title" title="%s">%s - %s</a>' , $decision->id, $css, $decision->short_title, $decision->number, subwords($decision->short_title));
+        $ret .= sprintf('<a id="expand-decision-%s" href="javascript:void(0);" class="%s left title" title="%s">%s - %s</a>' , $decision->id, $css, $decision->short_title, $decision->number, subwords($decision->short_title, 13));
         $ret .= sprintf('<a href="%s" class="external title left" target="_blank" title="%s"></a>', $url, $tooltips[0]);
         $ret .= '<div class="clear"></div>';
         $ret .= sprintf('<div id="result-decision-%s" class="content hidden">', $decision->id);
@@ -230,7 +230,7 @@ class InformeaSearchRendererTab2 extends InformeaBaseSearchRenderer {
             $ret .= '<li>';
             $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
             $ret .= sprintf('<a id="arrow-decision-%s" href="javascript:void(0);" class="%s arrow closed left"></a>' , $decision->id, $css);
-            $ret .= sprintf('<a id="expand-decision-%s" href="javascript:void(0);" class="%s left title" title="%s">%s - %s</a>' , $decision->id, $css, $decision->short_title, $decision->number, subwords($decision->short_title, 5));
+            $ret .= sprintf('<a id="expand-decision-%s" href="javascript:void(0);" class="%s left title" title="%s">%s - %s</a>' , $decision->id, $css, $decision->short_title, $decision->number, subwords($decision->short_title, 10));
             $url = sprintf('%s/treaties/%s/decisions?showall=true#decision-%s', get_bloginfo('url'), $decision->id_treaty, $decision->id);
             $ret .= sprintf('<a href="%s" class="external title left" target="_blank" title="%s"></a>', $url, $tooltips[0]);
             $ret .= '<div class="clear"></div>';
