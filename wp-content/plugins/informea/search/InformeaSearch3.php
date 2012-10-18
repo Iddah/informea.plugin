@@ -14,8 +14,29 @@ function ajax_search_highlight() {
     $id_entity = $search->get_request_int('id');
     $entity_type = $search->get_request_value('entity');
     $items = $search->solr_highlight($id_entity, $entity_type);
-    foreach($items as $item) {
-        $ret .= '<div class="highlight">' . $item . '</div>';
+
+    if(!empty($items)) {
+        foreach($items as $item) {
+            $ret .= '<div class="highlight">' . $item . '</div>';
+        }
+    } else {
+        switch($entity_type) {
+            case 'treaty_article_paragraph':
+                $ob = CacheManager::load_treaty_paragraph($id_entity);
+                $ret = $ob->content;
+                break;
+            case 'treaty_article':
+                $ob = CacheManager::load_treaty_article($id_entity);
+                $ret = subwords($ob->content, 30);
+                break;
+            case 'decision_paragraph':
+                $ob = CacheManager::load_decision_paragraph($id_entity);
+                $ret = subwords($ob->content, 30);
+                break;
+        }
+        if(!empty($ret)) {
+            $ret = '<div class="highlight">' . $ret . '</div>';
+        }
     }
 
 	header('Content-Type:text/html');
