@@ -9,10 +9,12 @@
  */
 add_filter('body_class', function ($classes) { $classes[] = 'col-2'; return $classes; });
 get_header();
-$default = get_page_by_title('introduction');
 $about = get_page_by_title('about');
 $subpages = get_pages(array('child_of' => $about->ID, 'sort_column' => 'menu_order', 'sort_order' => 'ASC'));
 $current_page = null;
+if (get_the_ID() == $about->ID) {
+    $post = get_page_by_title('introduction');
+}
 
 function js_inject_about() {
 ?>
