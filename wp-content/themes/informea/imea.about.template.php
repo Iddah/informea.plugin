@@ -63,10 +63,6 @@ add_action('js_inject', 'js_inject_about');
 		<div class="details-column-2">
 			<div class="tab-menu">
 				<ul>
-					<li>
-						<?php $css_class = get_the_ID() == $about->ID ? 'tab-active' : 'tab'; ?>
-						<a class="<?php echo $css_class; ?>" href="/about"><?php _e('Introduction', 'informea') ?></a>
-					</li>
 					<?php
 						foreach($subpages as $sp) {
 							$css_class = 'tab';
