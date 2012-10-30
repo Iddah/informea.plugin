@@ -37,14 +37,7 @@ $featured_country = $countries_data->get_featured_country();
 
 <div class="col3-left col3">
 	<div>
-		<div class="index-custom-title">What is InforMEA?</div>
-		<p class="justify">
-			InforMEA harvests COP decisions, news, events, membership, national
-			focal points and reports from MEAs. Information is organised by terms
-			from MEA COP agendas. InforMEA is a project of the MEA Information and
-			Knowledge Management (IKM) Initiative with the support from the United
-			Nations Environment Programme (UNEP).
-		</p>
+        <?php dynamic_sidebar('Index slogan'); ?>
 	</div>
 	<div class="clear"></div>
 	<a href="http://informea.org/about?tab=4767">New Members Join InforMEA</a>

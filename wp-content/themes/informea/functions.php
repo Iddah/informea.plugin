@@ -364,6 +364,16 @@ function twentyten_widgets_init() {
 		'after_title' => '</div>',
 	) );
 
+    register_sidebar( array(
+		'name' => __( 'Index slogan', 'informea' ),
+		'id' => 'index-slogan-portlet',
+		'description' => __( 'Slogan from the index page', 'informea' ),
+		'before_widget' => '',
+		'after_widget' => '',
+		'before_title' => '<div class="index-custom-title">',
+		'after_title' => '</div>',
+	) );
+
 	// Area 2, located below the Primary Widget Area in the sidebar. Empty by default.
 	register_sidebar( array(
 		'name' => __( 'Secondary Widget Area', 'twentyten' ),
