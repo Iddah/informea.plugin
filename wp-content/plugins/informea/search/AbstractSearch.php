@@ -80,7 +80,7 @@ class AbstractSearch {
 	function get_treaties() {
 		$ret = array();
 		$tmp_treaties = $this->get_request_value('q_treaty');
-        if(!empty($tmp_treaties)) {
+        if(!empty($tmp_treaties) && is_array($tmp_treaties)) {
             foreach($tmp_treaties as $id) {
                 $ret[] = intval($id);
             }
