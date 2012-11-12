@@ -26,12 +26,16 @@ function ajax_search_highlight() {
                 $ret = $ob->content;
                 break;
             case 'treaty_article':
-                $ob = CacheManager::load_treaty_article($id_entity);
-                $ret = subwords($ob->content, 30);
+                $content = $search->get_article_content($id_entity);
+                $ret = subwords($content, 30);
                 break;
             case 'decision_paragraph':
                 $ob = CacheManager::load_decision_paragraph($id_entity);
                 $ret = subwords($ob->content, 30);
+                break;
+            case 'decision':
+                $content = $search->get_decision_content($id_entity);
+                $ret = subwords($content, 30);
                 break;
         }
         if(!empty($ret)) {
@@ -381,6 +385,70 @@ class InformeaSearch3 extends AbstractSearch {
 			error_log(print_r($e, true));
 		}
         return $ret;
+    }
+
+
+    /**
+     * Tries to load article content. If empty, loads first paragraph content.
+     * This is a 'fuzzy' method as it will not always load entity, but guess content
+     * @param mixed $id Article $id
+     * @return string Article content or content of first paragraph
+     * @todo Not tested
+     */
+    function get_article_content($id) {
+        $ret = '';
+        $ob = CacheManager::load_treaty_article($id);
+        if(empty($ob->content)) {
+           $first = self::load_article_first_paragraph($id);
+           if(!empty($first->content)) {
+               $ret = $first->content;
+           }
+        } else {
+            $ret = $ob->content;
+        }
+        return $ret;
+    }
+
+    /**
+     * Tries to load decision content. If empty, loads first paragraph content
+     * and if it doesn't have paragraphs, load text from first document.
+     * This is a 'fuzzy' method as it will not always load entity, but guess content
+     * @param mixed $id Decision $id
+     * @return string Article content or content of first paragraph
+     * @todo Not tested
+     */
+    function get_decision_content($id) {
+        $ret = '';
+        $ob = CacheManager::load_decision($id);
+        if(empty($ob->body)) {
+            $first = $this->load_decision_first_paragraph($id);
+            if(empty($first->content)) {
+                $doc = new StdClass();
+                $doc->id = $id;
+                $klassi = new imea_decisions_page();
+                $documents = $klassi->get_decision_documents($id);
+                $ret = $klassi->get_decision_content($doc, $documents);
+            } else {
+                $ret = $first->content;
+            }
+        } else {
+            $ret = $ob->body;
+        }
+        return $ret;
+    }
+
+
+    protected function load_article_first_paragraph($id_article) {
+        global $wpdb;
+        $sql = $wpdb->prepare("SELECT * FROM ai_treaty_article_paragraph WHERE id_treaty_article = %d ORDER BY `order` LIMIT 1", $id_article);
+        return $wpdb->get_row($sql);
+    }
+
+
+    protected function load_decision_first_paragraph($id_decision) {
+        global $wpdb;
+        $sql = $wpdb->prepare("SELECT * FROM ai_decision_paragraph WHERE id_decision = %d ORDER BY `order` LIMIT 1", $id_decision);
+        return $wpdb->get_row($sql);
     }
 }
 
