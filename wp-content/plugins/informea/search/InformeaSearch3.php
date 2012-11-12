@@ -254,7 +254,6 @@ class InformeaSearch3 extends AbstractSearch {
         if(!$this->is_dirty_search() || empty($phrase) || $phrase == '*' || $phrase == '?') {
             return $ret;
         }
-
 		$query = new SolrQuery($phrase);
 		$query->addField('id')->addField('entity_type')->addField('decision_id')->addField('treaty_article_id')->addField('treaty_id');
 		$query->addFilterQuery($this->solr_entity_filter());
@@ -512,7 +511,7 @@ class InformeaSearch3Tab2 extends InformeaSearch3 {
 
 
 /**
- * Handle results for the second tab - tree structure with treaties as roots
+ * Handle results for the third tab - tree structure with treaties as roots
  */
 class InformeaSearch3Tab3 extends InformeaSearch3 {
 
@@ -538,9 +537,12 @@ class InformeaSearch3Tab3 extends InformeaSearch3 {
             if(!$this->is_use_decisions()) {
                 $data['decisions'] = array();
             }
-            $treatyOb = CacheManager::load_treaty($id_treaty);
-            if($treatyOb->regional == '0') {
-                $ret[$id_treaty] = CacheManager::load_treaty_hierarchy($id_treaty, $data);
+            $treaty = CacheManager::load_treaty($id_treaty);
+            if($treaty->regional == '0') {
+                $treaty = CacheManager::load_treaty_hierarchy($id_treaty, $data);
+                if(count($treaty->articles) > 0) {
+                    $ret[$id_treaty] = $treaty;
+                }
             }
         }
         $this->results = $ret;
@@ -549,7 +551,7 @@ class InformeaSearch3Tab3 extends InformeaSearch3 {
 }
 
 /**
- * Handle results for the second tab - tree structure with treaties as roots
+ * Handle results for the fourth tab - tree structure with treaties as roots
  */
 class InformeaSearch3Tab4 extends InformeaSearch3 {
 
@@ -573,7 +575,10 @@ class InformeaSearch3Tab4 extends InformeaSearch3 {
         $ret = array();
         foreach($results['treaties'] as $id_treaty => &$data) {
             $data['articles'] = array();
-            $ret[$id_treaty] = CacheManager::load_treaty_hierarchy($id_treaty, $data);
+            $treaty = CacheManager::load_treaty_hierarchy($id_treaty, $data);
+            if(count($treaty->decisions) > 0) {
+                $ret[$id_treaty] = $treaty;
+            }
         }
         $this->results = $ret;
         return $this->results;
@@ -582,7 +587,7 @@ class InformeaSearch3Tab4 extends InformeaSearch3 {
 
 
 /**
- * Handle results for the second tab - tree structure with treaties as roots
+ * Handle results for the fifth tab - tree structure with treaties as roots
  */
 class InformeaSearch3Tab5 extends InformeaSearch3 {
 
@@ -608,9 +613,13 @@ class InformeaSearch3Tab5 extends InformeaSearch3 {
             if(!$this->is_use_decisions()) {
                 $data['decisions'] = array();
             }
-            $treatyOb = CacheManager::load_treaty($id_treaty);
-            if($treatyOb->regional == '1') {
-                $ret[$id_treaty] = CacheManager::load_treaty_hierarchy($id_treaty, $data);
+            $treaty = CacheManager::load_treaty($id_treaty);
+            if($treaty->regional == '1') {
+                $treaty = CacheManager::load_treaty_hierarchy($id_treaty, $data);
+                if(count($treaty->articles > 0)) {
+                    $treaty = CacheManager::load_treaty_hierarchy($id_treaty, $data);
+                    $ret[$id_treaty] = $treaty;
+                }
             }
         }
         $this->results = $ret;
