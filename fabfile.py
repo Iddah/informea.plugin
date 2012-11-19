@@ -33,13 +33,14 @@ cfg = {
         'backupdir'     : '/home/cristiroma/sql-backups'
     },
     'local' : {
-            'host'          : 'localhost',
-            'root'          : '/Users/cristiroma/Work/informea/www',
-            'url'           : 'http://informea.localhost',
-            'db_user'       : 'root',
-            'db_password'   : 'root',
-            'db_database'   : 'informea',
-            'testsdir'       : '/Users/cristiroma/Work/informea/tests',
+        'host'          : 'localhost',
+        'root'          : '/Users/cristiroma/Work/informea/www',
+        'url'           : 'http://informea.localhost',
+        'db_host'       : 'vm.db.localhost',
+        'db_user'       : 'root',
+        'db_password'   : 'root',
+        'db_database'   : 'informea',
+        'testsdir'       : '/Users/cristiroma/Work/informea/tests',
     }
 }
 
@@ -90,7 +91,7 @@ def clone_to_local():
     sqldump_file = "/tmp/informea_dump.sql"
 
     print colors.green('Dumping production database to %s' % sqldump_file_gz)
-    sudo("mysqldump -u %s --password=%s %s | gzip > %s" % (env.db_user, env.db_password, env.db_database, sqldump_file_gz))
+    sudo("mysqldump -u %s --password=%s %s | gzip > %s" % (env.prod.db_user, env.prod.db_password, env.prod.db_database, sqldump_file_gz))
 
     print colors.green('Downloading production dump to %s' % sqldump_file_gz)
     get(sqldump_file_gz, sqldump_file_gz)
@@ -99,15 +100,15 @@ def clone_to_local():
     print colors.green('Unpacking production dump to %s' % sqldump_file)
     local("gunzip -f %s" % sqldump_file_gz)
 
-    print colors.green('Setting MySQL view permissions')
-    local("mysql -u %s --password=%s -e \"grant all on informea.* to '%s'@'localhost' identified by '%s'\"" % (env.local.db_user, env.local.db_password, env.local.db_user, env.local.db_password))
+    # print colors.green('Setting MySQL view permissions')
+    local("mysql -h %s -u %s --password=%s -e \"grant all on informea.* to '%s'@'%%' identified by '%s'\"" % (env.local.db_host, env.local.db_user, env.local.db_password, env.local.db_user, env.local.db_password))
 
     print colors.green('Loading production dump to MySQL (%s)' % env.local.db_database)
-    local("cat %s | mysql -u %s --password=%s %s" % (sqldump_file, env.local.db_user, env.local.db_password, env.local.db_database))
+    local("cat %s | mysql -h %s -u %s --password=%s %s" % (sqldump_file, env.local.db_host, env.local.db_user, env.local.db_password, env.local.db_database))
 
     # Fix SQL database variables in WordPress
     print colors.green('Fixing WordpRess config table')
-    local("mysql -u %s --password=%s -e \"update wp_options set option_value='%s' where option_name in ('home', 'siteurl')\" %s" % (env.local.db_user, env.local.db_password, env.local.url, env.local.db_database))
+    local("mysql -h %s -u %s --password=%s -e \"update wp_options set option_value='%s' where option_name in ('home', 'siteurl')\" %s" % (env.local.db_host, env.local.db_user, env.local.db_password, env.local.url, env.local.db_database))
 
     # Cleanup temporary files
     print colors.green('Cleaning up ...')
