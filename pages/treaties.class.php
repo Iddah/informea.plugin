@@ -16,6 +16,9 @@ add_action('wp_ajax_get_article_tags', 'get_article_tags');
 add_action('wp_ajax_nopriv_get_paragraph_tags', 'get_paragraph_tags');
 add_action('wp_ajax_get_paragraph_tags', 'get_paragraph_tags');
 
+add_action('wp_ajax_nopriv_get_treaties', 'ajax_informea_get_treaties');
+add_action('wp_ajax_get_treaties', 'ajax_informea_get_treaties');
+
 function ajax_meas_autocomplete() {
 	$page_data = new imea_treaties_page(null);
 	$key = get_request_value('key');
@@ -58,6 +61,32 @@ function get_paragraph_tags() {
 		echo json_encode($arr);
 	}
 	die();
+}
+
+/**
+ * Ajax function to retrieve the list of treaties.
+ */
+function ajax_informea_get_treaties() {
+    $ob = new imea_treaties_page();
+    $arr = $ob->get_all_treaties();
+	$ret = array();
+    // Filter out internal columns - don't wanna send all DB columns
+	foreach($arr as $treaty) {
+		$ret[] = array(
+            'id' => $treaty->id,
+            'title' => $treaty->short_title,
+            'short_title' => $treaty->short_title,
+            'short_title_alternative' => $treaty->short_title_alternative,
+            'long_title' => $treaty->long_title,
+            'abstract' => $treaty->abstract,
+            'logo' => $treaty->logo_medium,
+            'odata_name' => $treaty->odata_name,
+            'region' => $treaty->region
+        );
+	}
+    header('Content-Type:application/json');
+    echo json_encode($ret);
+    die();
 }
 
 
