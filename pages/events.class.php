@@ -46,7 +46,20 @@ class imea_events_page extends imea_page_base_page {
 	}
 
 
-	/**
+    /**
+     * Retrieve the COP meetings
+     *
+     * @param integer $id_treaty ID of the treaty to retrieve data
+     * @return array List of meetings with most recent first
+     */
+    function get_cop_meetings($id_treaty) {
+        global $wpdb;
+		$sql = $wpdb->prepare('SELECT a.* FROM ai_event a WHERE id_treaty=%d AND type=%s ORDER BY start DESC', $id_treaty, 'cop');
+        return $wpdb->get_results($sql);
+    }
+
+
+    /**
 	 * @param $number Number of events from each category
 	 */
 	function get_events_list() {

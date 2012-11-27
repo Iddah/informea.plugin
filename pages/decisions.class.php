@@ -10,6 +10,57 @@ add_action('wp_ajax_tag_decision_paragraph', array('imea_decisions_page', 'ajax_
 add_action('wp_ajax_delete_decision_paragraph_ajaxurl', array('imea_decisions_page', 'delete_decision_paragraph_ajaxurl'));
 add_action('wp_ajax_order_decisions', array('imea_decisions_page', 'ajax_order_decisions'));
 
+add_action('wp_ajax_nopriv_get_cop_meetings', 'ajax_informea_get_cop_meetings');
+add_action('wp_ajax_get_cop_meetings', 'ajax_informea_get_cop_meetings');
+
+
+/**
+ * Ajax function to retrieve the list of decisions.
+ * @param string $odata_name Treaty OData name. (use get_treaties()[0]->odata_name)
+ */
+function ajax_informea_get_cop_meetings() {
+    $treaty = null;
+    $ret = array();
+
+    $odata_name = get_request_value('odata_name');
+    $ob = new imea_treaties_page();
+    $treaties = $ob->get_all_treaties();
+    foreach($treaties as $row) {
+        if($row->odata_name == $odata_name) {
+            $treaty = $row;
+            break;
+        }
+    }
+    if(empty($treaty)) {
+        header('Content-Type:application/json');
+        echo '{ "error" : 1, "usage" : "Incorrect usage. Unknown value for odata_name. You can retrieve the list of treaties using /wp-admin/admin-ajax.php?action=get_treaties" }';
+        die();
+    } else {
+        $ob = new imea_events_page();
+        $meetings = $ob->get_cop_meetings($treaty->id);
+        foreach($meetings as $id => $meeting) {
+            $copy = stdclass_copy($meeting,
+                array(
+                    'id', 'id_treaty', 'event_url', 'title', 'description', 'start', 'end',
+                    'repetition', 'kind', 'type', 'access', 'status', 'image', 'image_copyright',
+                    'location', 'city', 'latitude', 'longitude', 'id_country'
+                )
+            );
+            if(isset($meeting->id_country)) {
+                $country = new imea_countries_page($meeting->id_country);
+                $copy->country = $country->country->name;
+            }
+            $ret[] = $copy;
+        }
+    }
+
+
+    header('Content-Type:application/json');
+    echo json_encode($ret);
+    die();
+}
+
+
 if(!class_exists( 'imea_decisions_page')) {
 require_once (dirname(__FILE__) . '/page_base.class.php');
 class imea_decisions_page extends imea_page_base_page {
