@@ -76,7 +76,7 @@ class imeasite {
 		$imea_rules['(ro|es|fr)?/?treaties/region/(.*)/grid$'] = 'index.php?pagename=treaties&category=$matches[2]&expand=grid&lng=$matches[1]'; // /grid suffix
 		$imea_rules['(ro|es|fr)?/?treaties/region/(.*)$'] = 'index.php?pagename=treaties&category=$matches[2]&expand=icon&lng=$matches[1]'; // no suffix
 
-		$imea_rules['(ro|es|fr)?/?treaties/(.*)/(treaty|decisions|print|nfp|coverage)?/?(showall)?$'] = 'index.php?pagename=treaties&treaty=$matches[2]&expand=$matches[3]&showall=$matches[4]&lng=$matches[1]'; // http://informea/treaties/id/decisions/showall#decisions-id
+		$imea_rules['(ro|es|fr)?/?treaties/(.*)/(general|treaty|decisions|print|nfp|coverage)?/?(showall)?$'] = 'index.php?pagename=treaties&treaty=$matches[2]&expand=$matches[3]&showall=$matches[4]&lng=$matches[1]'; // http://informea/treaties/id/decisions/showall#decisions-id
 		$imea_rules['(ro|es|fr)?/?treaties/(.*)?$'] = 'index.php?pagename=treaties&treaty=$matches[2]&lng=$matches[1]'; // http://informea/treaties/aewa - identify by slug (we use odata_name)
 
 		$imea_rules['(ro|es|fr)?/?decisions/treaty/?$'] = 'index.php?pagename=decisions&expand=treaty&lng=$matches[1]'; // http://informea/decisions/treaty/
