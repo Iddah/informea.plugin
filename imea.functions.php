@@ -123,11 +123,11 @@ if(!function_exists('stdclass_copy')) {
 	 */
 	function stdclass_copy($source, $properties) {
         if(!is_object($source) || empty($source)) {
-            trigger_error("shallow_copy(): Invalid source object passed");
+            error_log("shallow_copy(): Invalid source object passed");
             return NULL;
         }
         if(empty($properties)) {
-            trigger_error("shallow_copy(): Refusing to return object without properties");
+            error_log("shallow_copy(): Refusing to return object without properties");
             return NULL;
         }
         $ob = new stdClass();
@@ -135,7 +135,8 @@ if(!function_exists('stdclass_copy')) {
             if(isset($source->$property)) {
                 $ob->$property = $source->$property;
             } else {
-                trigger_error("shallow_copy(): Object does not have property $property, ignoring");
+                $ob->$property = NULL;
+                error_log("shallow_copy(): Object does not have property $property, ignoring");
             }
         }
         return $ob;
