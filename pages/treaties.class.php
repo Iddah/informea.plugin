@@ -19,6 +19,13 @@ add_action('wp_ajax_get_paragraph_tags', 'get_paragraph_tags');
 add_action('wp_ajax_nopriv_get_treaties', 'ajax_informea_get_treaties');
 add_action('wp_ajax_get_treaties', 'ajax_informea_get_treaties');
 
+
+/**
+ * Generate JSON object with article ids and titles for autocomplete form
+ * based on `key` query string
+ * @param $key string to search traties title by
+ * @return JSON object
+ */
 function ajax_meas_autocomplete() {
 	$page_data = new imea_treaties_page(null);
 	$key = get_request_value('key');
@@ -32,7 +39,11 @@ function ajax_meas_autocomplete() {
 	die();
 }
 
-
+/**
+ * Generate JSON object with article tags based on article id
+ * @param @id_article article id from query string
+ * @return JSON object
+ */
 function get_article_tags() {
 	$id_article = get_request_int('id_article', 0);
 	if($id_article > 0) {
@@ -48,6 +59,11 @@ function get_article_tags() {
 	die();
 }
 
+/**
+ * Generate JSON object with paragraph tags based on paragraph id
+ * @param @id_paragraph paragraph id from query string
+ * @return JSON object
+ */
 function get_paragraph_tags() {
 	$id_paragraph = get_request_int('id_paragraph', 0);
 	if($id_paragraph > 0) {
@@ -91,6 +107,9 @@ function ajax_informea_get_treaties() {
 
 
 if(!class_exists( 'imea_treaties_page')) {
+	/**
+	 * Treaties page class to get, set or delete treaty or treaty related info
+	 */
 class imea_treaties_page extends imea_page_base_page {
 
 	private $id_treaty = NULL;
@@ -108,7 +127,11 @@ class imea_treaties_page extends imea_page_base_page {
 
 	public $category = NULL; // Which tab to show Global/Region
 
-
+	/**
+	 * Constructor
+	 * @param $id_treaty the id of the treaty to process
+	 * @param $arr_parameters array with parameters
+	 */
 	function __construct($id_treaty = NULL, $arr_parameters = array()) {
 		parent::__construct($arr_parameters);
 		$this->id_treaty = $id_treaty;
@@ -125,7 +148,10 @@ class imea_treaties_page extends imea_page_base_page {
 		if($this->category == 'Global') $this->category = '';
 	}
 
-
+	/**
+	 * Get all active treaties from the database
+	 * @return WP SQL result object
+	 */
 	function get_all_treaties() {
 		global $wpdb;
 		$sql = "SELECT * FROM ai_treaty WHERE enabled = 1 ORDER BY short_title";
@@ -146,6 +172,7 @@ class imea_treaties_page extends imea_page_base_page {
 
 	/**
 	 * Access ai_treaty
+	 * @param @id_organization id of the organisation to get the primary treaty for
 	 * @return primary treaty for a certain organization
 	 */
 	function get_primary_treaty($id_organization) {
@@ -155,6 +182,8 @@ class imea_treaties_page extends imea_page_base_page {
 
 	/**
 	 * Retrieve the list of treaties grouped by theme & category (region, global)
+	 * @param category: the region
+	 * @return array with WP SQL result objects grouped by theme
 	 */
 	function get_treaties_list() {
 		global $wpdb;
@@ -183,7 +212,11 @@ class imea_treaties_page extends imea_page_base_page {
 		return $ret;
 	}
 
-
+	/**
+	 * Retrieve treaties list by theme based on region
+	 * @param $region region to get treaties from
+	 * @return array with WP SQL result objects grouped by theme
+	 */
 	function get_treaties_by_region_by_theme($region = '') {
 		global $wpdb;
 		$data = $wpdb->get_results($wpdb->prepare("SELECT a.*, b.depository AS depository
@@ -200,18 +233,29 @@ class imea_treaties_page extends imea_page_base_page {
 		return $ret;
 	}
 
-
-
+	/**
+	 * Retrieve all the regions that have treaties
+	 * @return WP SQL result object
+	 */
 	function get_regions() {
 		global $wpdb;
 		return $wpdb->get_col("SELECT DISTINCT(region) FROM ai_treaty WHERE region <> ''");
 	}
 
+	/**
+	 * Return number of treaties from a region
+	 * @param $region to check
+	 * @return number of treaties
+	 */
 	function region_has_treaties($region) {
 		global $wpdb;
 		return $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM ai_treaty WHERE region = %s", $region));
 	}
 
+	/**
+	 * Find field to sort the database column by
+	 * @return field name to sort by
+	 */
 	function get_sort_db_column() {
 		if($this->sort == 'title') {
 			return 'short_title';
@@ -219,7 +263,11 @@ class imea_treaties_page extends imea_page_base_page {
 		return $this->sort;
 	}
 
-
+	/**
+	 * Find out wich way to sort
+	 * @param $column column that is being sorted
+	 * @return 'asc' or 'desc'
+	 */
 	function get_sort_direction($column) {
 		if($column == $this->sort) {
 			if($this->order == 'asc') return 'desc';
@@ -280,6 +328,8 @@ class imea_treaties_page extends imea_page_base_page {
 
 	/**
 	 * Retrieve the tags for an paragraph
+	 * @param $id_paragraph the paragraph id
+	 * @return WP SQL result object
 	 */
 	function get_paragraph_tags($id_paragraph) {
 		global $wpdb;
@@ -289,6 +339,8 @@ class imea_treaties_page extends imea_page_base_page {
 
 	/**
 	 * Retrieve the tags for an article
+	 * @param $id_article
+	 * @return WP SQL result object
 	 */
 	function get_article_tags($id_article) {
 		global $wpdb;
@@ -323,6 +375,8 @@ class imea_treaties_page extends imea_page_base_page {
 	 * We use two algorithms here:
 	 * 		1. Decisions have no id_meeting (id_meeting is null), but have valid meeting_title.
 	 * 		2. Decisions have id_meeting non-null
+	 * @param id_treaty Treaty
+	 * @return array with WP SQL result objects for decisions and meetings
 	 */
 	function group_decisions_by_meeting() {
 		global $wpdb;
@@ -382,11 +436,19 @@ class imea_treaties_page extends imea_page_base_page {
 		return $ret;
 	}
 
+	/**
+	 * Retrieve cites from decisions
+	 * @return WP SQL result object
+	 */
 	function get_cites_decisions() {
 		global $wpdb;
 		return $wpdb->get_results("SELECT * FROM ai_decision WHERE id_treaty=3 AND status <> 'retired' and type='decision' ORDER BY display_order DESC");
 	}
 
+	/**
+	 * Retrieve resolutions from decisions
+	 * @return WP SQL result object
+	 */
 	function get_cites_resolutions() {
 		global $wpdb;
 		return $wpdb->get_results("SELECT * FROM ai_decision WHERE id_treaty=3 AND status <> 'retired' and type='resolution' ORDER BY display_order DESC");
@@ -399,6 +461,11 @@ class imea_treaties_page extends imea_page_base_page {
 		qsort($decisions);
 	}
 
+	/**
+	 * Retrieve meeting info: Venue, URL, Dates
+	 * @param @id_meeting Meeting
+	 * @return object with the information
+	 */
 	function get_meeting($id_meeting) {
 		global $wpdb;
 		$ret = array();
@@ -431,6 +498,11 @@ class imea_treaties_page extends imea_page_base_page {
 		return $ob;
 	}
 
+	/**
+	 * Retrieve decision title
+	 * @param $decision Decision object
+	 * @return title string
+	 */
 	function get_title($decision) {
 		$ret = $decision->long_title;
 		if($ret === NULL) {
@@ -439,7 +511,11 @@ class imea_treaties_page extends imea_page_base_page {
 		return $ret;
 	}
 
-
+	/**
+	 * Retrieve treaty contacts by country
+	 * @param id_treaty Treaty
+	 * @return array with WP SQL result objects grouped by country
+	 */
 	function get_contacts() {
 		global $wpdb;
 		$ret = array();
@@ -471,24 +547,41 @@ class imea_treaties_page extends imea_page_base_page {
 		return $this->id_treaty == NULL;
 	}
 
-
+	/**
+	 * Retrieve treaty by odata_name
+	 * @param $odata_name name as comes from Odata protocol
+	 * @return WP SWL result object
+	 */
 	function get_treaty_by_odata_name($odata_name) {
 		global $wpdb;
 		return $wpdb->get_row("SELECT * FROM ai_treaty WHERE odata_name = '$odata_name'");
 	}
 
-
+	/**
+	 * Retrieve treaty by id
+	 * @param $id Treaty id
+	 * return WP SQL row object
+	 */
 	function get_treaty_by_id($id) {
 		global $wpdb;
 		return $wpdb->get_row("SELECT * FROM ai_treaty WHERE id = $id");
 	}
 
-
+	/**
+	 * Retrieve all treaties by title search
+	 * @param $title Treaty title
+	 * @return WP SQL result object
+	 */
 	function search_treaty_by_title($title) {
 		global $wpdb;
 		return $wpdb->get_results("SELECT * FROM ai_treaty WHERE (short_title LIKE '%$title%' OR long_title LIKE '%$title%') ORDER BY short_title");
 	}
 
+	/**
+	 * Retrieve active treaties all or by title
+	 * @param $title Treaty title
+	 * @return WP SQL result object
+	 */
 	function get_treaties($title = null) {
 		global $wpdb;
 		if($title) {
@@ -498,7 +591,10 @@ class imea_treaties_page extends imea_page_base_page {
 		}
 	}
 
-
+	/**
+	 * Retrieve treaties and organization name for each
+	 * @return WP SQL result object
+	 */
 	function get_all_treaties_organizations() {
 		global $wpdb;
 		return $wpdb->get_results("SELECT a.*, b.name AS secretariat
@@ -509,7 +605,9 @@ class imea_treaties_page extends imea_page_base_page {
 
 
 	/**
+	 * Check if invalid treaty ID and show 404
 	 * @return id_treaty was set on GET but with invalid ID
+	 * @return boolean, 404 if true
 	 */
 	function is_404() {
 		global $wp_query;
@@ -554,11 +652,17 @@ class imea_treaties_page extends imea_page_base_page {
 		return $ret;
 	}
 
+	/**
+	 * Check it current tab is global
+	 */
 	function is_tab_global() {
 		return $this->category == '' || strtolower($this->category) == 'global';
 	}
 
-
+	/**
+	 * Print html for 'Icon view' link
+	 * @return echoes html anchor
+	 */
 	function link_options_bar_icon_view($additional_css_classes = '') {
 		$p = $this;
 		echo get_imea_anchor(array( 'title' => __('Icon view', 'informea'),
@@ -570,6 +674,10 @@ class imea_treaties_page extends imea_page_base_page {
 			}));
 	}
 
+	/**
+	 * Print html for 'Grid view' link
+	 * @return echoes html anchor
+	 */
 	function link_options_bar_grid_view($additional_css_classes = '') {
 		$p = $this;
 		echo get_imea_anchor(array( 'title' => __('Grid view', 'informea'),
@@ -581,6 +689,10 @@ class imea_treaties_page extends imea_page_base_page {
 			}));
 	}
 
+	/**
+	 * Print html for 'List view' link
+	 * @return echoes html anchor
+	 */
 	function link_options_bar_list_view($additional_css_classes = '') {
 		$p = $this;
 		echo get_imea_anchor(array( 'title' => __('List view', 'informea'),
@@ -592,6 +704,11 @@ class imea_treaties_page extends imea_page_base_page {
 			}));
 	}
 
+	/**
+	 * Return meeting summary
+	 * @param $meeting Meeting object
+	 * @return html string
+	 */
 	function decisions_meeting_summary($meeting) {
 		$ret = '';
 		if($meeting->location) {
@@ -610,13 +727,21 @@ class imea_treaties_page extends imea_page_base_page {
 		return $ret;
 	}
 
+	/**
+	 * Check how many countries a treaty has been in
+	 * @param id_treaty Treaty
+	 * @return boolean
+	 */
 	public function has_coverage() {
 		global $wpdb;
 		$c = $wpdb->get_var($wpdb->prepare('SELECT COUNT(*) FROM `ai_treaty_country` WHERE `id_treaty` = %d', $this->id_treaty));
 		return intval($c) > 0;
 	}
 
-
+	/**
+	 * Delete a paragraph by it's id from the database
+	 * @param $id_paragraph id of paragraph to delete
+	 */
 	function delete_paragraph($id_paragraph) {
 		global $wpdb;
 		global $user;
@@ -647,6 +772,10 @@ class imea_treaties_page extends imea_page_base_page {
 		}
 	}
 
+	/**
+	 * Delete an article by it's id from the database
+	 * @param $id_article id of the article to delete
+	 */
 	function delete_article($id_article) {
 		global $wpdb;
 		global $user;

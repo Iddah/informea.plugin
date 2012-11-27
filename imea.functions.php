@@ -20,12 +20,11 @@ if(!function_exists('imea_log')) {
 	}
 }
 
-
 if(!function_exists('format_mysql_date')) {
-function format_mysql_date($date, $fmt_out = 'j M, Y') {
-	$d = strtotime($date);
-	return date($fmt_out, $d);
-}
+	function format_mysql_date($date, $fmt_out = 'j M, Y') {
+		$d = strtotime($date);
+		return date($fmt_out, $d);
+	}
 }
 
 if(!function_exists('imea_debug')) {
@@ -82,8 +81,6 @@ if(!function_exists('html_style')) {
 		return '<link href="' . get_bloginfo('template_directory') . '/' . $rel_path . '" rel="stylesheet" type="text/css" />' . "\n";
 	}
 }
-
-
 
 if(!function_exists('subwords')) {
 	/**
