@@ -13,6 +13,8 @@ add_action('wp_ajax_order_decisions', array('imea_decisions_page', 'ajax_order_d
 add_action('wp_ajax_nopriv_get_cop_meetings', 'ajax_informea_get_cop_meetings');
 add_action('wp_ajax_get_cop_meetings', 'ajax_informea_get_cop_meetings');
 
+add_action('wp_ajax_nopriv_get_decisions', 'ajax_informea_get_decisions');
+add_action('wp_ajax_get_decisions', 'ajax_informea_get_decisions');
 
 /**
  * Ajax function to retrieve the list of decisions.
@@ -54,6 +56,51 @@ function ajax_informea_get_cop_meetings() {
         }
     }
 
+
+    header('Content-Type:application/json');
+    echo json_encode($ret);
+    die();
+}
+
+/**
+ * Ajax function to retrieve the list of decisions for a COP meeting
+ * @param string $odata_name OData name for the meeting. For CITES, $id_meeting is optional
+ * @param integer $id_meeting ID of the meeting
+ */
+function ajax_informea_get_decisions() {
+    $odata_name = get_request_value('odata_name');
+    $id_meeting = get_request_int('id_meeting');
+    $decisions = array();
+    $ret = array();
+
+    $ob = new imea_treaties_page();
+    $treaties = $ob->get_all_treaties();
+    foreach($treaties as $row) {
+        if($row->odata_name == $odata_name) {
+            $treaty = $row;
+            break;
+        }
+    }
+    if(empty($treaty) || ($id_meeting == 0 && strtolower($odata_name) != 'cites')) {
+        header('Content-Type:application/json');
+        echo '{ "error" : 1, "usage" : "Incorrect usage. Unknown value for odata_name. You can retrieve the list of treaties using /wp-admin/admin-ajax.php?action=get_treaties" }';
+        die();
+    } else {
+        $ob = new imea_decisions_page();
+        if(strtolower($odata_name) == 'cites') {
+            $decisions = $ob->get_decisions_for_treaty($treaty->id, 'a.display_order');
+
+        } else {
+            $decisions = $ob->get_decisions_for_meeting($id_meeting);
+        }
+    }
+
+    foreach($decisions as $decision) {
+        $copy = stdclass_copy($decision, array(
+          'id', 'link', 'short_title', 'type', 'status', 'number', 'id_treaty', 'published', 'id_meeting'
+        ));
+        $ret[] = $copy;
+    }
 
     header('Content-Type:application/json');
     echo json_encode($ret);
@@ -204,7 +251,17 @@ class imea_decisions_page extends imea_page_base_page {
 		return array();
 	}
 
-	function get_decisions_for_treaty_meeting($id_treaty, $order_by = 'a.number, a.published DESC') {
+
+    function get_decisions_for_meeting($id_meeting) {
+        global $wpdb;
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                'SELECT a.* FROM ai_decision a WHERE a.id_meeting=%s GROUP BY a.id ORDER BY display_order', $id_meeting
+            )
+        );
+    }
+
+    function get_decisions_for_treaty_meeting($id_treaty, $order_by = 'a.number, a.published DESC') {
 		if($id_treaty) {
 			global $wpdb;
 			return $wpdb->get_results(
