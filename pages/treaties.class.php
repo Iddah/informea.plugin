@@ -79,6 +79,7 @@ function get_paragraph_tags() {
 	die();
 }
 
+
 /**
  * Ajax function to retrieve the list of treaties.
  */
@@ -88,17 +89,8 @@ function ajax_informea_get_treaties() {
 	$ret = array();
     // Filter out internal columns - don't wanna send all DB columns
 	foreach($arr as $treaty) {
-		$ret[] = array(
-            'id' => $treaty->id,
-            'title' => $treaty->short_title,
-            'short_title' => $treaty->short_title,
-            'short_title_alternative' => $treaty->short_title_alternative,
-            'long_title' => $treaty->long_title,
-            'abstract' => $treaty->abstract,
-            'logo' => $treaty->logo_medium,
-            'odata_name' => $treaty->odata_name,
-            'region' => $treaty->region
-        );
+        $copy = stdclass_copy($treaty, array('id', 'short_title', 'short_title_alternative', 'long_title', 'abstract', 'logo_medium', 'odata_name', 'region'));
+		$ret[] = $copy;
 	}
     header('Content-Type:application/json');
     echo json_encode($ret);

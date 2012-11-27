@@ -114,6 +114,35 @@ if(!function_exists('slugify')) {
 }
 
 
+if(!function_exists('stdclass_copy')) {
+	/**
+	 * Copy subset of object properties to other object
+	 * @param object $source Source object
+     * @param array $properties Properties to copy to the new object
+	 * @return New stdClass object with copied properties. References are kept intact. NULL if $source is not object, $source is NULL or $properties is empty array
+	 */
+	function stdclass_copy($source, $properties) {
+        if(!is_object($source) || empty($source)) {
+            trigger_error("shallow_copy(): Invalid source object passed");
+            return NULL;
+        }
+        if(empty($properties)) {
+            trigger_error("shallow_copy(): Refusing to return object without properties");
+            return NULL;
+        }
+        $ob = new stdClass();
+        foreach($properties as $property) {
+            if(isset($source->$property)) {
+                $ob->$property = $source->$property;
+            } else {
+                trigger_error("shallow_copy(): Object does not have property $property, ignoring");
+            }
+        }
+        return $ob;
+	}
+}
+
+
 if(!function_exists('number_order_human')) {
 	/**
 	 * Extract the first $len words from a string
