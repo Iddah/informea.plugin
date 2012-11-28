@@ -16,6 +16,9 @@ add_action('wp_ajax_get_cop_meetings', 'ajax_informea_get_cop_meetings');
 add_action('wp_ajax_nopriv_get_decisions', 'ajax_informea_get_decisions');
 add_action('wp_ajax_get_decisions', 'ajax_informea_get_decisions');
 
+add_action('wp_ajax_nopriv_get_decision', 'ajax_informea_get_decision');
+add_action('wp_ajax_get_decision', 'ajax_informea_get_decision');
+
 /**
  * Ajax function to retrieve the list of decisions.
  * @param string $odata_name Treaty OData name. (use get_treaties()[0]->odata_name)
@@ -102,6 +105,47 @@ function ajax_informea_get_decisions() {
         $ret[] = $copy;
     }
 
+    header('Content-Type:application/json');
+    echo json_encode($ret);
+    die();
+}
+
+
+/**
+ * Ajax function to retrieve the details for a decision
+ * @param integer $id Decision id
+ */
+function ajax_informea_get_decision() {
+    $id = get_request_int('id');
+    $ret = NULL;
+    if(empty($id)) {
+        header('Content-Type:application/json');
+        echo '{ "error" : 1, "usage" : "Incorrect usage. Unknown decision id" }';
+        die();
+    } else {
+        $ob = new imea_decisions_page();
+        $decision = $ob->get_decision($id);
+        if(empty($decision)) {
+            header('Content-Type:application/json');
+            echo '{ "error" : 1, "usage" : "Unknown decision" }';
+            die();
+        }
+        $copy = stdclass_copy($decision, array(
+            'id', 'link', 'short_title', 'type', 'status', 'number', 'id_treaty', 'published', 'id_meeting'
+        ));
+        $copy->documents = array();
+
+        $documents = $ob->get_decision_documents($decision->id);
+        foreach($documents as $doc) {
+            $dc = stdclass_copy($doc, array(
+                'id', 'mime', 'id_decision', 'size', 'filename'
+
+            ));
+            $dc->url = get_bloginfo('url') . '/download?entity=decision_document&id=' . $doc->id;
+            $copy->documents[] = $dc;
+        }
+        $ret = $copy;
+    }
     header('Content-Type:application/json');
     echo json_encode($ret);
     die();
