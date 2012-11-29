@@ -362,7 +362,8 @@ class EcolexParser {
 	private $parsed = false;
 	private $doc = null;
 
-	private $WWW_ECOLEX_ORG = 'http://ecolex.org';
+	public static $ECOLEX_ORG = 'http://ecolex.org';
+	public static $WWW_ECOLEX_ORG = 'http://www.ecolex.org';
 
 	/**
 	 * @param string $url - URL from Ecolex to parse
@@ -371,7 +372,15 @@ class EcolexParser {
 	public function __construct($url, $page_url) {
 		$this->url = $url;
 		$this->page_url = $page_url;
+        $this->security_check($url);
 	}
+
+    public function security_check($url) {
+        if(!(stripos($url, self::$WWW_ECOLEX_ORG) === 0
+                || stripos($url, self::$ECOLEX_ORG) === 0)) {
+            die('Possible injection attempt, aborting!');
+        }
+    }
 
 	protected function get_remote_html() {
 		//echo "Retrieving the HTML content from {$this->url}\n";
@@ -439,7 +448,7 @@ class EcolexParser {
 			//echo "    * Found <table>, now fixing links inside\n";
 			$table = $tables->item(0);
 			foreach($table->getElementsByTagName('a') as $a) {
-				$a->setAttribute('href', $this->page_url . '?next=' . urlencode(urlencode($this->WWW_ECOLEX_ORG . $a->getAttribute('href'))));
+				$a->setAttribute('href', $this->page_url . '?next=' . urlencode(urlencode(self::$ECOLEX_ORG . $a->getAttribute('href'))));
 			}
 		}
 
@@ -449,7 +458,7 @@ class EcolexParser {
 			if($span->getAttribute('class') == 'table-pager') {
 				//echo "    * Found <span class='table-pager'>, now fixing links inside\n";
 				foreach($span->getElementsByTagName('a') as $a) {
-					$a->setAttribute('href', $this->page_url . '?next=' . urlencode(urlencode($this->WWW_ECOLEX_ORG . $a->getAttribute('href'))));
+					$a->setAttribute('href', $this->page_url . '?next=' . urlencode(urlencode(self::$ECOLEX_ORG . $a->getAttribute('href'))));
 				}
 			}
 		}
@@ -463,7 +472,7 @@ class EcolexParser {
 				$a->setAttribute('target', '_blank');
 				$attr = $a->getAttribute('href');
 				if(strpos($attr, 'http') === false) {
-					$a->setAttribute('href', $this->WWW_ECOLEX_ORG . $a->getAttribute('href'));
+					$a->setAttribute('href', self::$ECOLEX_ORG . $a->getAttribute('href'));
 				}
 			}
 		}
