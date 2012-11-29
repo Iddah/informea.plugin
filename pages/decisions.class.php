@@ -19,6 +19,7 @@ add_action('wp_ajax_get_decisions', 'ajax_informea_get_decisions');
 add_action('wp_ajax_nopriv_get_decision', 'ajax_informea_get_decision');
 add_action('wp_ajax_get_decision', 'ajax_informea_get_decision');
 
+
 /**
  * Ajax function to retrieve the list of decisions.
  * @param string $odata_name Treaty OData name. (use get_treaties()[0]->odata_name)
@@ -27,9 +28,11 @@ function ajax_informea_get_cop_meetings() {
     $treaty = null;
     $ret = array();
 
+    $obTreaty = new imea_treaties_page();
+    $obDec = new imea_decisions_page();
+
     $odata_name = get_request_value('odata_name');
-    $ob = new imea_treaties_page();
-    $treaties = $ob->get_all_treaties();
+    $treaties = $obTreaty->get_all_treaties();
     foreach($treaties as $row) {
         if($row->odata_name == $odata_name) {
             $treaty = $row;
@@ -43,7 +46,7 @@ function ajax_informea_get_cop_meetings() {
     } else {
         $ob = new imea_events_page();
         $meetings = $ob->get_cop_meetings($treaty->id);
-        foreach($meetings as $id => $meeting) {
+        foreach($meetings as $meeting) {
             $copy = stdclass_copy($meeting,
                 array(
                     'id', 'id_treaty', 'event_url', 'title', 'description', 'start', 'end',
@@ -51,6 +54,7 @@ function ajax_informea_get_cop_meetings() {
                     'location', 'city', 'latitude', 'longitude', 'id_country'
                 )
             );
+            $copy->decisions_count = $obDec->get_meeting_decision_count($meeting->id);
             if(isset($meeting->id_country)) {
                 $country = new imea_countries_page($meeting->id_country);
                 $copy->country = $country->country->name;
@@ -59,11 +63,12 @@ function ajax_informea_get_cop_meetings() {
         }
     }
 
-
+    // var_dump($ret);
     header('Content-Type:application/json');
     echo json_encode($ret);
     die();
 }
+
 
 /**
  * Ajax function to retrieve the list of decisions for a COP meeting
@@ -259,6 +264,22 @@ class imea_decisions_page extends imea_page_base_page {
 		}
 		return $ret;
 	}
+
+
+    /**
+     * Retrieve the count of decisions for a meeting
+     *
+     * @global object $wpdb WordPress db connection
+     * @param integer $id_meeting Meeting ID from ai_event
+     * @return integer Number of decisions for the given meeting
+     */
+    function get_meeting_decision_count($id_meeting) {
+        global $wpdb;
+        $ret = $wpdb->get_var(
+                $wpdb->prepare('SELECT COUNT(*) FROM ai_decision WHERE id_meeting=%d', $id_meeting)
+        );
+        return $ret + 0;
+    }
 
 
 	function document_icon_img($doc) {
