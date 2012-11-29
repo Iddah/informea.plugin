@@ -87,9 +87,10 @@ function ajax_informea_get_treaties() {
     $ob = new imea_treaties_page();
     $arr = $ob->get_all_treaties();
 	$ret = array();
-    // Filter out internal columns - don't wanna send all DB columns
+    // Filter out internal columns
 	foreach($arr as $treaty) {
         $copy = stdclass_copy($treaty, array('id', 'short_title', 'short_title_alternative', 'long_title', 'abstract', 'logo_medium', 'odata_name', 'region'));
+        $copy->decisions_count = $ob->get_decisions_count_2($treaty->id);
 		$ret[] = $copy;
 	}
     header('Content-Type:application/json');
@@ -269,6 +270,7 @@ class imea_treaties_page extends imea_page_base_page {
 		}
 	}
 
+
 	/**
 	 * Retrieve information about a single treaty
 	 */
@@ -355,6 +357,7 @@ class imea_treaties_page extends imea_page_base_page {
 	 * Retrieve the list of decisions for this treaty
 	 * @param id_treaty Treaty
 	 * @return List of decisions for this treaty
+     * @deprecated since version 1.5
 	 */
 	function get_decisions_count() {
 		global $wpdb;
@@ -362,6 +365,30 @@ class imea_treaties_page extends imea_page_base_page {
 		$c = $wpdb->get_col($sql);
 		return intval($c[0]);
 	}
+
+
+
+    /**
+     * Retrieve the count of decisions for a treaty. Please note that only
+     * treaties which have decisions linked to id_meeting will count.
+     *
+     * Obsolete meeting_title (having id_meeting NULL) decisions are not counted.
+     * This method replaces get_decisions_count above which is not yet removed since we have decisions with meeting_title
+     *
+     * @global object $wdpb Wordpress database connection
+     * @param integer $id_treaty Treaty ID
+     * @return integer Count of decisions
+     * @version 1.6
+     */
+    function get_decisions_count_2($id_treaty) {
+        global $wpdb;
+        $ret = $wpdb->get_var(
+            $wpdb->prepare('SELECT COUNT(*) FROM ai_decision WHERE id_treaty=%d AND id_meeting IS NOT NULL', $id_treaty)
+        );
+        $ret = $ret + 0;
+        return $ret;
+    }
+
 
 	/**
 	 * We use two algorithms here:
