@@ -7,7 +7,6 @@ function filter_where( $where = '' ) {
 	return $where;
 }
 
-require_once (dirname(__FILE__) . '/page_base.class.php');
 class imea_index_page extends imea_page_base_page {
 
 	function get_slider_news() {

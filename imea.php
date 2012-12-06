@@ -24,7 +24,7 @@ License: GPL2
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define('INFORMEA_VERSION', '0.1');
+define('INFORMEA_VERSION', '1.5');
 
 if (!function_exists('add_action')) {
 	// Silence is golden
@@ -36,12 +36,7 @@ include_once ("imea.functions.php");
 include_once ("imea.class.php");
 include_once ("imea.admin.class.php");
 include_once ("imea.localization.php");
-include_once ("pages/index.class.php");
-include_once ("pages/countries.class.php");
-include_once ("pages/treaties.class.php");
-include_once ("pages/decisions.class.php");
-include_once ("pages/events.class.php");
-include_once ("pages/highlights.class.php");
+include_once ("index.class.php");
 
 include_once ("search/InformeaSearch2.php");
 include_once ("search/AbstractSearch.php");
