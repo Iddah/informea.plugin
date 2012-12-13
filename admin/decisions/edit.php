@@ -169,7 +169,7 @@ $keywords = $page_data->get_decision_tags($id_decision);
 						<select id="id_meeting" name="id_meeting">
 							<option value="">-- Please select --</option>
 							<?php
-								foreach($eventsOb->get_events($id_treaty, 'a.`start` DESC') as $event) {
+								foreach($eventsOb->get_events_cop($id_treaty) as $event) {
 									$selected = $event->id == $decision->id_meeting ? ' selected="selected"' : '';
 							?>
 							<option value="<?php echo $event->id; ?>"<?php echo $selected; ?>><?php echo $event->title; ?></option>
