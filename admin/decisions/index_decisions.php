@@ -45,6 +45,7 @@ $decisionOb = new imea_decisions_page();
 			<th width="120px">Type</th>
 			<th width="120px">Status</th>
 			<th>Title</th>
+            <th>Meeting</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -55,6 +56,7 @@ $decisionOb = new imea_decisions_page();
 			<td><?php echo ucwords($decision->type); ?></td>
 			<td><?php echo ucwords($decision->status); ?></td>
 			<td><?php echo $decision->short_title; ?></td>
+			<td><?php echo $decision->cop_title; ?></td>
 		</tr>
 		<?php } ?>
 		</tbody>
