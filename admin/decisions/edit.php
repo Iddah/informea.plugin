@@ -165,7 +165,7 @@ $keywords = $page_data->get_decision_tags($id_decision);
 					<div class="clear"></div>
 
 					<div class="form-field">
-						<label for="id_meeting">Meeting</label>
+						<label for="id_meeting">Meeting *</label>
 						<select id="id_meeting" name="id_meeting">
 							<option value="">-- Please select --</option>
 							<?php
@@ -175,20 +175,8 @@ $keywords = $page_data->get_decision_tags($id_decision);
 							<option value="<?php echo $event->id; ?>"<?php echo $selected; ?>><?php echo $event->title; ?></option>
 							<?php } ?>
 						</select>
-						<p>(If no meetings are present, you can go and <a href="<?php bloginfo('url');?>/wp-admin/admin.php?page=informea_events&act=event_add_event">add the meeting for the treaty, first</a>, then come back here)</p>
+						<p>(If no meetings are present, you can go and <a href="<?php bloginfo('url');?>/wp-admin/admin.php?page=informea_events&act=event_add_event&id_treaty=<?php echo $id_treaty; ?>&type=cop&status=confirmed">add the meeting for the treaty, first</a>, then come back here)</p>
 					</div>
-
-					<div class="form-field">
-						<label for="meeting_title">Meeting title</label>
-						<input type="text" id="meeting_title" name="meeting_title" value="<?php echo $decision->meeting_title; ?>" />
-					</div>
-
-					<div class="form-field">
-						<label for="meeting_url">Meeting url</label>
-						<input type="text" id="meeting_url" name="meeting_url" value="<?php echo $decision->meeting_url; ?>" />
-						<p>Link to online meeting on Convention's website</p>
-					</div>
-
 					<div class="form-field">
 						<label for="keywords">Keywords</label>
 						<br />

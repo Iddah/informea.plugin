@@ -9,7 +9,7 @@ wp_register_style('jquery-ui-darkness', plugins_url('/informea/admin/css/ui-dark
 wp_enqueue_style('jquery-ui-darkness');
 
 $id_treaty = get_request_int('id_treaty');
-$id_event = get_request_int('id_event');
+$id_meeting = get_request_int('id_meeting');
 $treatyOb = new imea_treaties_page();
 $eventsOb = new imea_events_page();
 $languages = array('en' => 'English', 'fr' => 'French', 'ar' => 'Arabic', 'es' => 'Spanish', 'ru' => 'Russian', 'zh' => 'Chinese');
@@ -196,7 +196,7 @@ $languages = array('en' => 'English', 'fr' => 'French', 'ar' => 'Arabic', 'es' =
 							<option value="">-- Please select --</option>
 							<?php
 								foreach($eventsOb->get_events($id_treaty, 'a.`start` DESC') as $event) {
-									$selected = $event->id == $id_event ? ' selected="selected"' : '';
+									$selected = $event->id == $id_meeting ? ' selected="selected"' : '';
 							?>
 							<option value="<?php echo $event->id; ?>"<?php echo $selected; ?>><?php echo $event->title; ?></option>
 							<?php } ?>
