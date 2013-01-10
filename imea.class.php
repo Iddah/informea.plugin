@@ -30,18 +30,119 @@ class imeasite {
 	function breadcrumbtrail() {
 		global $post;
 		if($post) {
-			if(!in_array($post->post_name, array('index', 'treaties', 'decisions', 'print', 'countries', 'terms', 'events'))) {
-				if($post->post_name == 'about') {
-					return " &raquo; <span class='current'>{$post->post_title}</span>";
-				} else if($post->post_name == 'disclaimer') {
-					return " &raquo; <span class='current'>{$post->post_title}</span>";
-				} else if($post->post_name == 'newsletter') {
-					return " &raquo; <span class='current'>{$post->post_title}</span>";
-				} else if($post->post_name == 'search') {
+			switch($post->post_name) {
+				/* About sub-pages */
+				case 'introduction':
+				case 'process-and-governance':
+				case 'api-specifications':
+				case 'api-specifications':
+				case 'multimedia':
+				case 'new-members':
+					return sprintf(" &raquo; %s &raquo; <span class='current'>%s</span>", __('About', 'informea'), $post->post_title);
+				break;
+				/* Treaties pages */
+				case 'treaties':
+					global $post;
+					global $page_data;
+					if(empty($page_data->treaty)) {
+						$region = $page_data->category;
+						switch($region) {
+							case '':
+								$region = 'Global';
+								break;
+							default:
+								$region = urldecode($page_data->category) . ' region';
+						}
+						return sprintf(" &raquo; %s &raquo; <span class='current'>%s</span>", $post->post_title, $region);
+					} else {
+						global $expand;
+						$s = ucfirst($expand);
+						switch($expand) {
+						case 'treaty':
+						$s = 'Treaty text';
+								break;
+								case 'decisions':
+								$s = 'Decisions';
+								break;
+										case 'nfp':
+										$s = 'Focal points';
+								break;
+								case 'coverage':
+							$s = 'Map and Membership';
+								break;
+						}
+						return sprintf(' &raquo; <a href="/treaties"><span>%s</span></a> &raquo; <span class="current">%s</span> &raquo; <span class="current">%s</span>',
+							__('Treaties', 'informea'), $page_data->treaty->short_title, $s);
+					}
+					break;
+				/* Countries pages */
+				case 'countries':
+					global $page_data;
+					if(empty($page_data->country)) {
+						return sprintf(" &raquo; <span class='current'>%s</span>", $post->post_title);
+					} else {
+						global $expand;
+						$s = ucfirst($expand);
+						switch($expand) {
+							case 'map':
+								$s = __('Map &amp; sites', 'informea');
+								break;
+							case 'nfp':
+								$s = __('Focal points', 'informea');
+								break;
+							case 'ecolex/legislation':
+								$s = __('Ecolex legislation', 'informea');
+								break;
+							case 'ecolex/caselaw':
+								$s = __('Ecolex case law', 'informea');
+								break;
+						}
+						return sprintf(' &raquo; <a href="/countries"><span>%s</span></a> &raquo; %s &raquo; <span class="current">%s</span>',
+								__('Countries', 'informea'), $page_data->country->name, $s);
+					}
+					break;
+				/* Terms pages */
+				case 'terms':
+					global $page_data;
+					if(empty($page_data->term)) {
+						return sprintf(" &raquo; <span class='current'>%s</span>", $post->post_title);
+					} else {
+						global $tab;
+						$s = ucfirst($tab);
+						switch($tab) {
+							//
+						}
+						return sprintf(' &raquo; <a href="/terms"><span>%s</span></a> &raquo; %s &raquo; <span class="current">%s</span>',
+								__('Terms', 'informea'), $page_data->term->term, $s);
+					}
+					break;
+				/* Highlights pages */
+				case 'highlights':
+					global $query_category, $page_data;
+					if($page_data->is_search()) {
+						return sprintf(' &raquo; <a href="/highlights">%s</a> &raquo; <span class="current">%s</span>', __('Highlights', 'informea'), __('Search results', 'informea'));
+					} else {
+						if(empty($query_category)) {
+							return sprintf(' &raquo; <span class="current">%s</span>', __('Highlights', 'informea'));
+						} else {
+							return sprintf(' &raquo; <a href="/highlights">%s</a> &raquo; <span class="current">%s</span>', __('Highlights', 'informea'), $query_category->title);
+						}
+					}
+					break;
+				/* Events pages */
+				case 'events':
+					global $page_data;
+					if($page_data->empty_search()) {
+						return sprintf(' &raquo; <span class="current">%s</span>', __('Events', 'informea'));
+					} else {
+						return sprintf(' &raquo; <a href="/events">%s</a> &raquo; <span class="current">%s</span>', __('Events', 'informea'), __('Search results', 'informea'));
+					}
+					break;
+				case 'search':
 					return " &raquo; MEA Explorer &raquo; <span class='current'>Search results</span>";
-				} else { // This is for highlights that have an variable post title.
-					return ' &raquo; <a href="/highlights"><span class="current">' . __('Highlights') . '</span></a> &raquo; <span class="current">' . __('Article') . '</span>';
-				}
+					break;
+				default:
+					return sprintf(" &raquo; <span class='current'>%s</span>", $post->post_title, $region);
 			}
 		} else { // Error page seem not to have $post
 			return ' &raquo; <span class="current">' . __('Error') . '</span>';
