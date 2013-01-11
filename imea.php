@@ -34,7 +34,6 @@ if (!function_exists('add_action')) {
 include_once ("recaptchalib.php");
 include_once ("imea.class.php");
 include_once ("imea.admin.class.php");
-include_once ("imea.localization.php");
 include_once ("index.class.php");
 
 include_once ("search/InformeaSearch2.php");
