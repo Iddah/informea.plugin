@@ -20,7 +20,7 @@ class imeasite {
 	function add_home_image_link($nav) {
 		$base_url = get_bloginfo('url');
 		$theme_url = get_bloginfo('template_directory');
-		return "<li><a href='" . $base_url . "'><img src='$theme_url/images/home.png' /></a></li>" . $nav;
+		return "<li><a href='" . $base_url . "' class='home'>Home</a></li>" . $nav;
 	}
 
 	/**
