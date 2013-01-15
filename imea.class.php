@@ -23,6 +23,7 @@ class imeasite {
 		return "<li><a href='" . $base_url . "' class='home'>Home</a></li>" . $nav;
 	}
 
+
 	/**
 	 * Fill the breadcrumb for exceptional pages (not treaties/decisions/countries/terms/events - handled by their respective classes).
 	 * 'index' post_name has no need of breadcrumbtrail.
@@ -42,7 +43,6 @@ class imeasite {
 				break;
 				/* Treaties pages */
 				case 'treaties':
-					global $post;
 					global $page_data;
 					if(empty($page_data->treaty)) {
 						$region = $page_data->category;
@@ -58,17 +58,17 @@ class imeasite {
 						global $expand;
 						$s = ucfirst($expand);
 						switch($expand) {
-						case 'treaty':
-						$s = 'Treaty text';
+							case 'treaty':
+								$s = 'Treaty text';
 								break;
-								case 'decisions':
+							case 'decisions':
 								$s = 'Decisions';
 								break;
-										case 'nfp':
-										$s = 'Focal points';
+							case 'nfp':
+								$s = 'Focal points';
 								break;
-								case 'coverage':
-							$s = 'Map and Membership';
+							case 'coverage':
+								$s = 'Map and Membership';
 								break;
 						}
 						return sprintf(' &raquo; <a href="/treaties"><span>%s</span></a> &raquo; <span class="current">%s</span> &raquo; <span class="current">%s</span>',
