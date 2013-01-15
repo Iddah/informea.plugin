@@ -10,6 +10,8 @@ wp_enqueue_style('jquery-ui-darkness');
 
 $id_decision = get_request_int('id_decision');
 $id_treaty = get_request_int('id_treaty');
+$id_organization = get_request_int('id_organization');
+$id_meeting = get_request_int('id_meeting');
 $treatyOb = new imea_treaties_page();
 $decisionOb = new imea_decisions_page();
 $eventsOb = new imea_events_page();
@@ -30,6 +32,9 @@ $keywords = $page_data->get_decision_tags($id_decision);
 		jQuery('#updated').datepicker({dateFormat : 'yy-mm-dd', maxDate: "today"});
 	});
 </script>
+<style type="text/css">
+	#id_meeting { max-width: 400px; }
+</style>
 <div id="breadcrumb">
 	You are here:
 	<a href="<?php echo bloginfo('url');?>/wp-admin/admin.php?page=informea_decisions">Manage decisions</a>
@@ -99,14 +104,31 @@ $keywords = $page_data->get_decision_tags($id_decision);
 								echo ',';
 							}
 						} ?>
-					</ul>
 					<?php } ?>
 				</div>
 				<?php } ?>
 				<div id="col-left">
+					<div class="form-field">
+						<label for="id_organization">Select organization</label>
+						<select id="id_organization" name="id_organization" tabindex="1">
+							<option value="">-- Please select --</option>
+							<?php
+								foreach($treatyOb->get_organizations() as $row) {
+									$sel = '';
+									if(($page_data->actioned && ($id_organization == $row->id))
+											|| (!$page_data->actioned && ($row->id == $event->id_organization))) {
+										$sel = ' selected="selected"';
+									}
+									$sel = $row->id == $id_organization ? ' selected="selected"' : '';
+							?>
+							<option value="<?php echo $row->id; ?>"<?php echo $sel; ?>><?php echo $row->name; ?></option>
+							<?php } ?>
+						</select>
+					</div>
+				
 					<div class="form-field form-required">
 						<label for="id_treaty">Select treaty *</label>
-						<select id="id_treaty" name="id_treaty" value="">
+						<select id="id_treaty" name="id_treaty">
 							<option value="">-- Please select --</option>
 							<?php
 								foreach($treatyOb->get_treaties() as $treaty) {
@@ -137,7 +159,7 @@ $keywords = $page_data->get_decision_tags($id_decision);
 
 						<div style="float: left">
 							<label for="decision_type">Type *</label>
-							<select id="decision_type" name="decision_type" value="">
+							<select id="decision_type" name="decision_type">
 								<option value="">-- Please select --</option>
 								<?php
 									foreach(array('decision', 'resolution', 'recommendation') as $key) {
@@ -163,20 +185,27 @@ $keywords = $page_data->get_decision_tags($id_decision);
 					</div>
 
 					<div class="clear"></div>
-
 					<div class="form-field">
-						<label for="id_meeting">Meeting *</label>
-						<select id="id_meeting" name="id_meeting">
+						<label for="id_meeting">Meeting</label>
+						<select id="id_meeting" name="id_meeting" tabindex="9">
 							<option value="">-- Please select --</option>
-							<?php
-								foreach($eventsOb->get_events_cop($id_treaty) as $event) {
+							<?php foreach($decisionOb->get_meetings_add_decision() as $label => $group) : ?>
+								<optgroup label="<?php echo $label; ?>">
+								<?php foreach($group as $event) : 
 									$selected = $event->id == $decision->id_meeting ? ' selected="selected"' : '';
-							?>
-							<option value="<?php echo $event->id; ?>"<?php echo $selected; ?>><?php echo $event->title; ?></option>
-							<?php } ?>
+									if(($page_data->actioned && ($id_meeting == $row->id))
+										|| (!$page_data->actioned && ($event->id == $decision->id_meeting))) {
+										$selected = ' selected="selected"';
+									}
+								?>
+									<option value="<?php echo $event->id; ?>"<?php echo $selected; ?>><?php echo $event->title; ?></option>
+								<?php endforeach; ?>
+								</optgroup>
+							<?php endforeach; ?>
 						</select>
-						<p>(If no meetings are present, you can go and <a href="<?php bloginfo('url');?>/wp-admin/admin.php?page=informea_events&act=event_add_event&id_treaty=<?php echo $id_treaty; ?>&type=cop&status=confirmed">add the meeting for the treaty, first</a>, then come back here)</p>
+						<p>(If meeting is missing, add it <a href="<?php bloginfo('url');?>/wp-admin/admin.php?page=informea_events&act=event_add_event">here</a>, then add decision)</p>
 					</div>
+
 					<div class="form-field">
 						<label for="keywords">Keywords</label>
 						<br />
@@ -191,7 +220,6 @@ $keywords = $page_data->get_decision_tags($id_decision);
 						}
 						?>
 						</select>
-					</tr>
 					</div>
 					<?php } ?>
 				</div><!--/col-left -->

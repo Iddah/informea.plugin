@@ -1,33 +1,35 @@
 <?php
+wp_enqueue_script('jquery');
+wp_enqueue_script('jquery-ui-core');
+wp_enqueue_script('jquery-ui-widget');
+wp_enqueue_script('jquery-ui-datepicker');
+wp_enqueue_script('wp-ajax-response');
+
+wp_register_style('jquery-ui-darkness', plugins_url('/informea/admin/css/ui-darkness/jquery-ui-1.7.3.custom.css'));
+wp_enqueue_style('jquery-ui-darkness');
+
 $page_countries = new imea_countries_page();
-$page_treaties = new imea_treaties_page();
+$treatyOb = new imea_treaties_page();
 $terms = array();
 $treaties = $page_data->get_enabled_treaties();
 $countries = $page_countries->get_countries();
 ?>
-<link rel='stylesheet' href='<?php bloginfo('template_directory'); ?>/ui.css' type='text/css' media='screen' />
-<link rel='stylesheet' id='thickbox-css'  href='<?php bloginfo('url'); ?>/wp-includes/js/thickbox/thickbox.css?ver=20090514' type='text/css' media='all' />
-<script src="<?php bloginfo('template_directory'); ?>/scripts/jquery-min.js"></script>
-<script src="<?php bloginfo('template_directory'); ?>/scripts/ui.js"></script>
 <script type="text/javascript">
-	$().ready(function() {
-		$('#start').datepicker({'dateFormat' : 'yy-mm-dd'});
-		$('#end').datepicker({'dateFormat' : 'yy-mm-dd'});
-
-		$('#upload_image_button').click(function() {
+	jQuery().ready(function() {
+		jQuery('#start').datepicker({'dateFormat' : 'yy-mm-dd'});
+		jQuery('#end').datepicker({'dateFormat' : 'yy-mm-dd'});
+		jQuery('#upload_image_button').click(function() {
 			tb_show('', 'media-upload.php?post_id=&amp;type=image&TB_iframe=true');
 			return false;
 		});
-
 		window.send_to_editor = function(html) {
 			var imgurl = jQuery('img',html).attr('src');
-			$('#image_img').attr('src', imgurl);
-			$('#image').val(imgurl);
+			jQuery('#image_img').attr('src', imgurl);
+			jQuery('#image').val(imgurl);
 			tb_remove();
 		}
 	});
 </script>
-
 <div class="wrap">
 	<div id="breadcrumb">
 		You are here:
@@ -37,23 +39,18 @@ $countries = $page_countries->get_countries();
 	</div>
 	<div id="icon-tools" class="icon32"><br></div>
 	<h2>Add new event</h2>
-
-	<p class="red">
-		<em>Please fill in as much details as you know about the event!</em>
-	</p>
 	<?php if ($page_data->actioned) { ?>
 	<div class="updated settings-error" id="setting-error-settings_updated">
 		<?php if ($page_data->success) { ?>
-			<p><strong>Event was successfully created!</strong></p>
+			<strong>Event was successfully created!</strong>
 		<?php } ?>
 		<?php if (!$page_data->success) { ?>
-			<p><strong>Error adding event!</strong>
-				<ul>
-				<?php foreach($page_data->errors as $inpname => $inp_err) {
-					echo "<li>$inpname : $inp_err</li>";
-				} ?>
-				</ul>
-			</p>
+			<strong>Error adding event!</strong>
+			<ul>
+			<?php foreach($page_data->errors as $inpname => $inp_err) : ?>
+				<li><?php echo $inp_err; ?></li>
+			<?php endforeach; ?>
+			</ul>
 		<?php } ?>
 	</div>
 	<?php } ?>
@@ -62,56 +59,92 @@ $countries = $page_countries->get_countries();
 		<?php wp_nonce_field('informea-admin_event_add_event'); ?>
 		<input type="hidden" name="page" value="informea_event" />
 		<input type="hidden" name="act" value="event_add_event" />
-		<table>
-			<tr>
-				<td><label for="id_treaty">Treaty *</label></td>
+
+		<table class="form-table">
+			<tr valign="top">
+				<th scope="row">
+					<label for="id_organization">Organization</label>
+				</th>
 				<td>
-					<select id="id_treaty" name="id_treaty" onchange="document.getElementById('id_event').value = '';document.getElementById('sel_form').submit();">
+					<select id="id_organization" name="id_organization">
 						<option value="">-- Please select --</option>
-					<?php
-						foreach($treaties as $row) {
-							$checked = (!$page_data->success and get_request_int('id_treaty') == $row->id) ? ' selected="selected"' : '';
-							echo "<option value=\"{$row->id}\"'$checked>{$row->short_title}</option>";
-						}
-					?>
+						<?php foreach($treatyOb->get_organizations() as $row) :
+							$sel = (!$page_data->success && get_request_int('id_organization') == $row->id) ? ' selected="selected"' : '';
+						?>
+							<option value="<?php echo $row->id; ?>"<?php echo $sel; ?>><?php echo $row->name; ?></option>
+						<?php endforeach; ?>
 					</select>
+					<p class="description">
+						If you cannot find the organization, add new one <a href="<?php bloginfo('url'); ?>/wp-admin/admin.php?page=informea_treaties&act=treaty_add_organization">here</a>.
+					</p>
 				</td>
 			</tr>
-			<tr>
-				<td><label for="event_url">URL</label></td>
+			<tr valign="top">
+				<th scope="row">
+					<label for="id_treaty">Treaty</label>
+				</th>
+				<td>
+					<select id="id_treaty" name="id_treaty">
+						<option value="">-- Please select --</option>
+						<?php foreach($treaties as $row) :
+							$sel = (!$page_data->success && get_request_int('id_organization') == $row->id) ? ' selected="selected"' : '';
+						?>
+							<option value="<?php echo $row->id; ?>"<?php echo $sel; ?>><?php echo $row->short_title; ?></option>
+						<?php endforeach; ?>
+					</select>
+					<p class="description">
+						You must fill either Organization or Treaty!
+					</p>
+					
+				</td>
+			</tr>
+			<tr valign="top">
+				<th scope="row">
+					<label for="event_url">URL</label>
+				</th>
 				<td>
 					<input type="text" size="60" id="event_url" name="event_url" value="<?php if (!$page_data->success) echo $page_data->get_value('event_url');?>" />
 				</td>
 			</tr>
 			<tr>
-				<td><label for="title">Title *</label></td>
+				<th scope="row">
+					<label for="title">Title *</label>
+				</th>
 				<td>
 					<input type="text" size="60" id="title" name="title" value="<?php if (!$page_data->success) echo $page_data->get_value('title');?>" />
 				</td>
 			</tr>
 			<tr>
-				<td><label for="description">Description</label></td>
+				<th scope="row">
+					<label for="description">Description</label>
+				</th>
 				<td>
-					<textarea name="description" cols="60" rows="5" id="description" value=""><?php if (!$page_data->success) echo $page_data->get_value('description');?></textarea>
+					<textarea name="description" cols="60" rows="5" id="description"><?php if (!$page_data->success) echo $page_data->get_value('description');?></textarea>
 				</td>
 			</tr>
 			<tr>
-				<td><label for="start">Start date *</label></td>
+				<th scope="row">
+					<label for="start">Start date *</label>
+				</th>
 				<td>
 					<input type="text" size="60" id="start" name="start" value="<?php if (!$page_data->success) echo $page_data->get_value('start');?>" />
 				</td>
 			</tr>
 			<tr>
-				<td><label for="end">End date</label></td>
+				<th scope="row">
+					<label for="end">End date</label>
+				</th>
 				<td>
 					<input type="text" size="60" id="end" name="end" value="<?php if (!$page_data->success) echo $page_data->get_value('end');?>" />
 				</td>
 			</tr>
 			<tr>
-				<td><label for="repetition">Repetition</label></td>
+				<th scope="row">
+					<label for="repetition">Repetition</label>
+				</th>
 				<td>
 					<select id="repetition" name="repetition" >
-						<option value="">-- Please select --</option>
+						<option value="">One time, only</option>
 					<?php
 						foreach($page_data->get_repetition_enum() as $key => $value) {
 							$selected = (!$page_data->success and get_request_value('repetition') == $key) ? ' selected="selected"' : '';
@@ -122,7 +155,9 @@ $countries = $page_countries->get_countries();
 				</td>
 			</tr>
 			<tr>
-				<td><label for="kind">Kind</label></td>
+				<th scope="row">
+					<label for="kind">Kind</label>
+				</th>
 				<td>
 					<select id="kind" name="kind">
 						<option value="">-- Please select --</option>
@@ -134,11 +169,11 @@ $countries = $page_countries->get_countries();
 					<?php } ?>
 					</select>
 					</td>
-				</tr>
-				<tr>
 			</tr>
 			<tr>
-				<td><label for="type">Type</label></td>
+				<th scope="row">
+					<label for="type">Type</label>
+				</th>
 				<td>
 					<select id="type" name="type">
 						<option value="">-- Please select --</option>
@@ -152,7 +187,9 @@ $countries = $page_countries->get_countries();
 				</td>
 			</tr>
 			<tr>
-				<td><label for="access">Access</label></td>
+				<th scope="row">
+					<label for="access">Access</label>
+				</th>
 				<td>
 					<select id="access" name="access">
 						<option value="">-- Please select --</option>
@@ -166,7 +203,9 @@ $countries = $page_countries->get_countries();
 				</td>
 			</tr>
 			<tr>
-				<td><label for="status">Status</label></td>
+				<th scope="row">
+					<label for="status">Status</label>
+				</th>
 				<td>
 					<select id="status" name="status">
 						<option value="">-- Please select --</option>
@@ -180,7 +219,9 @@ $countries = $page_countries->get_countries();
 				</td>
 			 </tr>
 			<tr>
-				<td><label for="image">Image</label></td>
+				<th scope="row">
+					<label for="image">Image</label>
+				</th>
 				<td>
 					<img id="image_img" src="" />
 					<input type="hidden" id="image" name="image" value="" />
@@ -188,7 +229,9 @@ $countries = $page_countries->get_countries();
 				</td>
 			</tr>
 			<tr>
-				<td><label for="image_copyright">Image Copyright</label></td>
+				<th scope="row">
+					<label for="image_copyright">Image Copyright</label>
+				</th>
 				<td>
 					<input type="text" size="60" id="image_copyright" name="image_copyright" value="<?php if (!$page_data->success) echo $page_data->get_value('image_copyright');?>" />
 				</td>
@@ -197,16 +240,23 @@ $countries = $page_countries->get_countries();
 				<td><label for="location">Event Location</label></td>
 				<td>
 					<input type="text" size="60" id="location" name="location" value="<?php if (!$page_data->success) echo $page_data->get_value('location');?>" />
+					<p class="description">
+						Where event is taking place, like 221B Baker Street
+					</p>
 				</td>
 			</tr>
 			<tr>
-				<td><label for="city">City</label></td>
+				<th scope="row">
+					<label for="city">City</label>
+				</th>
 				<td>
 					<input type="text" size="60" id="city" name="city" value="<?php if (!$page_data->success) echo $page_data->get_value('city');?>" />
 				</td>
 			</tr>
 			<tr>
-				<td><label for="id_country">Country *</label></td>
+				<th scope="row">
+					<label for="id_country">Country *</label>
+				</th>
 				<td>
 					<select id="id_country" name="id_country">
 						<option value="">-- Please select --</option>
@@ -220,7 +270,6 @@ $countries = $page_countries->get_countries();
 				</td>
 			</tr>
 		</table>
-		<p> * - Required field(s) </p>
 		<p class="submit">
 			<input name="actioned" type="submit" class="button-primary" value="<?php esc_attr_e('Add event'); ?>" />
 		</p>
