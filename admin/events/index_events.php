@@ -6,7 +6,7 @@
 	<div id="icon-tools" class="icon32"><br></div>
 	<h2>Manage events</h2>
 	<p>
-		On this page you can add new meetings or events.
+		On this page you can add new MEA meetings.
 	</p>
 	<h3>Actions</h3>
 	<ul>
