@@ -183,7 +183,7 @@ class imeasite {
 		$imea_rules['(ro|es|fr)?/?decisions/treaty/?$'] = 'index.php?pagename=decisions&expand=treaty&lng=$matches[1]'; // http://informea/decisions/treaty/
 		$imea_rules['(ro|es|fr)?/?decisions/term/?$'] = 'index.php?pagename=decisions&expand=term&lng=$matches[1]'; // http://informea/decisions/term/
 
-		$imea_rules['(ro|es|fr)?/?terms/(theme|alphabet)?$'] = 'index.php?pagename=terms&expand=$matches[2]&lng=$matches[1]'; // http://informea/terms/theme
+		$imea_rules['(ro|es|fr)?/?terms/(theme|alphabet|list)?$'] = 'index.php?pagename=terms&expand=$matches[2]&lng=$matches[1]'; // http://informea/terms/theme
 		$imea_rules['(ro|es|fr)?/?terms/(\d*)/?(treaties|decisions|ecolex)?$'] = 'index.php?pagename=terms&id_term=$matches[2]&tab=$matches[3]&lng=$matches[1]'; // http://informea/terms/id/treaties
 
 		$imea_rules['(ro|es|fr)?/?highlights/rss?'] = 'index.php?pagename=highlights&show_rss=True&lng=$matches[1]'; // http://informea/highlights/rss
