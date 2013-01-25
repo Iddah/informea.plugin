@@ -550,7 +550,7 @@ if(!function_exists('get_request_variable')) {
 			}
 		}
 
-		if($ret !== NULL && is_int($type)) {
+		if(!empty($ret) && is_int($type)) {
 			$ret = intval($ret);
 		}
 		return $ret;

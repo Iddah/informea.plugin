@@ -58,7 +58,8 @@ class imeasiteadmin {
 		add_submenu_page('informea', __('InforMEA Vocabulary'), __('Manage vocabulary'), 'publish_posts', 'thesaurus', array('ThesaurusAdmin', 'router'));
 		add_submenu_page('informea', __('InforMEA Treaties'), __('Manage treaties'), 'publish_posts', 'informea_treaties', array('imeasiteadmin', 'page_treaties'));
 		add_submenu_page('informea', __('InforMEA Decisions'), __('Manage decisions'), 'publish_posts', 'informea_decisions', array('imeasiteadmin', 'page_decisions'));
-		add_submenu_page('informea', __('InforMEA Events'), __('Manage events'), 'publish_posts', 'informea_events', array('imeasiteadmin', 'page_events'));
+		add_submenu_page('informea', __('InforMEA Meetings'), __('Manage meetings'), 'publish_posts', 'informea_events', array('imeasiteadmin', 'page_events'));
+		add_submenu_page('informea', __('InforMEA Highlights'), __('Manage Highlights'), 'manage_options', 'informea_highlights', array('imeasiteadmin', 'page_highlights'));
 		add_submenu_page('informea', __('InforMEA Pictures'), __('Manage pictures'), 'manage_options', 'informea_pictures', array('imeasiteadmin', 'page_pictures'));
 		add_submenu_page('informea', __('InforMEA Focal points'), __('Manage focal points'), 'manage_options', 'informea_nfp', array('imeasiteadmin', 'page_nfp'));
 		add_submenu_page('informea', __('InforMEA National plans'), __('Manage national plans'), 'manage_options', 'informea_national_plans', array('imeasiteadmin', 'informea_national_plans'));
@@ -287,6 +288,23 @@ class imeasiteadmin {
 		}
 		return include(dirname(__FILE__) . '/admin/decisions/index_decisions.php');
 	}
+
+
+	function page_highlights() {
+		$success = false;
+		$actioned = get_request_value('actioned');
+		$delete = get_request_boolean('delete');
+		$page_data = new imea_highlights_page();
+		$act = get_request_value('act');
+		if($act == 'highlight_add_highlight') {
+			if ($actioned && $page_data->validate_add()) {
+				$page_data->add();
+			}
+			return include(dirname(__FILE__) . '/admin/highlights/add.php');
+		}
+		return include(dirname(__FILE__) . '/admin/highlights/index.php');
+	}
+
 
 	function page_events() {
 		$success = false;
