@@ -173,9 +173,16 @@ wp_enqueue_style('thickbox');
 					<td><label for="enabled">Enabled</label></td>
 					<td>
 						<input type="checkbox" id="enabled" name="enabled" <?php echo $treaty->enabled ? 'checked="checked"' : ''; ?> value="1" />
-						(If checked, appears everywhere on portal. Disable with caution!)
+						(If <em>unchecked</em>, will <em>not</em> appear in any website. Disable with caution!)
 					</td>
 				</tr>
+                <tr>
+                    <td><label for="use_informea">Use in InforMEA</label></td>
+                    <td>
+                        <input type="checkbox" id="use_informea" name="use_informea" <?php echo $treaty->use_informea == 1 ? 'checked="checked"' : ''; ?> value="1" />
+                        (If checked, will appear in InforMEA, together with its texts and decisions, otherwise not)
+                    </td>
+                </tr>
 				<tr>
 					<td><label for="order">Order</label></td>
 					<td>

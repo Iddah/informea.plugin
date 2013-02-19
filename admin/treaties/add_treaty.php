@@ -93,6 +93,15 @@ $terms = $thesaurus->get_voc_concept();
 						title="Is primary treaty for the organization."<?php echo $disabled;?><?php if (!$page_data->success) echo $checked;?>/>
 				</td>
 			</tr>
+            <tr>
+                <td>
+                    <label for="use_informea">Use in InforMEA</label>
+                </td>
+                <td>
+                    <input type="checkbox" id="use_informea" name="use_informea" <?php echo ($page_data->actioned && !$page_data->success && $page_data->get_value('use_informea') == '') ? '' : 'checked="checked"'; ?> value="1" />
+                    &nbsp; If checked, will appear in InforMEA, together with its texts and decisions, otherwise not, but will be used in other sites (IEG)
+                </td>
+            </tr>
 			<tr>
 				<td><label for="short_title">Short title *</label></td>
 				<td>
@@ -178,7 +187,7 @@ $terms = $thesaurus->get_voc_concept();
 			<tr>
 				<td><label for="odata_name">OData ID *</label></td>
 				<td>
-					<input type="text" id="odata_id" name="odata_name" size="20"
+					<input type="text" id="odata_name" name="odata_name" size="20"
 						value="<?php if (!$page_data->success) echo $page_data->get_value('odata_name');?>" />
 					Unique identification for OData harvesting (put here short string identifying the treaty. No spaces, max. 32 characters, please. examples: barc_prevention, prevention_emerg, cbd, ozone etc.)
 				</td>
