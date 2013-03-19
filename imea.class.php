@@ -159,14 +159,13 @@ class imeasite {
 		$imea_rules['(ro|es|fr)?/?events/(list|calendar)?$'] = 'index.php?pagename=events&expand=$matches[2]&lng=$matches[1]'; // http://informea/events/list
 		$imea_rules['(ro|es|fr)?/?events/rss?'] = 'index.php?pagename=events&show_rss=True&lng=$matches[1]'; // http://informea/events/rss
 
-		$imea_rules['(ro|es|fr)/(about|treaties|decisions|countries|terms|events)/?$'] = 'index.php?pagename=$matches[2]&lng=$matches[1]'; // Pages L2
-
 		$imea_rules['(ro|es|fr)?/?countries/(grid|alphabetical|map)?$'] = 'index.php?pagename=countries&mode=$matches[2]&lng=$matches[1]'; // http://informea/countries/grid
 		$imea_rules['(ro|es|fr)?/?countries/(\d*)/?(membership|nfp|reports|map|plans|peblds|ecolex/legislation|ecolex/caselaw)?$'] = 'index.php?pagename=countries&id_country=$matches[2]&expand=$matches[3]&lng=$matches[1]'; // http://informea/countries/id/nfp
 		$imea_rules['(ro|es|fr)?/?countries/(\d*)/?(sendmail)?/?(\d*)?/?(\d*)?$'] = 'index.php?pagename=countries&id_country=$matches[2]&expand=$matches[3]&id_contact=$matches[4]&id_parent=$matches[5]&lng=$matches[1]'; // http://informea/countries/id/sendmail/1234/1
 
 
 		// Preserve line below for backward-compatibility with old URLs without tabs
+        $imea_rules['(ro|es|fr)?/?treaties/(.*)/?decisions/(\d*)'] = 'index.php?pagename=treaties&id_decision=$matches[2]&lng=$matches[1]'; // http://informea/terms/id/treaties
 		$imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(sendmail)?/?(\d*)?/?(\d*)?$'] = 'index.php?pagename=treaties&id_treaty=$matches[2]&expand=$matches[3]&id_contact=$matches[4]&id_parent=$matches[5]&lng=$matches[1]'; // http://informea/treaties/id/sendmail/1234/1
 		$imea_rules['(ro|es|fr)?/?treaties/(.*)/sendmail/(\d*)/(\d*)?$'] = 'index.php?pagename=treaties&treaty=$matches[2]&expand=sendmail&id_contact=$matches[3]&id_parent=$matches[4]&lng=$matches[1]'; // http://informea/treaties/odata_name/sendmail/1234/1
 		$imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(\d*)?$'] = 'index.php?pagename=treaties&id_treaty=$matches[2]&id_treaty_article=$matches[3]&lng=$matches[1]'; // http://informea/treaties/id/id_treaty_article#article_id_paragraph_id
@@ -180,8 +179,8 @@ class imeasite {
 		$imea_rules['(ro|es|fr)?/?treaties/(.*)/(general|treaty|decisions|print|nfp|coverage)?/?(showall)?$'] = 'index.php?pagename=treaties&treaty=$matches[2]&expand=$matches[3]&showall=$matches[4]&lng=$matches[1]'; // http://informea/treaties/id/decisions/showall#decisions-id
 		$imea_rules['(ro|es|fr)?/?treaties/(.*)?$'] = 'index.php?pagename=treaties&treaty=$matches[2]&lng=$matches[1]'; // http://informea/treaties/aewa - identify by slug (we use odata_name)
 
-		$imea_rules['(ro|es|fr)?/?decisions/treaty/?$'] = 'index.php?pagename=decisions&expand=treaty&lng=$matches[1]'; // http://informea/decisions/treaty/
-		$imea_rules['(ro|es|fr)?/?decisions/term/?$'] = 'index.php?pagename=decisions&expand=term&lng=$matches[1]'; // http://informea/decisions/term/
+		$imea_rules['(ro|es|fr)?/decisions/treaty/?$'] = 'index.php?pagename=decisions&expand=treaty&lng=$matches[1]'; // http://informea/decisions/treaty/
+		$imea_rules['(ro|es|fr)?/decisions/term/?$'] = 'index.php?pagename=decisions&expand=term&lng=$matches[1]'; // http://informea/decisions/term/
 
 		$imea_rules['(ro|es|fr)?/?terms/(theme|alphabet|list)?$'] = 'index.php?pagename=terms&expand=$matches[2]&lng=$matches[1]'; // http://informea/terms/theme
 		$imea_rules['(ro|es|fr)?/?terms/(\d*)/?(treaties|decisions|ecolex)?$'] = 'index.php?pagename=terms&id_term=$matches[2]&tab=$matches[3]&lng=$matches[1]'; // http://informea/terms/id/treaties
@@ -221,6 +220,7 @@ class imeasite {
 
 		$vars[] = 'show_rss';
 		$vars[] = 'category';
+        $vars[] = 'id_decision';
 		return $vars;
 	}
 
