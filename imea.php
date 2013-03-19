@@ -35,7 +35,7 @@ include_once ("recaptchalib.php");
 include_once ("imea.class.php");
 include_once ("imea.admin.class.php");
 include_once ("index.class.php");
-include_once ("ai_treaty.class.php");
+include_once ("ai_treaty.php");
 
 include_once ("search/InformeaSearch2.php");
 include_once ("search/AbstractSearch.php");
