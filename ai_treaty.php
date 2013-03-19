@@ -6,6 +6,18 @@ class informea_treaties extends imea_treaties_page {
 		parent::__construct($id_treaty, $arr_parameters);
 	}
 
+    function get_treaty_from_request() {
+        $ret = NULL;
+        $id_treaty = get_request_variable('id_treaty', 1);
+        if($id_treaty > 0) {
+
+        } else {
+            $odata_name = get_request_variable('treaty');
+            $ret = $this->get_treaty_by_odata_name($odata_name);
+        }
+        return $ret;
+    }
+
 	function get_treaty_by_odata_name($odata_name) {
 		global $wpdb;
 		return $wpdb->get_row("SELECT * FROM ai_treaty WHERE odata_name = '$odata_name' AND use_informea=1");
