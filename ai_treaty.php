@@ -8,13 +8,13 @@ class informea_treaties extends imea_treaties_page {
 
     function get_treaty_from_request() {
         $ret = NULL;
-        $id_treaty = get_request_variable('id_treaty', 1);
-        if($id_treaty > 0) {
-
-        } else {
+        $this->id_treaty = get_request_variable('id_treaty', 1);
+        if(empty($this->id_treaty)) {
             $odata_name = get_request_variable('treaty');
             $ret = $this->get_treaty_by_odata_name($odata_name);
+            $this->id_treaty = $ret->id;
         }
+        $this->init();
         return $ret;
     }
 
@@ -65,7 +65,7 @@ class informea_treaties extends imea_treaties_page {
 			INNER JOIN ai_organization b ON a.id_organization = b.id
 			WHERE a.enabled = 1 AND a.use_informea=1 AND a.region = %s ORDER BY a.`theme`, a.`order`", $region));
 		$ret = array();
-		foreach($data as $row) {
+		foreach($data as &$row) {
 			if(!isset($ret[$row->theme])) {
 				$ret[$row->theme] = array();
 			}
@@ -73,6 +73,41 @@ class informea_treaties extends imea_treaties_page {
 		}
 		return $ret;
 	}
+
+
+    function get_cloud_terms_for_treaty_page($limit = 20) {
+        $ret = array();
+        if (!empty($this->treaty->id)) {
+            $ret = $this->get_popular_terms($this->treaty->id, $limit);
+        }
+        if (!empty($this->tags)) {
+            foreach ($this->tags as $tag) {
+                $ob = new StdClass();
+                $ob->text = $tag->term;
+                $ob->url = get_bloginfo('url') . '/terms/' . $tag->id;
+                $ob->popularity = 0;
+                $ret[] = $ob;
+            }
+        }
+        if (!empty($this->other_agreements)) {
+            foreach ($this->other_agreements as $tag) {
+                $ob = new StdClass();
+                $ob->text = $tag->term;
+                $ob->url = get_bloginfo('url') . '/terms/' . $tag->id;
+                $ob->popularity = 0;
+                $ret[] = $ob;
+            }
+        }
+
+        if (!empty($this->agreement->id)) {
+            $ob = new StdClass();
+            $ob->text = $this->agreement->short_title;
+            $ob->url = get_permalink() . '/' . $this->agreement->id;
+            $ob->popularity = 0;
+            $ret[] = $ob;
+        }
+        return $ret;
+    }
 }
 
 

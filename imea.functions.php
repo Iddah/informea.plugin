@@ -326,48 +326,6 @@ class Mobile_Detect
 
 }
 
-
-if(!function_exists('get_request_value')) {
-	/**
-	 * Retrieve request parameter also from GET
-	 * @param $name Parameter name
-	 * @param $default Default value
-	 * @param $trim Trim resulting string
-	 * @return parameter value or empty string if not set
-	 */
-	function get_request_value($name, $default = NULL, $trim = TRUE) {
-		$ret = $default;
-		if (isset($_POST[$name]) && $_POST[$name] != '') {
-			$ret = $_POST[$name];
-			if($trim == TRUE) {
-				$ret = trim($ret);
-			}
-		} else if (isset($_GET[$name]) && $_GET[$name] != '') {
-			$ret = $_GET[$name];
-			if($trim == TRUE) {
-				$ret = trim($ret);
-			}
-		}
-		return $ret;
-	}
-}
-
-if(!function_exists('get_request_int')) {
-	/**
-	 * Retrieve request parameter also from GET
-	 * @param name of the parameter
-	 * @return parameter value or empty string if not set
-	 */
-	function get_request_int($name, $default = NULL) {
-		$ret = get_request_value($name, $default, TRUE);
-		if(!empty($ret)) {
-			$ret = intval($ret);
-		}
-		return $ret;
-	}
-}
-
-
 if(!function_exists('microtime_float')) {
 function microtime_float($start = null, $msg = 'Execution took') {
 	list ($msec, $sec) = explode(' ', microtime());
