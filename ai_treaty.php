@@ -51,13 +51,13 @@ class informea_treaties extends imea_treaties_page {
         $this->expand = get_request_variable('expand', 'str', 'treaty');
         $this->id_treaty = get_request_variable('id_treaty', 0);
 
-        if($this->is_index()) {
+        if ($this->is_index()) {
             get_template_part('imea_pages/treaties/page');
             exit(0);
         }
 
         // Administrative
-        if(current_user_can('manage_options')) {
+        if (current_user_can('manage_options')) {
             if ($this->get_action() == 'delete_paragraph') {
                 $id_paragraph = get_request_int('id_paragraph');
                 $this->delete_paragraph($id_paragraph);
@@ -72,7 +72,6 @@ class informea_treaties extends imea_treaties_page {
             get_template_part('imea_pages/treaties/page', 'treaty-print');
             exit(0);
         }
-
     }
 
     function get_treaty_by_odata_name($odata_name) {
@@ -182,7 +181,7 @@ class informea_decisions extends imea_decisions_page {
         global $wpdb;
         $ret = array();
         // Get the themes
-        $sql = "SELECT distinct a.theme FROM ai_treaty a INNER JOIN ai_decision b ON b.id_treaty = a.id WHERE a.enabled = 1 AND a.use_informea=1 ORDER BY a.theme";
+        $sql = "SELECT DISTINCT a.theme FROM ai_treaty a INNER JOIN ai_decision b ON b.id_treaty = a.id WHERE a.enabled = 1 AND a.use_informea=1 ORDER BY a.theme";
         $rows = $wpdb->get_results($sql);
         foreach ($rows as $row) {
             $ret[$row->theme] = array();
@@ -200,7 +199,6 @@ class informea_decisions extends imea_decisions_page {
         global $wpdb;
         return $wpdb->get_results($wpdb->prepare('SELECT b.* FROM ai_decision_paragraph_vocabulary a INNER JOIN voc_concept b ON a.id_concept = b.id WHERE a.id_decision_paragraph=%d', $id_paragraph));
     }
-
 }
 
 

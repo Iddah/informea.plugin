@@ -8,10 +8,10 @@
  * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
-(function() {
+(function () {
 	/**
 	 * Auto Resize
-	 * 
+	 *
 	 * This plugin automatically resizes the content area to fit its content height.
 	 * It will retain a minimum height, which is the height of the content area when
 	 * it's initialized.
@@ -25,7 +25,7 @@
 		 * @param {tinymce.Editor} ed Editor instance that the plugin is initialized in.
 		 * @param {string} url Absolute URL to where the plugin is located.
 		 */
-		init : function(ed, url) {
+		init: function (ed, url) {
 			var t = this, oldSize = 0;
 
 			if (ed.getParam('fullscreen_is_enabled'))
@@ -48,7 +48,7 @@
 					resizeHeight = myHeight;
 
 				// Resize content element
-				if ( resizeHeight !== oldSize ) {
+				if (resizeHeight !== oldSize) {
 					DOM.setStyle(DOM.get(ed.id + '_ifr'), 'height', resizeHeight + 'px');
 					oldSize = resizeHeight;
 				}
@@ -66,7 +66,7 @@
 			t.autoresize_min_height = ed.getElement().offsetHeight;
 
 			// Add margin at the bottom for better UX
-			t.bottom_margin = parseInt( ed.getParam('autoresize_bottom_margin', 50) );
+			t.bottom_margin = parseInt(ed.getParam('autoresize_bottom_margin', 50));
 
 			// Add appropriate listeners for resizing content area
 			ed.onChange.add(resize);
@@ -77,7 +77,7 @@
 
 			if (ed.getParam('autoresize_on_init', true)) {
 				// Things to do when the editor is ready
-				ed.onInit.add(function(ed, l) {
+				ed.onInit.add(function (ed, l) {
 					// Show throbber until content area is resized properly
 					ed.setProgressState(true);
 					t.throbbing = true;
@@ -86,13 +86,13 @@
 					ed.getBody().style.overflowY = "hidden";
 				});
 
-				ed.onLoadContent.add(function(ed, l) {
+				ed.onLoadContent.add(function (ed, l) {
 					resize();
 
 					// Because the content area resizes when its content CSS loads,
 					// and we can't easily add a listener to its onload event,
 					// we'll just trigger a resize after a short loading period
-					setTimeout(function() {
+					setTimeout(function () {
 						resize();
 
 						// Disable throbber
@@ -112,13 +112,13 @@
 		 *
 		 * @return {Object} Name/value array containing information about the plugin.
 		 */
-		getInfo : function() {
+		getInfo: function () {
 			return {
-				longname : 'Auto Resize',
-				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
-				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/autoresize',
-				version : tinymce.majorVersion + "." + tinymce.minorVersion
+				longname: 'Auto Resize',
+				author: 'Moxiecode Systems AB',
+				authorurl: 'http://tinymce.moxiecode.com',
+				infourl: 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/autoresize',
+				version: tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		}
 	});

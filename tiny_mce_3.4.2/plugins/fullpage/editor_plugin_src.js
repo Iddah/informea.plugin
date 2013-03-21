@@ -8,48 +8,48 @@
  * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
-(function() {
+(function () {
 	var each = tinymce.each, Node = tinymce.html.Node;
 
 	tinymce.create('tinymce.plugins.FullPagePlugin', {
-		init : function(ed, url) {
+		init: function (ed, url) {
 			var t = this;
 
 			t.editor = ed;
 
 			// Register commands
-			ed.addCommand('mceFullPageProperties', function() {
+			ed.addCommand('mceFullPageProperties', function () {
 				ed.windowManager.open({
-					file : url + '/fullpage.htm',
-					width : 430 + parseInt(ed.getLang('fullpage.delta_width', 0)),
-					height : 495 + parseInt(ed.getLang('fullpage.delta_height', 0)),
-					inline : 1
+					file: url + '/fullpage.htm',
+					width: 430 + parseInt(ed.getLang('fullpage.delta_width', 0)),
+					height: 495 + parseInt(ed.getLang('fullpage.delta_height', 0)),
+					inline: 1
 				}, {
-					plugin_url : url,
-					data : t._htmlToData()
+					plugin_url: url,
+					data: t._htmlToData()
 				});
 			});
 
 			// Register buttons
-			ed.addButton('fullpage', {title : 'fullpage.desc', cmd : 'mceFullPageProperties'});
+			ed.addButton('fullpage', {title: 'fullpage.desc', cmd: 'mceFullPageProperties'});
 
 			ed.onBeforeSetContent.add(t._setContent, t);
 			ed.onGetContent.add(t._getContent, t);
 		},
 
-		getInfo : function() {
+		getInfo: function () {
 			return {
-				longname : 'Fullpage',
-				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
-				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/fullpage',
-				version : tinymce.majorVersion + "." + tinymce.minorVersion
+				longname: 'Fullpage',
+				author: 'Moxiecode Systems AB',
+				authorurl: 'http://tinymce.moxiecode.com',
+				infourl: 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/fullpage',
+				version: tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		},
 
 		// Private plugin internal methods
 
-		_htmlToData : function() {
+		_htmlToData: function () {
 			var headerFragment = this._parseHeader(), data = {}, nodes, elm, matches, editor = this.editor;
 
 			function getAttr(elm, name) {
@@ -74,7 +74,7 @@
 			// Parse doctype
 			elm = headerFragment.getAll('#doctype')[0];
 			if (elm)
-				data.doctype = '<!DOCTYPE' + elm.value + ">"; 
+				data.doctype = '<!DOCTYPE' + elm.value + ">";
 
 			// Parse title element
 			elm = headerFragment.getAll('title')[0];
@@ -83,7 +83,7 @@
 			}
 
 			// Parse meta elements
-			each(headerFragment.getAll('meta'), function(meta) {
+			each(headerFragment.getAll('meta'), function (meta) {
 				var name = meta.attr('name'), httpEquiv = meta.attr('http-equiv'), matches;
 
 				if (name)
@@ -100,7 +100,7 @@
 			elm = headerFragment.getAll('html')[0];
 			if (elm)
 				data.langcode = getAttr(elm, 'lang') || getAttr(elm, 'xml:lang');
-	
+
 			// Parse stylesheet
 			elm = headerFragment.getAll('link')[0];
 			if (elm && elm.attr('rel') == 'stylesheet')
@@ -119,7 +119,7 @@
 			return data;
 		},
 
-		_dataToHtml : function(data) {
+		_dataToHtml: function (data) {
 			var headerFragment, headElement, html, elm, value, dom = this.editor.dom;
 
 			function setAttr(elm, name, value) {
@@ -191,7 +191,7 @@
 			// Add meta encoding
 			if (data.docencoding) {
 				elm = null;
-				each(headerFragment.getAll('meta'), function(meta) {
+				each(headerFragment.getAll('meta'), function (meta) {
 					if (meta.attr('http-equiv') == 'Content-Type')
 						elm = meta;
 				});
@@ -207,7 +207,7 @@
 			}
 
 			// Add/update/remove meta
-			each('keywords,description,author,copyright,robots'.split(','), function(name) {
+			each('keywords,description,author,copyright,robots'.split(','), function (name) {
 				var nodes = headerFragment.getAll('meta'), i, meta, value = data['meta' + name];
 
 				for (i = 0; i < nodes.length; i++) {
@@ -243,9 +243,9 @@
 			} else if (data.stylesheet) {
 				elm = new Node('link', 1);
 				elm.attr({
-					rel : 'stylesheet',
-					text : 'text/css',
-					href : data.stylesheet
+					rel: 'stylesheet',
+					text: 'text/css',
+					href: data.stylesheet
 				});
 				elm.shortEnded = true;
 
@@ -263,11 +263,11 @@
 
 				// Update iframe body as well
 				dom.setAttribs(this.editor.getBody(), {
-					style : data.style,
-					dir : data.dir,
-					vLink : data.visited_color,
-					link : data.link_color,
-					aLink : data.active_color
+					style: data.style,
+					dir: data.dir,
+					vLink: data.visited_color,
+					link: data.link_color,
+					aLink: data.active_color
 				});
 			}
 
@@ -282,7 +282,7 @@
 			html = new tinymce.html.Serializer({
 				validate: false,
 				indent: true,
-				apply_source_formatting : true,
+				apply_source_formatting: true,
 				indent_before: 'head,html,body,meta,title,script,link,style',
 				indent_after: 'head,html,body,meta,title,script,link,style'
 			}).serialize(headerFragment);
@@ -290,7 +290,7 @@
 			this.head = html.substring(0, html.indexOf('</body>'));
 		},
 
-		_parseHeader : function() {
+		_parseHeader: function () {
 			// Parse the contents with a DOM parser
 			return new tinymce.html.DomParser({
 				validate: false,
@@ -298,11 +298,11 @@
 			}).parse(this.head);
 		},
 
-		_setContent : function(ed, o) {
+		_setContent: function (ed, o) {
 			var self = this, startPos, endPos, content = o.content, headerFragment, styles = '', dom = self.editor.dom, elm;
 
 			function low(s) {
-				return s.replace(/<\/?[A-Z]+/g, function(a) {
+				return s.replace(/<\/?[A-Z]+/g, function (a) {
 					return a.toLowerCase();
 				})
 			};
@@ -335,7 +335,7 @@
 
 			// Parse header and update iframe
 			headerFragment = self._parseHeader();
-			each(headerFragment.getAll('style'), function(node) {
+			each(headerFragment.getAll('style'), function (node) {
 				if (node.firstChild)
 					styles += node.firstChild.value;
 			});
@@ -343,21 +343,21 @@
 			elm = headerFragment.getAll('body')[0];
 			if (elm) {
 				dom.setAttribs(self.editor.getBody(), {
-					style : elm.attr('style') || '',
-					dir : elm.attr('dir') || '',
-					vLink : elm.attr('vlink') || '',
-					link : elm.attr('link') || '',
-					aLink : elm.attr('alink') || ''
+					style: elm.attr('style') || '',
+					dir: elm.attr('dir') || '',
+					vLink: elm.attr('vlink') || '',
+					link: elm.attr('link') || '',
+					aLink: elm.attr('alink') || ''
 				});
 			}
 
 			if (styles)
-				dom.add(self.editor.getDoc().getElementsByTagName('head')[0], 'style', {id : 'fullpage_styles'}, styles);
+				dom.add(self.editor.getDoc().getElementsByTagName('head')[0], 'style', {id: 'fullpage_styles'}, styles);
 			else
 				dom.remove('fullpage_styles');
 		},
 
-		_getDefaultHeader : function() {
+		_getDefaultHeader: function () {
 			var header = '', editor = this.editor, value, styles = '';
 
 			if (editor.getParam('fullpage_default_xml_pi'))
@@ -386,7 +386,7 @@
 			return header;
 		},
 
-		_getContent : function(ed, o) {
+		_getContent: function (ed, o) {
 			var self = this;
 
 			if (!o.source_view || !ed.getParam('fullpage_hide_in_source_view'))

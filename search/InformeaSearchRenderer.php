@@ -40,14 +40,14 @@ abstract class InformeaBaseSearchRenderer {
      * @return string Rendered output
      */
     function render_articles($treaty) {
-        if(empty($treaty->articles)) {
+        if (empty($treaty->articles)) {
             return '';
         }
         $ret = '<span>';
         $ret .= sprintf('<h2>%s</h2>', __('Articles', 'informea'));
         $ret .= '<ul class="articles">';
         $tooltips = array(__('Click to see article content', 'informea'));
-        foreach($treaty->articles as $article) {
+        foreach ($treaty->articles as $article) {
             $ret .= '<li>';
             $css = count($article->paragraphs) ? 'toggle-result' : 'ajax-expand';
             $ret .= sprintf('<a id="arrow-treaty_article-%s" class="%s arrow closed left" title="%s" href="javascript:void(0);"></a>', $article->id, $css, $tooltips[0]);
@@ -69,11 +69,11 @@ abstract class InformeaBaseSearchRenderer {
 
     function render_treaty_paragraphs($article) {
         $ret = '';
-        if(count($article->paragraphs) > 0) {
+        if (count($article->paragraphs) > 0) {
             $tooltips = array(__('Click to see paragraph content', 'informea'), __('Click to see paragraph inside treaty text, into a new window', 'informea'));
             $ret .= '<h3>Paragraphs</h3>';
             $ret .= '<ul class="paragraphs">';
-            foreach($article->paragraphs as $paragraph) {
+            foreach ($article->paragraphs as $paragraph) {
                 $ret .= '<li>';
                 $title = !empty($paragraph->official_order) ? $paragraph->official_order : $paragraph->order;
                 $ret .= sprintf('<a id="arrow-treaty_article_paragraph-%s" class="ajax-expand arrow closed left" href="javascript:void(0);">%s</a>', $paragraph->id, $title);
@@ -91,10 +91,10 @@ abstract class InformeaBaseSearchRenderer {
 
     function render_decision_paragraphs($decision) {
         $ret = '';
-        if(count($decision->paragraphs) > 0) {
+        if (count($decision->paragraphs) > 0) {
             $ret .= '<h3>Paragraphs</h3>';
             $ret .= '<ul class="paragraphs">';
-            foreach($decision->paragraphs as $paragraph) {
+            foreach ($decision->paragraphs as $paragraph) {
                 $ret .= '<li>';
                 $title = !empty($paragraph->official_order) ? $paragraph->official_order : $paragraph->order + 1;
                 $ret .= sprintf('<a id="arrow-decision_paragraph-%s" class="ajax-expand arrow closed" href="javascript:void(0);">%s</a>', $paragraph->id, $title);
@@ -109,10 +109,10 @@ abstract class InformeaBaseSearchRenderer {
 
     function render_decision_documents($decision) {
         $ret = '';
-        if(count($decision->documents) > 0) {
+        if (count($decision->documents) > 0) {
             $ret .= '<h3>Documents</h3>';
             $ret .= '<ul class="documents">';
-            foreach($decision->documents as $document) {
+            foreach ($decision->documents as $document) {
                 $ret .= '<li>';
                 $title = $document->filename;
                 $url = sprintf('%s/download?entity=decision_document&id=%s', get_bloginfo('url'), $document->id);
@@ -129,7 +129,6 @@ abstract class InformeaBaseSearchRenderer {
         }
         return $ret;
     }
-
 }
 
 
@@ -137,11 +136,11 @@ class InformeaSearchRendererTab1 extends InformeaBaseSearchRenderer {
 
 
     function render($results) {
-        if(empty($results)) {
+        if (empty($results)) {
             return $this->no_results();
         }
         $ret = '<ul id="search_results" class="search-results tab1">';
-        foreach($results as $row) {
+        foreach ($results as $row) {
             $ret .= call_user_func(array($this, 'render_' . $row->entity_type), $row);
         }
         return $ret;
@@ -158,10 +157,10 @@ class InformeaSearchRendererTab1 extends InformeaBaseSearchRenderer {
         $tooltips = array(__('Click to see decision content', 'informea'), __('Convention logo', 'informea'), __('Click to open decision into treaty context', 'informea'));
         $ret .= '<li class="decision">';
         $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
-        $ret .= sprintf('<a id="arrow-decision-%s" href="javascript:void(0);" class="%s arrow closed left"></a>' , $decision->id, $css);
+        $ret .= sprintf('<a id="arrow-decision-%s" href="javascript:void(0);" class="%s arrow closed left"></a>', $decision->id, $css);
         $ret .= sprintf('<div class="logo-medium left" title="%s"><img src="%s" /></div>', $tooltips[1], $decision->logo_medium);
         $url = sprintf('%s/treaties/%s/decisions?showall=true#decision-%s', get_bloginfo('url'), $decision->id_treaty, $decision->id);
-        $ret .= sprintf('<a id="expand-decision-%s" href="javascript:void(0);" class="%s left title" title="%s">%s - %s</a>' , $decision->id, $css, $decision->short_title, $decision->number, subwords($decision->short_title, 13));
+        $ret .= sprintf('<a id="expand-decision-%s" href="javascript:void(0);" class="%s left title" title="%s">%s - %s</a>', $decision->id, $css, $decision->short_title, $decision->number, subwords($decision->short_title, 13));
         $ret .= sprintf('<a href="%s" class="external title left" target="_blank" title="%s"></a>', $url, $tooltips[0]);
         $ret .= '<div class="clear"></div>';
         $ret .= sprintf('<div id="result-decision-%s" class="content hidden">', $decision->id);
@@ -193,7 +192,7 @@ class InformeaSearchRendererTab1Ajax extends InformeaSearchRendererTab1 {
 
     function render($results) {
         $ret = '';
-        foreach($results as $row) {
+        foreach ($results as $row) {
             $ret .= call_user_func(array($this, 'render_' . $row->entity_type), $row);
         }
         return $ret;
@@ -208,11 +207,11 @@ class InformeaSearchRendererTab2 extends InformeaBaseSearchRenderer {
      * @return string Rendered result
      */
     function render($results) {
-        if(empty($results)) {
+        if (empty($results)) {
             return $this->no_results();
         }
         $ret = '<ul class="search-results tab2">';
-        foreach($results as $treaty) {
+        foreach ($results as $treaty) {
             $ret .= $this->render_treaty($treaty);
         }
         $ret .= '</ul>';
@@ -220,17 +219,17 @@ class InformeaSearchRendererTab2 extends InformeaBaseSearchRenderer {
     }
 
     function render_decisions($treaty) {
-        if(empty($treaty->decisions)) {
+        if (empty($treaty->decisions)) {
             return '';
         }
         $ret = '<h2>Decisions</h2>';
         $ret .= '<ul>';
         $tooltips = array(__('Click to see decision in context of the treaty', 'informea'));
-        foreach($treaty->decisions as $decision) {
+        foreach ($treaty->decisions as $decision) {
             $ret .= '<li>';
             $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
-            $ret .= sprintf('<a id="arrow-decision-%s" href="javascript:void(0);" class="%s arrow closed left"></a>' , $decision->id, $css);
-            $ret .= sprintf('<a id="expand-decision-%s" href="javascript:void(0);" class="%s left title" title="%s">%s - %s</a>' , $decision->id, $css, $decision->short_title, $decision->number, subwords($decision->short_title, 10));
+            $ret .= sprintf('<a id="arrow-decision-%s" href="javascript:void(0);" class="%s arrow closed left"></a>', $decision->id, $css);
+            $ret .= sprintf('<a id="expand-decision-%s" href="javascript:void(0);" class="%s left title" title="%s">%s - %s</a>', $decision->id, $css, $decision->short_title, $decision->number, subwords($decision->short_title, 10));
             $url = sprintf('%s/treaties/%s/decisions?showall=true#decision-%s', get_bloginfo('url'), $decision->id_treaty, $decision->id);
             $ret .= sprintf('<a href="%s" class="external title left" target="_blank" title="%s"></a>', $url, $tooltips[0]);
             $ret .= '<div class="clear"></div>';
@@ -249,27 +248,26 @@ class InformeaSearchRendererTab2 extends InformeaBaseSearchRenderer {
 class InformeaSearchRendererTab3 extends InformeaSearchRendererTab2 {
 
     function render($results) {
-        if(empty($results)) {
+        if (empty($results)) {
             return $this->no_results();
         }
         $ret = '<ul class="search-results tab3">';
-        foreach($results as $treaty) {
+        foreach ($results as $treaty) {
             $ret .= $this->render_treaty($treaty);
         }
         $ret .= '</ul>';
         return $ret;
     }
-
 }
 
 class InformeaSearchRendererTab4 extends InformeaSearchRendererTab2 {
 
     function render($results) {
-        if(empty($results)) {
+        if (empty($results)) {
             return $this->no_results();
         }
         $ret = '<ul class="search-results tab4">';
-        foreach($results as $treaty) {
+        foreach ($results as $treaty) {
             $ret .= $this->render_treaty($treaty);
         }
         $ret .= '</ul>';
@@ -280,15 +278,14 @@ class InformeaSearchRendererTab4 extends InformeaSearchRendererTab2 {
 class InformeaSearchRendererTab5 extends InformeaSearchRendererTab2 {
 
     function render($results) {
-        if(empty($results)) {
+        if (empty($results)) {
             return $this->no_results();
         }
         $ret = '<ul class="search-results tab5">';
-        foreach($results as $treaty) {
+        foreach ($results as $treaty) {
             $ret .= $this->render_treaty($treaty);
         }
         $ret .= '</ul>';
         return $ret;
     }
-
 }

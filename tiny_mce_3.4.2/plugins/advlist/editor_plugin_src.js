@@ -8,11 +8,11 @@
  * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
-(function() {
+(function () {
 	var each = tinymce.each;
 
 	tinymce.create('tinymce.plugins.AdvListPlugin', {
-		init : function(ed, url) {
+		init: function (ed, url) {
 			var t = this;
 
 			t.editor = ed;
@@ -20,11 +20,11 @@
 			function buildFormats(str) {
 				var formats = [];
 
-				each(str.split(/,/), function(type) {
+				each(str.split(/,/), function (type) {
 					formats.push({
-						title : 'advlist.' + (type == 'default' ? 'def' : type.replace(/-/g, '_')),
-						styles : {
-							listStyleType : type == 'default' ? '' : type
+						title: 'advlist.' + (type == 'default' ? 'def' : type.replace(/-/g, '_')),
+						styles: {
+							listStyleType: type == 'default' ? '' : type
 						}
 					});
 				});
@@ -40,7 +40,7 @@
 				t.isIE7 = true;
 		},
 
-		createControl: function(name, cm) {
+		createControl: function (name, cm) {
 			var t = this, btn, format;
 
 			if (name == 'numlist' || name == 'bullist') {
@@ -51,7 +51,7 @@
 				function hasFormat(node, format) {
 					var state = true;
 
-					each(format.styles, function(value, name) {
+					each(format.styles, function (value, name) {
 						// Format doesn't match
 						if (t.editor.dom.getStyle(node, name) != value) {
 							state = false;
@@ -84,28 +84,28 @@
 				};
 
 				btn = cm.createSplitButton(name, {
-					title : 'advanced.' + name + '_desc',
-					'class' : 'mce_' + name,
-					onclick : function() {
+					title: 'advanced.' + name + '_desc',
+					'class': 'mce_' + name,
+					onclick: function () {
 						applyListFormat();
 					}
 				});
 
-				btn.onRenderMenu.add(function(btn, menu) {
-					menu.onShowMenu.add(function() {
+				btn.onRenderMenu.add(function (btn, menu) {
+					menu.onShowMenu.add(function () {
 						var dom = t.editor.dom, list = dom.getParent(t.editor.selection.getNode(), 'ol,ul'), fmtList;
 
 						if (list || format) {
 							fmtList = t[name];
 
 							// Unselect existing items
-							each(menu.items, function(item) {
+							each(menu.items, function (item) {
 								var state = true;
 
 								item.setSelected(0);
 
 								if (list && !item.isDisabled()) {
-									each(fmtList, function(fmt) {
+									each(fmtList, function (fmt) {
 										if (fmt.id == item.id) {
 											if (!hasFormat(list, fmt)) {
 												state = false;
@@ -125,16 +125,16 @@
 						}
 					});
 
-					menu.add({id : t.editor.dom.uniqueId(), title : 'advlist.types', 'class' : 'mceMenuItemTitle', titleItem: true}).setDisabled(1);
+					menu.add({id: t.editor.dom.uniqueId(), title: 'advlist.types', 'class': 'mceMenuItemTitle', titleItem: true}).setDisabled(1);
 
-					each(t[name], function(item) {
+					each(t[name], function (item) {
 						// IE<8 doesn't support lower-greek, skip it
 						if (t.isIE7 && item.styles.listStyleType == 'lower-greek')
 							return;
 
 						item.id = t.editor.dom.uniqueId();
 
-						menu.add({id : item.id, title : item.title, onclick : function() {
+						menu.add({id: item.id, title: item.title, onclick: function () {
 							format = item;
 							applyListFormat();
 						}});
@@ -145,13 +145,13 @@
 			}
 		},
 
-		getInfo : function() {
+		getInfo: function () {
 			return {
-				longname : 'Advanced lists',
-				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
-				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/advlist',
-				version : tinymce.majorVersion + "." + tinymce.minorVersion
+				longname: 'Advanced lists',
+				author: 'Moxiecode Systems AB',
+				authorurl: 'http://tinymce.moxiecode.com',
+				infourl: 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/advlist',
+				version: tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		}
 	});

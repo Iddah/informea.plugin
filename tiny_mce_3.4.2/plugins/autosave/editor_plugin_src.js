@@ -12,11 +12,11 @@
  * and that project can be found here: http://code.google.com/p/tinyautosave/
  *
  * TECHNOLOGY DISCUSSION:
- * 
+ *
  * The plugin attempts to use the most advanced features available in the current browser to save
  * as much content as possible.  There are a total of four different methods used to autosave the
  * content.  In order of preference, they are:
- * 
+ *
  * 1. localStorage - A new feature of HTML 5, localStorage can store megabytes of data per domain
  * on the client computer. Data stored in the localStorage area has no expiration date, so we must
  * manage expiring the data ourselves.  localStorage is fully supported by IE8, and it is supposed
@@ -24,14 +24,14 @@
  * HTML 5 gets wider support, the AutoSave plugin will use it automatically. In Windows Vista/7,
  * localStorage is stored in the following folder:
  * C:\Users\[username]\AppData\Local\Microsoft\Internet Explorer\DOMStore\[tempFolder]
- * 
+ *
  * 2. sessionStorage - A new feature of HTML 5, sessionStorage works similarly to localStorage,
  * except it is designed to expire after a certain amount of time.  Because the specification
  * around expiration date/time is very loosely-described, it is preferrable to use locaStorage and
  * manage the expiration ourselves.  sessionStorage has similar storage characteristics to
  * localStorage, although it seems to have better support by Firefox 3 at the moment.  (That will
  * certainly change as Firefox continues getting better at HTML 5 adoption.)
- * 
+ *
  * 3. UserData - A very under-exploited feature of Microsoft Internet Explorer, UserData is a
  * way to store up to 128K of data per "document", or up to 1MB of data per domain, on the client
  * computer.  The feature is available for IE 5+, which makes it available for every version of IE
@@ -43,7 +43,7 @@
  * TinyMCE editor instance is attached to.
  */
 
-(function(tinymce) {
+(function (tinymce) {
 	// Setup constants to help the compressor to reduce script size
 	var PLUGIN_NAME = 'autosave',
 		RESTORE_DRAFT = 'restoredraft',
@@ -68,7 +68,7 @@
 		 * @param {tinymce.Editor} ed Editor instance that the plugin is initialized in.
 		 * @param {string} url Absolute URL to where the plugin is located.
 		 */
-		init : function(ed, url) {
+		init: function (ed, url) {
 			var self = this, settings = ed.settings;
 
 			self.editor = ed;
@@ -76,8 +76,8 @@
 			// Parses the specified time string into a milisecond number 10m, 10s etc.
 			function parseTime(time) {
 				var multipels = {
-					s : 1000,
-					m : 60000
+					s: 1000,
+					m: 60000
 				};
 
 				time = /^(\d+)([ms]?)$/.exec('' + time);
@@ -87,11 +87,11 @@
 
 			// Default config
 			tinymce.each({
-				ask_before_unload : TRUE,
-				interval : '30s',
-				retention : '20m',
-				minlength : 50
-			}, function(value, key) {
+				ask_before_unload: TRUE,
+				interval: '30s',
+				retention: '20m',
+				minlength: 50
+			}, function (value, key) {
 				key = PLUGIN_NAME + '_' + key;
 
 				if (settings[key] === undefined)
@@ -104,13 +104,13 @@
 
 			// Register restore button
 			ed.addButton(RESTORE_DRAFT, {
-				title : PLUGIN_NAME + ".restore_content",
-				onclick : function() {
+				title: PLUGIN_NAME + ".restore_content",
+				onclick: function () {
 					if (ed.getContent({draft: true}).replace(/\s|&nbsp;|<\/?p[^>]*>|<br[^>]*>/gi, "").length > 0) {
 						// Show confirm dialog if the editor isn't empty
 						ed.windowManager.confirm(
 							PLUGIN_NAME + ".warning_message",
-							function(ok) {
+							function (ok) {
 								if (ok)
 									self.restoreDraft();
 							}
@@ -121,21 +121,21 @@
 			});
 
 			// Enable/disable restoredraft button depending on if there is a draft stored or not
-			ed.onNodeChange.add(function() {
+			ed.onNodeChange.add(function () {
 				var controlManager = ed.controlManager;
 
 				if (controlManager.get(RESTORE_DRAFT))
 					controlManager.setDisabled(RESTORE_DRAFT, !self.hasDraft());
 			});
 
-			ed.onInit.add(function() {
+			ed.onInit.add(function () {
 				// Check if the user added the restore button, then setup auto storage logic
 				if (ed.controlManager.get(RESTORE_DRAFT)) {
 					// Setup storage engine
 					self.setupStorage(ed);
 
 					// Auto save contents each interval time
-					setInterval(function() {
+					setInterval(function () {
 						self.storeDraft();
 						ed.nodeChanged();
 					}, settings.autosave_interval);
@@ -183,13 +183,13 @@
 		 * @method getInfo
 		 * @return {Object} Name/value array containing information about the plugin.
 		 */
-		getInfo : function() {
+		getInfo: function () {
 			return {
-				longname : 'Auto save',
-				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
-				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/autosave',
-				version : tinymce.majorVersion + "." + tinymce.minorVersion
+				longname: 'Auto save',
+				author: 'Moxiecode Systems AB',
+				authorurl: 'http://tinymce.moxiecode.com',
+				infourl: 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/autosave',
+				version: tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		},
 
@@ -199,7 +199,7 @@
 		 * @method getExpDate
 		 * @return {String} Expiration date UTC string.
 		 */
-		getExpDate : function() {
+		getExpDate: function () {
 			return new Date(
 				new Date().getTime() + this.editor.settings.autosave_retention
 			).toUTCString();
@@ -210,14 +210,14 @@
 		 *
 		 * @method setupStorage
 		 */
-		setupStorage : function(ed) {
+		setupStorage: function (ed) {
 			var self = this, testKey = PLUGIN_NAME + '_test', testVal = "OK";
 
 			self.key = PLUGIN_NAME + ed.id;
 
 			// Loop though each storage engine type until we find one that works
 			tinymce.each([
-				function() {
+				function () {
 					// Try HTML5 Local Storage
 					if (localStorage) {
 						localStorage.setItem(testKey, testVal);
@@ -230,7 +230,7 @@
 					}
 				},
 
-				function() {
+				function () {
 					// Try HTML5 Session Storage
 					if (sessionStorage) {
 						sessionStorage.setItem(testKey, testVal);
@@ -243,16 +243,16 @@
 					}
 				},
 
-				function() {
+				function () {
 					// Try IE userData
 					if (tinymce.isIE) {
 						ed.getElement().style.behavior = "url('#default#userData')";
 
 						// Fake localStorage on old IE
 						return {
-							autoExpires : TRUE,
+							autoExpires: TRUE,
 
-							setItem : function(key, value) {
+							setItem: function (key, value) {
 								var userDataElement = ed.getElement();
 
 								userDataElement.setAttribute(key, value);
@@ -265,7 +265,7 @@
 								}
 							},
 
-							getItem : function(key) {
+							getItem: function (key) {
 								var userDataElement = ed.getElement();
 
 								try {
@@ -277,13 +277,13 @@
 								}
 							},
 
-							removeItem : function(key) {
+							removeItem: function (key) {
 								ed.getElement().removeAttribute(key);
 							}
 						};
 					}
 				},
-			], function(setup) {
+			], function (setup) {
 				// Try executing each function to find a suitable storage engine
 				try {
 					self.storage = setup();
@@ -301,7 +301,7 @@
 		 *
 		 * @method storeDraft
 		 */
-		storeDraft : function() {
+		storeDraft: function () {
 			var self = this, storage = self.storage, editor = self.editor, expires, content;
 
 			// Is the contents dirty
@@ -322,8 +322,8 @@
 
 					self.storage.setItem(self.key, content);
 					self.onStoreDraft.dispatch(self, {
-						expires : expires,
-						content : content
+						expires: expires,
+						content: content
 					});
 				}
 			}
@@ -334,7 +334,7 @@
 		 *
 		 * @method restoreDraft
 		 */
-		restoreDraft : function() {
+		restoreDraft: function () {
 			var self = this, storage = self.storage;
 
 			if (storage) {
@@ -343,7 +343,7 @@
 				if (content) {
 					self.editor.setContent(content);
 					self.onRestoreDraft.dispatch(self, {
-						content : content
+						content: content
 					});
 				}
 			}
@@ -355,7 +355,7 @@
 		 * @method hasDraft
 		 * @return {boolean} true/false state if there is a local draft.
 		 */
-		hasDraft : function() {
+		hasDraft: function () {
 			var self = this, storage = self.storage, expDate, exists;
 
 			if (storage) {
@@ -385,7 +385,7 @@
 		 *
 		 * @method removeDraft
 		 */
-		removeDraft : function() {
+		removeDraft: function () {
 			var self = this, storage = self.storage, key = self.key, content;
 
 			if (storage) {
@@ -397,18 +397,18 @@
 				// Dispatch remove event if we had any contents
 				if (content) {
 					self.onRemoveDraft.dispatch(self, {
-						content : content
+						content: content
 					});
 				}
 			}
 		},
 
-		"static" : {
+		"static": {
 			// Internal unload handler will be called before the page is unloaded
-			_beforeUnloadHandler : function(e) {
+			_beforeUnloadHandler: function (e) {
 				var msg;
 
-				tinymce.each(tinyMCE.editors, function(ed) {
+				tinymce.each(tinyMCE.editors, function (ed) {
 					// Store a draft for each editor instance
 					if (ed.plugins.autosave)
 						ed.plugins.autosave.storeDraft();

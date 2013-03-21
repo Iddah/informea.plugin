@@ -15,12 +15,12 @@ function ajax_search_highlight() {
     $entity_type = $search->get_request_value('entity');
     $items = $search->solr_highlight($id_entity, $entity_type);
 
-    if(!empty($items)) {
-        foreach($items as $item) {
+    if (!empty($items)) {
+        foreach ($items as $item) {
             $ret .= '<div class="highlight">' . $item . '</div>';
         }
     } else {
-        switch($entity_type) {
+        switch ($entity_type) {
             case 'treaty_article_paragraph':
                 $ob = CacheManager::load_treaty_paragraph($id_entity);
                 $ret = $ob->content;
@@ -38,14 +38,14 @@ function ajax_search_highlight() {
                 $ret = subwords($content, 30);
                 break;
         }
-        if(!empty($ret)) {
+        if (!empty($ret)) {
             $ret = '<div class="highlight">' . $ret . '</div>';
         }
     }
 
-	header('Content-Type:text/html');
+    header('Content-Type:text/html');
     echo $ret;
-	die();
+    die();
 }
 
 function ajax_search_more_results() {
@@ -57,10 +57,10 @@ function ajax_search_more_results() {
     );
     $search = new InformeaSearch3Tab1($_REQUEST, $options);
 
-	header('Content-Type:text/html');
+    header('Content-Type:text/html');
     $ret = $search->render_ajax();
     echo $ret;
-	die();
+    die();
 }
 
 /**
@@ -74,24 +74,24 @@ class InformeaSearch3 extends AbstractSearch {
     protected $results = null;
 
     public static function get_searcher() {
-		$goptions = get_option('informea_options');
-		$options = array(
-			'hostname' => $goptions['solr_server'],
-			'path' => $goptions['solr_path'],
-			'port' => $goptions['solr_port']
-		);
+        $goptions = get_option('informea_options');
+        $options = array(
+            'hostname' => $goptions['solr_server'],
+            'path' => $goptions['solr_path'],
+            'port' => $goptions['solr_port']
+        );
         $tab = get_request_int('q_tab', 2);
         $type = 'InformeaSearch3Tab' . $tab;
         return new $type($_REQUEST, $options);
     }
 
     public static function get_plain_searcher() {
-		$goptions = get_option('informea_options');
-		$options = array(
-			'hostname' => $goptions['solr_server'],
-			'path' => $goptions['solr_path'],
-			'port' => $goptions['solr_port']
-		);
+        $goptions = get_option('informea_options');
+        $options = array(
+            'hostname' => $goptions['solr_server'],
+            'path' => $goptions['solr_path'],
+            'port' => $goptions['solr_port']
+        );
         return new InformeaSearch3($_REQUEST, $options);
     }
 
@@ -103,26 +103,26 @@ class InformeaSearch3 extends AbstractSearch {
      * @param array $solr_cfg SOLR configuration. Array must contain the following
      * values: array('hostname' => 'localhost', 'path' => '/informea-solr', 'port' => '8081');
      */
-	public function __construct($request, $solr_cfg = array()) {
-		parent::__construct($request);
+    public function __construct($request, $solr_cfg = array()) {
+        parent::__construct($request);
         $cfg = array_merge(
-                array('hostname' => '127.0.0.1', 'path' => '/informea-solr', 'port' => '8081'),
-                $solr_cfg
+            array('hostname' => '127.0.0.1', 'path' => '/informea-solr', 'port' => '8081'),
+            $solr_cfg
         );
         $this->solr = new SolrClient($cfg);
-	}
+    }
 
 
-	/**
-	 * @return dictionary with search results. Primary entities are
-	 * keys: treaties, events, decisions.
-	 */
-	public function search() {
+    /**
+     * @return dictionary with search results. Primary entities are
+     * keys: treaties, events, decisions.
+     */
+    public function search() {
         $ret_db = $this->db_search();
         $ret_dec = $this->solr_search();
         $ret = $this->merge_results($ret_db, $ret_dec);
         return $ret;
-	}
+    }
 
 
     /**
@@ -131,11 +131,11 @@ class InformeaSearch3 extends AbstractSearch {
      * @return string HTML content
      */
     public function render($all = FALSE) {
-        if($this->results == null) {
+        if ($this->results == null) {
             $this->search($all);
         }
         $tab = $this->get_q_tab();
-        $klass = 'InformeaSearchRendererTab'.$tab;
+        $klass = 'InformeaSearchRendererTab' . $tab;
         $renderer = new $klass();
         return $renderer->render($this->results);
     }
@@ -143,19 +143,19 @@ class InformeaSearch3 extends AbstractSearch {
 
     private function merge_results($db, $solr) {
         $ret = $solr;
-        foreach($db['treaties'] as $id_treaty => $arr_treaty) {
+        foreach ($db['treaties'] as $id_treaty => $arr_treaty) {
             // Merge articles
-            if(!isset($ret['treaties'][$id_treaty])) {
+            if (!isset($ret['treaties'][$id_treaty])) {
                 $ret['treaties'][$id_treaty] = array('articles' => array(), 'decisions' => array());
             }
-            if(!empty($arr_treaty['articles'])) {
+            if (!empty($arr_treaty['articles'])) {
                 $ret['treaties'][$id_treaty]['articles'] += $arr_treaty['articles'];
             }
 
             // Merge decisions
-            if(!empty($arr_treaty['decisions'])) {
-                foreach($arr_treaty['decisions'] as $id_decision => $arr_decision) {
-                    if(!isset($ret['treaties'][$id_treaty]['decisions'][$id_decision])) {
+            if (!empty($arr_treaty['decisions'])) {
+                foreach ($arr_treaty['decisions'] as $id_decision => $arr_decision) {
+                    if (!isset($ret['treaties'][$id_treaty]['decisions'][$id_decision])) {
                         $ret['treaties'][$id_treaty]['decisions'][$id_decision] = array('paragraphs' => array(), 'documents' => array());
                     }
                     $ret['treaties'][$id_treaty]['decisions'][$id_decision]['paragraphs'] += $arr_decision['paragraphs'];
@@ -182,37 +182,37 @@ class InformeaSearch3 extends AbstractSearch {
      */
     protected function db_search() {
         $ret = array();
-        if(!$this->is_using_terms()) {
+        if (!$this->is_using_terms()) {
             return array('treaties' => array());
         }
         global $wpdb;
         $terms = $this->get_terms();
         $sql_filter = sprintf(' WHERE a.id IN (%s)', implode(",", $terms));
         $sql = sprintf("
-                SELECT a.id as id_term, 'treaty_paragraph' as `type`, b.id_treaty_article_paragraph as `id_entity`, c.id_treaty_article as `id_parent` FROM voc_concept a
+                SELECT a.id AS id_term, 'treaty_paragraph' AS `type`, b.id_treaty_article_paragraph AS `id_entity`, c.id_treaty_article AS `id_parent` FROM voc_concept a
                 INNER JOIN ai_treaty_article_paragraph_vocabulary b ON a.id = b.id_concept
                 INNER JOIN ai_treaty_article_paragraph c ON b.id_treaty_article_paragraph = c.id %s
                 UNION
-                SELECT a.id AS id_term, 'article' as `type`, b.id_treaty_article as `id_entity`, c.id_treaty as `id_parent` FROM voc_concept a
+                SELECT a.id AS id_term, 'article' AS `type`, b.id_treaty_article AS `id_entity`, c.id_treaty AS `id_parent` FROM voc_concept a
                 INNER JOIN ai_treaty_article_vocabulary b ON a.id = b.id_concept
                 INNER JOIN ai_treaty_article c ON b.id_treaty_article = c.id %s
                 UNION
-                SELECT a.id AS id_term, 'treaty' as `type`, b.id_treaty as `id_entity`, NULL as `id_parent` FROM voc_concept a
+                SELECT a.id AS id_term, 'treaty' AS `type`, b.id_treaty AS `id_entity`, NULL AS `id_parent` FROM voc_concept a
                 INNER JOIN ai_treaty_vocabulary b ON a.id = b.id_concept %s
                 UNION
-                SELECT a.id AS id_term, 'decision_paragraph' as `type`, b.id_decision_paragraph as `id_entity`, c.id_decision as `id_parent` FROM voc_concept a
+                SELECT a.id AS id_term, 'decision_paragraph' AS `type`, b.id_decision_paragraph AS `id_entity`, c.id_decision AS `id_parent` FROM voc_concept a
                 INNER JOIN ai_decision_paragraph_vocabulary b ON a.id = b.id_concept
                 INNER JOIN ai_decision_paragraph c ON b.id_decision_paragraph = c.id %s
                 UNION
-                SELECT a.id AS id_term, 'decision' as `type`, b.id_decision as `id_entity`, c.id_treaty as `id_parent` FROM voc_concept a
+                SELECT a.id AS id_term, 'decision' AS `type`, b.id_decision AS `id_entity`, c.id_treaty AS `id_parent` FROM voc_concept a
                 INNER JOIN ai_decision_vocabulary b ON a.id = b.id_concept
                 INNER JOIN ai_decision c ON b.id_decision = c.id %s
             ", $sql_filter, $sql_filter, $sql_filter, $sql_filter, $sql_filter
         );
         $rows = $wpdb->get_results($sql);
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
             $id_entity = $row->id_entity;
-            switch($row->type) {
+            switch ($row->type) {
                 case 'treaty':
                     $this->results_add_treaty($ret, $id_entity);
                     break;
@@ -255,25 +255,25 @@ class InformeaSearch3 extends AbstractSearch {
     protected function solr_search() {
         $ret = array('treaties' => array(), 'events' => array());
         $phrase = $this->get_freetext();
-        if(!$this->is_dirty_search() || empty($phrase) || $phrase == '*' || $phrase == '?') {
+        if (!$this->is_dirty_search() || empty($phrase) || $phrase == '*' || $phrase == '?') {
             return $ret;
         }
-		$query = new SolrQuery($phrase);
-		$query->addField('id')->addField('entity_type')->addField('decision_id')->addField('treaty_article_id')->addField('treaty_id');
-		$query->addFilterQuery($this->solr_entity_filter());
-		$query->setRows(99999);
-		try {
-			$q_resp = $this->solr->query($query);
-			$q_resp->setParseMode(SolrQueryResponse::PARSE_SOLR_DOC);
-			$resp = $q_resp->getResponse();
-			if(empty($resp->response->docs)) {
+        $query = new SolrQuery($phrase);
+        $query->addField('id')->addField('entity_type')->addField('decision_id')->addField('treaty_article_id')->addField('treaty_id');
+        $query->addFilterQuery($this->solr_entity_filter());
+        $query->setRows(99999);
+        try {
+            $q_resp = $this->solr->query($query);
+            $q_resp->setParseMode(SolrQueryResponse::PARSE_SOLR_DOC);
+            $resp = $q_resp->getResponse();
+            if (empty($resp->response->docs)) {
                 return $ret;
             }
-            foreach($resp->response->docs as $doc) {
+            foreach ($resp->response->docs as $doc) {
                 $id_entity = intval($doc->getField('id')->values[0]);
                 $type = $doc->getField('entity_type')->values[0];
                 $ob = new stdClass();
-                switch($type) {
+                switch ($type) {
                     case 'treaty';
                         $this->results_add_treaty($ret['treaties'], $id_entity);
                         break;
@@ -309,47 +309,47 @@ class InformeaSearch3 extends AbstractSearch {
                         throw new Exception('Unknown entity type:' . $type);
                 }
             }
-		} catch(Exception $e) {
-			error_log('Failed Solr query');
-			error_log(print_r($e, true));
-		}
+        } catch (Exception $e) {
+            error_log('Failed Solr query');
+            error_log(print_r($e, true));
+        }
         return $ret;
     }
 
 
-	protected function solr_entity_filter() {
-		$arr = array();
-		if($this->is_use_decisions()) {
-			$arr[] = 'entity_type:decision';
-			$arr[] = 'entity_type:decision_paragraph';
-			$arr[] = 'entity_type:decision_document';
-		}
-		if($this->is_use_meetings()) {
-			$arr[] = 'entity_type:event';
-		}
-		if($this->is_use_treaties()) {
-			$arr[] = 'entity_type:treaty';
-			$arr[] = 'entity_type:treaty_article';
-			$arr[] = 'entity_type:treaty_article_paragraph';
-		}
-		if(!count($arr)) {
-			$arr[] = 'entity_type:dummy_yield_zero_results';
-		}
-		return '(' . implode(' OR ', $arr) . ')';
-	}
+    protected function solr_entity_filter() {
+        $arr = array();
+        if ($this->is_use_decisions()) {
+            $arr[] = 'entity_type:decision';
+            $arr[] = 'entity_type:decision_paragraph';
+            $arr[] = 'entity_type:decision_document';
+        }
+        if ($this->is_use_meetings()) {
+            $arr[] = 'entity_type:event';
+        }
+        if ($this->is_use_treaties()) {
+            $arr[] = 'entity_type:treaty';
+            $arr[] = 'entity_type:treaty_article';
+            $arr[] = 'entity_type:treaty_article_paragraph';
+        }
+        if (!count($arr)) {
+            $arr[] = 'entity_type:dummy_yield_zero_results';
+        }
+        return '(' . implode(' OR ', $arr) . ')';
+    }
 
 
     public function solr_highlight($id_entity, $entity_type, $fragment_size = 500) {
         $ret = array();
         $phrase = $this->get_freetext();
-        if(!$this->is_dirty_search() || empty($phrase) || $phrase == '*' || $phrase == '?') {
+        if (!$this->is_dirty_search() || empty($phrase) || $phrase == '*' || $phrase == '?') {
             return $ret;
         }
         $excerpt = '';
-		$query = new SolrQuery($phrase);
-		$query->addField('id')->addField('entity_type')->addField('decision_id')->addField('treaty_article_id')->addField('treaty_id');
-		$query->addFilterQuery('entity_type:' . $entity_type . ' AND id:' . $id_entity);
-		$query->setRows(99999);
+        $query = new SolrQuery($phrase);
+        $query->addField('id')->addField('entity_type')->addField('decision_id')->addField('treaty_article_id')->addField('treaty_id');
+        $query->addFilterQuery('entity_type:' . $entity_type . ' AND id:' . $id_entity);
+        $query->setRows(99999);
         $query->setHighlight(true);
         $query->addHighlightField('text');
         $query->setHighlightSnippets(5);
@@ -359,31 +359,31 @@ class InformeaSearch3 extends AbstractSearch {
         $query->setHighlightMaxAnalyzedChars(200000); // To analyse entire document
         $uid = "$id_entity $entity_type";
         try {
-			$q_resp = $this->solr->query($query);
-			$q_resp->setParseMode(SolrQueryResponse::PARSE_SOLR_DOC);
-			$resp = $q_resp->getResponse();
-			if(isset($resp->response->docs[0])) {
-				if(isset($resp->highlighting)) {
-					if($resp->highlighting->offsetExists($uid)) {
-						$field = $resp->highlighting->offsetGet($uid);
-						$field = $field->offsetGet('text');
-						if($field) {
-							foreach($field as $snippet) {
-								$excerpt .= htmlspecialchars(strip_tags($snippet));
-							}
-							$excerpt = str_replace('$$$$$', '<strong class="highlight">', $excerpt);
-							$excerpt = str_replace('#####', '</strong>', $excerpt);
-							$excerpt = str_replace('&nbsp;', ' ', $excerpt);
+            $q_resp = $this->solr->query($query);
+            $q_resp->setParseMode(SolrQueryResponse::PARSE_SOLR_DOC);
+            $resp = $q_resp->getResponse();
+            if (isset($resp->response->docs[0])) {
+                if (isset($resp->highlighting)) {
+                    if ($resp->highlighting->offsetExists($uid)) {
+                        $field = $resp->highlighting->offsetGet($uid);
+                        $field = $field->offsetGet('text');
+                        if ($field) {
+                            foreach ($field as $snippet) {
+                                $excerpt .= htmlspecialchars(strip_tags($snippet));
+                            }
+                            $excerpt = str_replace('$$$$$', '<strong class="highlight">', $excerpt);
+                            $excerpt = str_replace('#####', '</strong>', $excerpt);
+                            $excerpt = str_replace('&nbsp;', ' ', $excerpt);
                             $excerpt = trim($excerpt);
                             $ret[] = $excerpt;
-						}
-					}
-				}
-			}
-		} catch(Exception $e) {
-			error_log('Failed Solr query');
-			error_log(print_r($e, true));
-		}
+                        }
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            error_log('Failed Solr query');
+            error_log(print_r($e, true));
+        }
         return $ret;
     }
 
@@ -398,11 +398,11 @@ class InformeaSearch3 extends AbstractSearch {
     function get_article_content($id) {
         $ret = '';
         $ob = CacheManager::load_treaty_article($id);
-        if(empty($ob->content)) {
-           $first = self::load_article_first_paragraph($id);
-           if(!empty($first->content)) {
-               $ret = $first->content;
-           }
+        if (empty($ob->content)) {
+            $first = self::load_article_first_paragraph($id);
+            if (!empty($first->content)) {
+                $ret = $first->content;
+            }
         } else {
             $ret = $ob->content;
         }
@@ -420,9 +420,9 @@ class InformeaSearch3 extends AbstractSearch {
     function get_decision_content($id) {
         $ret = '';
         $ob = CacheManager::load_decision($id);
-        if(empty($ob->body)) {
+        if (empty($ob->body)) {
             $first = $this->load_decision_first_paragraph($id);
-            if(empty($first->content)) {
+            if (empty($first->content)) {
                 $doc = new StdClass();
                 $doc->id = $id;
                 $klassi = new imea_decisions_page();
@@ -453,7 +453,6 @@ class InformeaSearch3 extends AbstractSearch {
 }
 
 
-
 /**
  * Handle results for the first tab - ordered chronologically + paginated
  */
@@ -465,9 +464,9 @@ class InformeaSearch3Tab1 extends InformeaSearch3 {
      * @param array $solr_cfg SOLR configuration. Array must contain the following
      * values: array('hostname' => 'localhost', 'path' => '/informea-solr', 'port' => '8081');
      */
-	public function __construct($request, $solr_cfg = array()) {
-		parent::__construct($request, $solr_cfg);
-	}
+    public function __construct($request, $solr_cfg = array()) {
+        parent::__construct($request, $solr_cfg);
+    }
 
 
     /**
@@ -480,8 +479,8 @@ class InformeaSearch3Tab1 extends InformeaSearch3 {
         $treaties = $this->is_use_treaties() ? array_keys($results['treaties']) : array();
         $cache_decisions = array();
         $decisions = array();
-        if($this->is_use_decisions()) {
-            foreach(array_keys($results['treaties']) as $id_treaty) {
+        if ($this->is_use_decisions()) {
+            foreach (array_keys($results['treaties']) as $id_treaty) {
                 $decisions += array_keys($results['treaties'][$id_treaty]['decisions']);
                 $cache_decisions += $results['treaties'][$id_treaty]['decisions'];
             }
@@ -489,18 +488,22 @@ class InformeaSearch3Tab1 extends InformeaSearch3 {
         $events = $this->is_use_meetings() ? $results['events'] : array();
         $ids = $this->sort_and_paginate($treaties, $decisions, $events, $all);
         $ret = array();
-        foreach($ids as $skeleton) {
-            if($skeleton->type == 'decision') {
+        foreach ($ids as $skeleton) {
+            if ($skeleton->type == 'decision') {
                 $cached = $cache_decisions[$skeleton->id_entity];
                 $ret[] = CacheManager::load_decision_hierarchy($skeleton->id_entity, $cached);
-            } else if($skeleton->type == 'treaty') {
-                $cached = $results['treaties'][$skeleton->id_entity];
-                $cached['decisions'] = array();
-                $ret[] = CacheManager::load_treaty_hierarchy($skeleton->id_entity, $cached);
-            } else if($skeleton->type == 'event') {
-                $ret[] = CacheManager::load_event($skeleton->id_entity);
             } else {
-                throw new Exception($skeleton->type);
+                if ($skeleton->type == 'treaty') {
+                    $cached = $results['treaties'][$skeleton->id_entity];
+                    $cached['decisions'] = array();
+                    $ret[] = CacheManager::load_treaty_hierarchy($skeleton->id_entity, $cached);
+                } else {
+                    if ($skeleton->type == 'event') {
+                        $ret[] = CacheManager::load_event($skeleton->id_entity);
+                    } else {
+                        throw new Exception($skeleton->type);
+                    }
+                }
             }
         }
         $this->results = $ret;
@@ -509,7 +512,7 @@ class InformeaSearch3Tab1 extends InformeaSearch3 {
 
 
     public function render_ajax() {
-        if($this->results == null) {
+        if ($this->results == null) {
             $this->search(FALSE);
         }
         $renderer = new InformeaSearchRendererTab1Ajax();
@@ -528,11 +531,11 @@ class InformeaSearch3Tab1 extends InformeaSearch3 {
         $limit = $all ? '' : sprintf(' LIMIT %s, %s', $start, $end);
         $sql = sprintf("
             SELECT * FROM (
-                SELECT id as `id_entity`, 'treaty' as `type`, `start` as `date` FROM ai_treaty %s
+                SELECT id AS `id_entity`, 'treaty' AS `type`, `start` AS `date` FROM ai_treaty %s
                 UNION
-                SELECT id as `id_entity`, 'decision' as `type`, published as `date` FROM ai_decision %s
+                SELECT id AS `id_entity`, 'decision' AS `type`, published AS `date` FROM ai_decision %s
                 UNION
-                SELECT id as `id_entity`, 'event' as `type`, start as `date` FROM ai_event %s
+                SELECT id AS `id_entity`, 'event' AS `type`, start AS `date` FROM ai_event %s
             ) soup ORDER BY `date` %s %s",
             $where_treaty,
             $where_decision,
@@ -555,9 +558,9 @@ class InformeaSearch3Tab2 extends InformeaSearch3 {
      * @param array $solr_cfg SOLR configuration. Array must contain the following
      * values: array('hostname' => 'localhost', 'path' => '/informea-solr', 'port' => '8081');
      */
-	public function __construct($request, $solr_cfg = array()) {
-		parent::__construct($request, $solr_cfg);
-	}
+    public function __construct($request, $solr_cfg = array()) {
+        parent::__construct($request, $solr_cfg);
+    }
 
 
     /**
@@ -567,8 +570,8 @@ class InformeaSearch3Tab2 extends InformeaSearch3 {
     public function search() {
         $results = parent::search();
         $this->results = array();
-        foreach($results['treaties'] as $id_treaty => &$data) {
-            if(!$this->is_use_decisions()) {
+        foreach ($results['treaties'] as $id_treaty => &$data) {
+            if (!$this->is_use_decisions()) {
                 $data['decisions'] = array();
             }
             $this->results[$id_treaty] = CacheManager::load_treaty_hierarchy($id_treaty, $data);
@@ -589,9 +592,9 @@ class InformeaSearch3Tab3 extends InformeaSearch3 {
      * @param array $solr_cfg SOLR configuration. Array must contain the following
      * values: array('hostname' => 'localhost', 'path' => '/informea-solr', 'port' => '8081');
      */
-	public function __construct($request, $solr_cfg = array()) {
-		parent::__construct($request, $solr_cfg);
-	}
+    public function __construct($request, $solr_cfg = array()) {
+        parent::__construct($request, $solr_cfg);
+    }
 
 
     /**
@@ -601,14 +604,14 @@ class InformeaSearch3Tab3 extends InformeaSearch3 {
     public function search() {
         $results = parent::search();
         $ret = array();
-        foreach($results['treaties'] as $id_treaty => &$data) {
-            if(!$this->is_use_decisions()) {
+        foreach ($results['treaties'] as $id_treaty => &$data) {
+            if (!$this->is_use_decisions()) {
                 $data['decisions'] = array();
             }
             $treaty = CacheManager::load_treaty($id_treaty);
-            if($treaty->regional == '0') {
+            if ($treaty->regional == '0') {
                 $treaty = CacheManager::load_treaty_hierarchy($id_treaty, $data);
-                if(count($treaty->articles) > 0) {
+                if (count($treaty->articles) > 0) {
                     $ret[$id_treaty] = $treaty;
                 }
             }
@@ -629,9 +632,9 @@ class InformeaSearch3Tab4 extends InformeaSearch3 {
      * @param array $solr_cfg SOLR configuration. Array must contain the following
      * values: array('hostname' => 'localhost', 'path' => '/informea-solr', 'port' => '8081');
      */
-	public function __construct($request, $solr_cfg = array()) {
-		parent::__construct($request, $solr_cfg);
-	}
+    public function __construct($request, $solr_cfg = array()) {
+        parent::__construct($request, $solr_cfg);
+    }
 
 
     /**
@@ -641,10 +644,10 @@ class InformeaSearch3Tab4 extends InformeaSearch3 {
     public function search() {
         $results = parent::search();
         $ret = array();
-        foreach($results['treaties'] as $id_treaty => &$data) {
+        foreach ($results['treaties'] as $id_treaty => &$data) {
             $data['articles'] = array();
             $treaty = CacheManager::load_treaty_hierarchy($id_treaty, $data);
-            if(count($treaty->decisions) > 0) {
+            if (count($treaty->decisions) > 0) {
                 $ret[$id_treaty] = $treaty;
             }
         }
@@ -665,9 +668,9 @@ class InformeaSearch3Tab5 extends InformeaSearch3 {
      * @param array $solr_cfg SOLR configuration. Array must contain the following
      * values: array('hostname' => 'localhost', 'path' => '/informea-solr', 'port' => '8081');
      */
-	public function __construct($request, $solr_cfg = array()) {
-		parent::__construct($request, $solr_cfg);
-	}
+    public function __construct($request, $solr_cfg = array()) {
+        parent::__construct($request, $solr_cfg);
+    }
 
 
     /**
@@ -677,14 +680,14 @@ class InformeaSearch3Tab5 extends InformeaSearch3 {
     public function search() {
         $results = parent::search();
         $ret = array();
-        foreach($results['treaties'] as $id_treaty => &$data) {
-            if(!$this->is_use_decisions()) {
+        foreach ($results['treaties'] as $id_treaty => &$data) {
+            if (!$this->is_use_decisions()) {
                 $data['decisions'] = array();
             }
             $treaty = CacheManager::load_treaty($id_treaty);
-            if($treaty->regional == '1') {
+            if ($treaty->regional == '1') {
                 $treaty = CacheManager::load_treaty_hierarchy($id_treaty, $data);
-                if(count($treaty->articles > 0)) {
+                if (count($treaty->articles > 0)) {
                     $treaty = CacheManager::load_treaty_hierarchy($id_treaty, $data);
                     $ret[$id_treaty] = $treaty;
                 }

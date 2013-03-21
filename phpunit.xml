@@ -9,12 +9,12 @@
          stopOnFailure="false"
          syntaxCheck="false"
          bootstrap="tests/bootstrap.php">
-    <testsuites>
-        <testsuite name="InforMEA Search">
-            <directory>./search/tests/</directory>
-        </testsuite>
-        <testsuite name="InforMEA Test Suite">
-            <directory>./tests/</directory>
-        </testsuite>
-    </testsuites>
+	<testsuites>
+		<testsuite name="InforMEA Search">
+			<directory>./search/tests/</directory>
+		</testsuite>
+		<testsuite name="InforMEA Test Suite">
+			<directory>./tests/</directory>
+		</testsuite>
+	</testsuites>
 </phpunit>

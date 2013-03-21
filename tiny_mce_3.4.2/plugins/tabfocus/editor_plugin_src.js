@@ -8,11 +8,11 @@
  * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
-(function() {
+(function () {
 	var DOM = tinymce.DOM, Event = tinymce.dom.Event, each = tinymce.each, explode = tinymce.explode;
 
 	tinymce.create('tinymce.plugins.TabFocusPlugin', {
-		init : function(ed, url) {
+		init: function (ed, url) {
 			function tabCancel(ed, e) {
 				if (e.keyCode === 9)
 					return Event.cancel(e);
@@ -24,13 +24,11 @@
 				function find(d) {
 					el = DOM.select(':input:enabled,*[tabindex]');
 					function canSelect(e) {
-						return e.type != 'hidden' && 
-						e.tabIndex != '-1' && 
-							!(el[i].style.display == "none") && 
-							!(el[i].style.visibility == "hidden");
-				    }
+						return e.type != 'hidden' &&
+							e.tabIndex != '-1' && !(el[i].style.display == "none") && !(el[i].style.visibility == "hidden");
+					}
 
-					each(el, function(e, i) {
+					each(el, function (e, i) {
 						if (e.id == ed.id) {
 							x = i;
 							return false;
@@ -77,7 +75,7 @@
 						if (el.id && (ed = tinymce.get(el.id || el.name)))
 							ed.focus();
 						else
-							window.setTimeout(function() {
+							window.setTimeout(function () {
 								if (!tinymce.isWebKit)
 									window.focus();
 								el.focus();
@@ -98,13 +96,13 @@
 
 		},
 
-		getInfo : function() {
+		getInfo: function () {
 			return {
-				longname : 'Tabfocus',
-				author : 'Moxiecode Systems AB',
-				authorurl : 'http://tinymce.moxiecode.com',
-				infourl : 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/tabfocus',
-				version : tinymce.majorVersion + "." + tinymce.minorVersion
+				longname: 'Tabfocus',
+				author: 'Moxiecode Systems AB',
+				authorurl: 'http://tinymce.moxiecode.com',
+				infourl: 'http://wiki.moxiecode.com/index.php/TinyMCE:Plugins/tabfocus',
+				version: tinymce.majorVersion + "." + tinymce.minorVersion
 			};
 		}
 	});

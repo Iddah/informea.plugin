@@ -2,7 +2,8 @@
 
 require_once(dirname(__FILE__) . '/../AbstractSearch.php');
 
-class AbstractSearchTestImpl extends AbstractSearch {}
+class AbstractSearchTestImpl extends AbstractSearch {
+}
 
 class AbstractSearchTest extends WP_UnitTestCase {
 
@@ -26,14 +27,14 @@ class AbstractSearchTest extends WP_UnitTestCase {
     function test_get_request_value() {
         $ob = new AbstractSearchTestImpl(
             array(
-                    'param1' => 'value1',
-                    'param2' => array('value1', 'value2'),
-                    'param3' => '5',
-                    'param4' => '2.3',
-                    'param5' => ' test ',
-                    'param6' => array(' test1 ', ' test2 ')
-                )
-           );
+                'param1' => 'value1',
+                'param2' => array('value1', 'value2'),
+                'param3' => '5',
+                'param4' => '2.3',
+                'param5' => ' test ',
+                'param6' => array(' test1 ', ' test2 ')
+            )
+        );
         $this->assertEquals('value1', $ob->get_request_value('param1'));
         $this->assertEquals(array('value1', 'value2'), $ob->get_request_value('param2'));
         $this->assertEquals(5, $ob->get_request_value('param3'));
@@ -50,11 +51,11 @@ class AbstractSearchTest extends WP_UnitTestCase {
     function test_get_request_int() {
         $ob = new AbstractSearchTestImpl(
             array(
-                    'param1' => 'str',
-                    'param2' => '2',
-                    'param3' => '2.5'
-                )
-           );
+                'param1' => 'str',
+                'param2' => '2',
+                'param3' => '2.5'
+            )
+        );
         $this->assertEquals(0, $ob->get_request_int('param1'));
         $this->assertEquals(2, $ob->get_request_int('param2'));
         $this->assertEquals(2, $ob->get_request_int('param3'));

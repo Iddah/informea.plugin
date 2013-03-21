@@ -27,8 +27,8 @@ License: GPL2
 define('INFORMEA_VERSION', '1.5');
 
 if (!function_exists('add_action')) {
-	// Silence is golden
-	exit;
+    // Silence is golden
+    exit;
 }
 
 include_once ("recaptchalib.php");
@@ -46,6 +46,6 @@ include_once ("search/InformeaSearch3.php");
 include_once ("rss.php");
 
 register_activation_hook(__FILE__, array('imeasite', 'install'));
-register_uninstall_hook(__FILE__, array('imeasite', 'uninstall' ));
+register_uninstall_hook(__FILE__, array('imeasite', 'uninstall'));
 
 ?>

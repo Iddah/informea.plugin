@@ -151,7 +151,6 @@ class InformeaSearch3Test extends WP_UnitTestCase {
         $results = $ob->search();
         $this->assertEquals(0, count($results['treaties']));
         $this->assertEquals(0, count($results['events']));
-
     }
 
     function test_solr_entity_filter() {
@@ -182,7 +181,6 @@ class InformeaSearch3Test extends WP_UnitTestCase {
         $this->assertEquals(35, $treaty['decisions'][10303]['paragraphs'][0]);
         $this->assertEquals(4970, $treaty['decisions'][10303]['documents'][0]);
         $this->assertEquals(7715, $treaty['articles'][1405][0]);
-
     }
 
 

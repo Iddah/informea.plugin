@@ -8,28 +8,28 @@
  * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
-(function() {
+(function () {
 	tinyMCEPopup.requireLangPack();
 
-	var defaultDocTypes = 
+	var defaultDocTypes =
 		'XHTML 1.0 Transitional=<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">,' +
-		'XHTML 1.0 Frameset=<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">,' +
-		'XHTML 1.0 Strict=<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">,' +
-		'XHTML 1.1=<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">,' +
-		'HTML 4.01 Transitional=<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">,' +
-		'HTML 4.01 Strict=<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">,' +
-		'HTML 4.01 Frameset=<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">';
+			'XHTML 1.0 Frameset=<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">,' +
+			'XHTML 1.0 Strict=<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">,' +
+			'XHTML 1.1=<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">,' +
+			'HTML 4.01 Transitional=<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">,' +
+			'HTML 4.01 Strict=<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">,' +
+			'HTML 4.01 Frameset=<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">';
 
-	var defaultEncodings = 
+	var defaultEncodings =
 		'Western european (iso-8859-1)=iso-8859-1,' +
-		'Central European (iso-8859-2)=iso-8859-2,' +
-		'Unicode (UTF-8)=utf-8,' +
-		'Chinese traditional (Big5)=big5,' +
-		'Cyrillic (iso-8859-5)=iso-8859-5,' +
-		'Japanese (iso-2022-jp)=iso-2022-jp,' +
-		'Greek (iso-8859-7)=iso-8859-7,' +
-		'Korean (iso-2022-kr)=iso-2022-kr,' +
-		'ASCII (us-ascii)=us-ascii';
+			'Central European (iso-8859-2)=iso-8859-2,' +
+			'Unicode (UTF-8)=utf-8,' +
+			'Chinese traditional (Big5)=big5,' +
+			'Cyrillic (iso-8859-5)=iso-8859-5,' +
+			'Japanese (iso-2022-jp)=iso-2022-jp,' +
+			'Greek (iso-8859-7)=iso-8859-7,' +
+			'Korean (iso-2022-kr)=iso-2022-kr,' +
+			'ASCII (us-ascii)=us-ascii';
 
 	var defaultFontNames = 'Arial=arial,helvetica,sans-serif;Courier New=courier new,courier,monospace;Georgia=georgia,times new roman,times,serif;Tahoma=tahoma,arial,helvetica,sans-serif;Times New Roman=times new roman,times,serif;Verdana=verdana,arial,helvetica,sans-serif;Impact=impact;WingDings=wingdings';
 	var defaultFontSizes = '10px,11px,12px,13px,14px,15px,16px';
@@ -62,7 +62,7 @@
 	};
 
 	window.FullPageDialog = {
-		changedStyle : function() {
+		changedStyle: function () {
 			var val, styles = tinyMCEPopup.editor.dom.parseStyle(getVal('style'));
 
 			setVal('fontface', styles['font-face']);
@@ -107,9 +107,9 @@
 			updateColor('textcolor_pick', 'textcolor');
 		},
 
-		changedStyleProp : function() {
+		changedStyleProp: function () {
 			var val, dom = tinyMCEPopup.editor.dom, styles = dom.parseStyle(getVal('style'));
-	
+
 			styles['font-face'] = getVal('fontface');
 			styles['font-size'] = getVal('fontsize');
 			styles['color'] = getVal('textcolor');
@@ -146,11 +146,11 @@
 			setVal('style', dom.serializeStyle(dom.parseStyle(dom.serializeStyle(styles))));
 			this.changedStyle();
 		},
-		
-		update : function() {
+
+		update: function () {
 			var data = {};
 
-			tinymce.each(tinyMCEPopup.dom.select('select,input,textarea'), function(node) {
+			tinymce.each(tinyMCEPopup.dom.select('select,input,textarea'), function (node) {
 				data[node.id] = getVal(node.id);
 			});
 
@@ -158,7 +158,7 @@
 			tinyMCEPopup.close();
 		}
 	};
-	
+
 	function init() {
 		var form = document.forms[0], i, item, list, editor = tinyMCEPopup.editor;
 
@@ -195,13 +195,13 @@
 		}
 
 		// Setup color pickers
-		document.getElementById('bgcolor_pickcontainer').innerHTML = getColorPickerHTML('bgcolor_pick','bgcolor');
-		document.getElementById('link_color_pickcontainer').innerHTML = getColorPickerHTML('link_color_pick','link_color');
-		document.getElementById('visited_color_pickcontainer').innerHTML = getColorPickerHTML('visited_color_pick','visited_color');
-		document.getElementById('active_color_pickcontainer').innerHTML = getColorPickerHTML('active_color_pick','active_color');
-		document.getElementById('textcolor_pickcontainer').innerHTML = getColorPickerHTML('textcolor_pick','textcolor');
-		document.getElementById('stylesheet_browsercontainer').innerHTML = getBrowserHTML('stylesheetbrowser','stylesheet','file','fullpage');
-		document.getElementById('bgimage_pickcontainer').innerHTML = getBrowserHTML('bgimage_browser','bgimage','image','fullpage');
+		document.getElementById('bgcolor_pickcontainer').innerHTML = getColorPickerHTML('bgcolor_pick', 'bgcolor');
+		document.getElementById('link_color_pickcontainer').innerHTML = getColorPickerHTML('link_color_pick', 'link_color');
+		document.getElementById('visited_color_pickcontainer').innerHTML = getColorPickerHTML('visited_color_pick', 'visited_color');
+		document.getElementById('active_color_pickcontainer').innerHTML = getColorPickerHTML('active_color_pick', 'active_color');
+		document.getElementById('textcolor_pickcontainer').innerHTML = getColorPickerHTML('textcolor_pick', 'textcolor');
+		document.getElementById('stylesheet_browsercontainer').innerHTML = getBrowserHTML('stylesheetbrowser', 'stylesheet', 'file', 'fullpage');
+		document.getElementById('bgimage_pickcontainer').innerHTML = getBrowserHTML('bgimage_browser', 'bgimage', 'image', 'fullpage');
 
 		// Resize some elements
 		if (isVisible('stylesheetbrowser'))
@@ -214,7 +214,7 @@
 			document.getElementById('bgimage').style.width = '210px';
 
 		// Update form
-		tinymce.each(tinyMCEPopup.getWindowArg('data'), function(value, key) {
+		tinymce.each(tinyMCEPopup.getWindowArg('data'), function (value, key) {
 			setVal(key, value);
 		});
 

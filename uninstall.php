@@ -4,7 +4,7 @@
  * Remove of all plugin specific configuration & settings.
  */
 
-error_log( "mimi" );
+error_log("mimi");
 function informea_uninstall() {
-	_log( 'informea_install: Uninstalling the plugin');
+    _log('informea_install: Uninstalling the plugin');
 }

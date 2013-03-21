@@ -12,12 +12,12 @@
 	margin-bottom: 3px;
 }
 
-#rowtype,#align,#valign,#class,#height {
+#rowtype, #align, #valign, #class, #height {
 	width: 150px;
 }
 
 #height {
-	width: 50px;	
+	width: 50px;
 }
 
 .col2 {

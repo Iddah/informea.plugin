@@ -188,8 +188,8 @@ class CacheManagerTest extends WP_UnitTestCase {
 
     function test_load_treaty_hierarchy() {
         $data = array(
-            'articles' => array( 1405 => array( 7715, 7716 ) ),
-            'decisions' => array( 10303 => array(
+            'articles' => array(1405 => array(7715, 7716)),
+            'decisions' => array(10303 => array(
                 'paragraphs' => array(35),
                 'documents' => array(4969, 4970)
             ))
