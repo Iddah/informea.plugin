@@ -164,6 +164,30 @@ class informea_treaties extends imea_treaties_page {
         }
         return $ret;
     }
+
+
+    function tab_decisions_meeting_title($meeting) {
+        return !empty($meeting->abbreviation) ? $meeting->abbreviation : $meeting->title;
+    }
+
+    function tab_decisions_with_paragraph_ids() {
+        global $wpdb;
+        return $wpdb->get_col('SELECT DISTINCT(a.id) FROM ai_decision a INNER JOIN ai_decision_paragraph b ON a.id = b.id_decision');
+    }
+
+    function page_decisions_overview_decision_link($decision, $treaty) {
+        static $tagged = NULL;
+        if($tagged === NULL) {
+            $tagged = $this->tab_decisions_with_paragraph_ids();
+        }
+        if(!in_array($decision->id, $tagged)) {
+            return $decision->number;
+        } else {
+            $no = $decision->number;
+            $url = sprintf('%s/treaties/%s/decisions/%d', get_bloginfo('url'), $treaty->odata_name, $decision->id);
+            return sprintf('<a name="decision-%d" target="_blank" href="%s">%s</a>', $no, $url, $no);
+        }
+    }
 }
 
 
