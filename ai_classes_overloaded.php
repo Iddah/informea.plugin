@@ -188,6 +188,39 @@ class informea_treaties extends imea_treaties_page {
             return sprintf('<a name="decision-%d" target="_blank" href="%s">%s</a>', $no, $url, $no);
         }
     }
+
+
+    /**
+     * Retrieve featured item "of the day".
+     *
+     * @param int $interval (Optional) Interval in seconds to preserve featured item. Default 24h (86400 seconds)
+     * @param bool $reset (Optional) Force reset the featured item. Default FALSE
+     * @return Featured object
+     */
+    static function get_featured_treaty($interval = 86400,$reset = FALSE) {
+        $option = get_option('informea_options');
+        $treaty = NULL;
+        if (isset($option['featured_treaty'])) {
+            $d = $option['featured_treaty_timestamp'];
+            if (time() - $d < $interval) {
+                $treaty = $option['featured_treaty'];
+            }
+        }
+        if (empty($treaty) || $reset) {
+            $treaty = self::get_random_treaty();
+            $option['featured_treaty'] = $treaty;
+            $option['featured_treaty_timestamp'] = time();
+            update_option('informea_options', $option);
+        }
+        return $treaty;
+    }
+
+
+    static function get_random_treaty() {
+        $ob = new self();
+        $treaties = $ob->get_treaties();
+        return $treaties[array_rand($treaties)];
+    }
 }
 
 
@@ -365,5 +398,10 @@ class informea_events extends imea_events_page {
             $ret[$row->id] = $row;
         }
         return $ret;
+    }
+
+    static function get_meetings_current_week() {
+        global $wpdb;
+        return $wpdb->get_results("SELECT b.*, a.logo_medium FROM ai_treaty a INNER JOIN ai_event b ON a.id = b.id_treaty WHERE a.enabled = 1 AND a.use_informea = 1 AND b.start > NOW() AND b.start < DATE_ADD(NOW(), INTERVAL 7-DAYOFWEEK(NOW()) DAY)");
     }
 }

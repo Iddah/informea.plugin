@@ -251,7 +251,7 @@ if (!class_exists('imeasite')) {
         return $theme;
     }
 
-    if (!$mobile_detect->isMobile()) {
+    if (FALSE) {
         /** Add filter to intercept menu creation and inject the Home link */
         add_filter('wp_nav_menu_items', array('imeasite', 'add_home_image_link'));
     }

@@ -463,43 +463,6 @@ if (!function_exists('generate_calendar_eventspage')) {
 }
 
 
-if (!function_exists('show_event_interval')) {
-    function show_event_interval($ob_event) {
-        $interval = '';
-        $start = NULL;
-        $end = NULL;
-        if ($ob_event->start !== NULL) {
-            $start = strtotime($ob_event->start);
-        }
-        if ($ob_event->end !== NULL) {
-            $end = strtotime($ob_event->end);
-        }
-        if ($start !== NULL && $end === NULL) {
-            $interval = date('j M, Y', $start);
-        }
-        if ($start !== NULL && $end !== NULL) {
-            // Same year
-            if (date('Y', $start) == date('Y', $end)) {
-                // Same month
-                if (date('n', $start) == date('n', $end)) {
-                    // Same day
-                    if (date('j', $start) == date('j', $end)) {
-                        $interval = date('j M, Y', $end);
-                    } else {
-                        $interval = date('j', $start) . ' - ' . date('j M, Y', $end);
-                    }
-                } else {
-                    $interval = date('j M', $start) . ' - ' . date('j M, Y', $end);
-                }
-            } else {
-                $interval = date('j, M Y', $start) . ' - ' . date('j M, Y', $end);
-            }
-        }
-        return $interval;
-    }
-}
-
-
 if (!function_exists('replace_enter_br')) {
     function replace_enter_br($strval) {
         if ($strval !== NULL) {
