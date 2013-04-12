@@ -3,6 +3,140 @@
 add_action('wp_ajax_nopriv_get_decision_paragraph_tags', 'informea_get_decision_paragraph_tags');
 add_action('wp_ajax_get_decision_paragraph_tags', 'informea_get_decision_paragraph_tags');
 
+add_action('wp_ajax_nopriv_countries_autocomplete', 'ajax_countries_autocomplete');
+add_action('wp_ajax_countries_autocomplete', 'ajax_countries_autocomplete');
+
+add_action('wp_ajax_nopriv_nfp_autocomplete', 'ajax_nfp_autocomplete');
+add_action('wp_ajax_nfp_autocomplete', 'ajax_nfp_autocomplete');
+
+add_action('wp_ajax_nopriv_country_mea_membership', 'ajax_country_mea_membership');
+add_action('wp_ajax_country_mea_membership', 'ajax_country_mea_membership');
+
+add_action('wp_ajax_nopriv_country_nfp', 'ajax_country_nfp');
+add_action('wp_ajax_country_nfp', 'ajax_country_nfp');
+
+add_action('wp_ajax_nopriv_country_sites_markers', 'ajax_country_sites_markers');
+add_action('wp_ajax_country_sites_markers', 'ajax_country_sites_markers');
+
+/* Ajax endpoints */
+
+function ajax_countries_autocomplete() {
+    $page_data = new imea_countries_page(NULL);
+    $key = get_request_value('key');
+    $countries = $page_data->search_countries_by_name($key);
+    $arr = array();
+    foreach ($countries as $country) {
+        $arr[] = array('id' => $country->id, 'name' => $country->name);
+    }
+    header('Content-Type:application/json');
+    echo json_encode($arr);
+    die();
+}
+
+function ajax_nfp_autocomplete() {
+    $page_data = new imea_countries_page(NULL);
+    $key = get_request_value('key');
+    $objects = $page_data->search_nfp_by_name($key);
+    $arr = array();
+    foreach ($objects as $ob) {
+        $label = $ob->first_name . ' ' . $ob->last_name . ' (' . $ob->country_name . ')';
+        $arr[] = array('id_contact' => $ob->id, 'id_country' => $ob->id_country, 'label' => $label, 'id_treaty' => $ob->id_treaty);
+    }
+    header('Content-Type:application/json');
+    echo json_encode($arr);
+    die();
+}
+
+function ajax_country_sites_markers() {
+    $id_country = get_request_int('id');
+    header('Content-Type:application/json');
+
+    $icon_whc = sprintf('%s/wp-content/uploads/whc_marker.png', get_bloginfo('url'));
+    $icon_ramsar = sprintf('%s/wp-content/uploads/ramsar_marker.png', get_bloginfo('url'));
+
+    $whc_markers = array();
+    $ramsar_markers = array();
+
+    foreach(informea_countries::get_whc_sites($id_country) as $site) {
+        $ob = new stdClass();
+        $ob->the_id = $site->original_id;
+        $ob->clickable = TRUE;
+        $ob->icon = $icon_whc;
+        $ob->latitude = $site->latitude;
+        $ob->longitude = $site->longitude;
+        $ob->title = $site->name;
+        $ob->url = $site->url;
+        $whc_markers[] = $ob;
+    }
+
+    foreach(informea_countries::get_ramsar_sites($id_country) as $site) {
+        $ob = new stdClass();
+        $ob->id = str_replace('ramsar-', '', $site->original_id);
+        $ob->the_id = $site->original_id;
+        $ob->clickable = TRUE;
+        $ob->icon = $icon_ramsar;
+        $ob->latitude = $site->latitude;
+        $ob->longitude = $site->longitude;
+        $ob->title = $site->name;
+        $ob->url = $site->url;
+        $ramsar_markers[] = $ob;
+    }
+
+
+    echo json_encode(
+        array(
+            'whc' => $whc_markers,
+            'ramsar' => $ramsar_markers
+        )
+    );
+    die();
+}
+
+function ajax_country_mea_membership() {
+    $id_country = get_request_int('id');
+    $membership = informea_countries::get_treaty_membership($id_country);
+    header('Content-Type:text/html');
+?>
+    <table>
+        <?php foreach($membership as $row): ?>
+        <tr>
+            <td><a href="<?php echo get_bloginfo('url') . '/treaties/' . $row->odata_name;?>"><?php echo $row->short_title; ?></a></td>
+            <td class="text-center"><?php echo mysql2date('Y', $row->date); ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+<?php
+    die();
+}
+
+function ajax_country_nfp() {
+    $id_country = get_request_int('id');
+    $nfps = informea_countries::get_focal_points_by_treaty($id_country);
+    header('Content-Type:text/html');
+    ?>
+    <table>
+        <?php foreach($nfps as $row): ?>
+            <tr>
+                <td class="text-top"><a href="<?php echo get_bloginfo('url') . '/treaties/' . $row->odata_name;?>"><?php echo $row->short_title; ?></a></td>
+                <td class="text-top">
+                    <ul>
+                    <?php foreach($row->focal_points as $p): ?>
+                        <li>
+                            <?php echo sprintf('%s %s %s', $p->prefix, $p->first_name, $p->last_name); ?>
+                            <p class="note">
+                                <?php echo informea_countries::get_focal_point_position($p); ?>
+                            </p>
+                            [ <a target="_blank" href="<?php echo sprintf('%s/countries/%d/sendmail/%d', get_bloginfo('url'), $id_country, $p->id);?>">contact</a> ]
+                        </li>
+                    <?php endforeach ?>
+                    </ul>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+    <?php
+    die();
+}
 
 /**
  * Generate JSON object with paragraph tags based on paragraph id
@@ -298,10 +432,8 @@ class informea_countries extends imea_countries_page {
      * @return array Array of treaty objects having set property focal_points as array of National Focal Points.
      * @global $wpdb WordPress database
      */
-    function get_focal_points_by_treaty($id_country = NULL) {
+    static function get_focal_points_by_treaty($id_country = NULL) {
         global $wpdb;
-
-        $id_country = !empty($id_country) ? $id_country : $this->id_country;
         $treaties = $wpdb->get_results(
             $wpdb->prepare(
                 'SELECT * FROM ai_treaty WHERE use_informea=1 AND id IN (SELECT DISTINCT(id_treaty) FROM view_people_treaty WHERE id_country=%d GROUP BY id_treaty)', $id_country
@@ -320,6 +452,16 @@ class informea_countries extends imea_countries_page {
         return $treaties;
     }
 
+    static function get_focal_point_position($nfp, $prefix = '(', $suffix = ')') {
+        if(!empty($nfp->position)) {
+            return sprintf('%s%s%s', $prefix, $nfp->position, $suffix);
+        } else if(!empty($nfp->institution)) {
+            return sprintf('%s%s%s', $prefix, $nfp->institution, $suffix);
+        } else  if(!empty($nfp->department)) {
+            return sprintf('%s%s%s', $prefix, $nfp->department, $suffix);
+        }
+        return FALSE;
+    }
 
     /**
      * Retrieve national reports for a country, group by treaty
