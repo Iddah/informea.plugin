@@ -544,7 +544,7 @@ class informea_events extends imea_events_page {
 
     static function get_meetings_current_week() {
         global $wpdb;
-        return $wpdb->get_results("SELECT b.*, a.logo_medium FROM ai_treaty a INNER JOIN ai_event b ON a.id = b.id_treaty WHERE a.enabled = 1 AND a.use_informea = 1 AND b.start > NOW() AND b.start < DATE_ADD(NOW(), INTERVAL 7-DAYOFWEEK(NOW()) DAY)");
+        return $wpdb->get_results("SELECT b.*, a.logo_medium, a.odata_name FROM ai_treaty a INNER JOIN ai_event b ON a.id = b.id_treaty WHERE a.enabled = 1 AND a.use_informea = 1 AND b.start > NOW() LIMIT 5");
     }
 }
 
@@ -594,7 +594,6 @@ class imea_index_page extends imea_page_base_page {
     static function get_latest_changelog_entry() {
         $cat = get_category_by_slug('changelog');
         $posts = query_posts("showposts=1&orderby=date&order=DESC&cat={$cat->cat_ID}");
-        var_dump($posts);
         if(count($posts) > 0) {
 
             return $posts[0];
