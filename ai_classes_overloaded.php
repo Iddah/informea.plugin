@@ -547,3 +547,58 @@ class informea_events extends imea_events_page {
         return $wpdb->get_results("SELECT b.*, a.logo_medium FROM ai_treaty a INNER JOIN ai_event b ON a.id = b.id_treaty WHERE a.enabled = 1 AND a.use_informea = 1 AND b.start > NOW() AND b.start < DATE_ADD(NOW(), INTERVAL 7-DAYOFWEEK(NOW()) DAY)");
     }
 }
+
+
+
+class imea_index_page extends imea_page_base_page {
+
+    /**
+     * @deprecated in theme informea2
+     */
+    static function get_slider_news() {
+        global $wpdb;
+        global $post;
+        $ret = array();
+
+        $pictures = $wpdb->get_results('SELECT * FROM imea_pictures WHERE is_slider = 1 ORDER BY rand() ');
+        $c = count($pictures);
+
+        $wpq = new WP_Query(array('post_date' => 'DATE(NOW())', 'post_type' => 'post', 'orderby' => 'post_date',
+            'posts_per_page' => $c, 'order' => 'DESC'));
+        $posts = array();
+        while ($wpq->have_posts()) {
+            $wpq->the_post();
+            $posts[] = $post;
+        }
+
+        for ($i = 0; $i < $c; $i++) {
+            $pic = $pictures[$i];
+            $ob = new StdClass();
+            $ob->image_url = get_bloginfo('url') . '/wp-content/uploads/pictures/slide_images/' . $pic->filename;
+            $ob->image_copyright = $pic->copyright;
+            $ob->image_title = $pic->title;
+            $ob->has_content = FALSE;
+            if (isset($posts[$i])) {
+                $ob->has_content = TRUE;
+                $post = $posts[$i];
+                $ob->title = subwords($post->post_title, 15);
+                $ob->date = mysql2date('j F, Y', $post->post_date);
+                $ob->url = get_permalink($post->ID);
+            }
+            $ret[] = $ob;
+        }
+        return $ret;
+    }
+
+
+    static function get_latest_changelog_entry() {
+        $cat = get_category_by_slug('changelog');
+        $posts = query_posts("showposts=1&orderby=date&order=DESC&cat={$cat->cat_ID}");
+        var_dump($posts);
+        if(count($posts) > 0) {
+
+            return $posts[0];
+        }
+        return FALSE;
+    }
+}
