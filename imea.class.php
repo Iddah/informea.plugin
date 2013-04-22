@@ -168,9 +168,9 @@ if (!class_exists('imeasite')) {
             $imea_rules['(ro|es|fr)?/?treaties/icon$'] = 'index.php?pagename=treaties&category=Global&expand=icon&lng=$matches[1]'; // /grid suffix
 
             // Preserve line below for backward-compatibility with old URLs without tabs
-            $imea_rules['(ro|es|fr)?/?treaties/(.*)/decisions/(\d*)'] = 'index.php?pagename=treaties&treaty=$matches[2]&id_decision=$matches[3]&showall=$matches[4]&lng=$matches[1]&expand=decision'; // http://informea/treaties/{odata_name}/decisions/{id}
-            $imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(sendmail)?/?(\d*)?/?(\d*)?$'] = 'index.php?pagename=treaties&id_treaty=$matches[2]&expand=$matches[3]&id_contact=$matches[4]&id_parent=$matches[5]&lng=$matches[1]'; // http://informea/treaties/id/sendmail/1234/1
-            $imea_rules['(ro|es|fr)?/?treaties/(.*)/sendmail/(\d*)/(\d*)?$'] = 'index.php?pagename=treaties&treaty=$matches[2]&expand=sendmail&id_contact=$matches[3]&id_parent=$matches[4]&lng=$matches[1]'; // http://informea/treaties/odata_name/sendmail/1234/1
+            $imea_rules['(ro|es|fr)?/?treaties/(.*)/decisions/(\d*)'] = 'index.php?pagename=treaties&id=$matches[2]&id_decision=$matches[3]&showall=$matches[4]&lng=$matches[1]&expand=decision'; // http://informea/treaties/{odata_name}/decisions/{id}
+            $imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(sendmail)?/?(\d*)?/?(\d*)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=$matches[3]&id_contact=$matches[4]&id_parent=$matches[5]&lng=$matches[1]'; // http://informea/treaties/id/sendmail/1234/1
+            $imea_rules['(ro|es|fr)?/?treaties/(.*)/sendmail/(\d*)/(\d*)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=sendmail&id_contact=$matches[3]&id_parent=$matches[4]&lng=$matches[1]'; // http://informea/treaties/odata_name/sendmail/1234/1
             $imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(\d*)?$'] = 'index.php?pagename=treaties&id_treaty=$matches[2]&id_treaty_article=$matches[3]&lng=$matches[1]'; // http://informea/treaties/id/id_treaty_article#article_id_paragraph_id
             $imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(treaty|decisions|print|nfp|coverage)?/?(showall)?$'] = 'index.php?pagename=treaties&id_treaty=$matches[2]&expand=$matches[3]&showall=$matches[4]&lng=$matches[1]'; // http://informea/treaties/id/decisions/showall#decisions-id
 
@@ -179,8 +179,8 @@ if (!class_exists('imeasite')) {
             $imea_rules['(ro|es|fr)?/?treaties/region/(.*)/grid$'] = 'index.php?pagename=treaties&category=$matches[2]&expand=grid&lng=$matches[1]'; // /grid suffix
             $imea_rules['(ro|es|fr)?/?treaties/region/(.*)$'] = 'index.php?pagename=treaties&category=$matches[2]&expand=icon&lng=$matches[1]'; // no suffix
 
-            $imea_rules['(ro|es|fr)?/?treaties/(.*)/(general|treaty|decisions|print|nfp|coverage)?/?(showall)?$'] = 'index.php?pagename=treaties&treaty=$matches[2]&expand=$matches[3]&showall=$matches[4]&lng=$matches[1]'; // http://informea/treaties/id/decisions/showall#decisions-id
-            $imea_rules['(ro|es|fr)?/?treaties/(.*)?$'] = 'index.php?pagename=treaties&treaty=$matches[2]&lng=$matches[1]'; // http://informea/treaties/{treaty} - identify by slug (we use odata_name)
+            $imea_rules['(ro|es|fr)?/?treaties/(.*)/(general|treaty|decisions|print|nfp|coverage)?/?(showall)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=$matches[3]&showall=$matches[4]&lng=$matches[1]'; // http://informea/treaties/id/decisions/showall#decisions-id
+            $imea_rules['(ro|es|fr)?/?treaties/(.*)?$'] = 'index.php?pagename=treaties&id=$matches[2]&lng=$matches[1]'; // http://informea/treaties/{treaty} - identify by slug (we use odata_name)
 
             $imea_rules['(ro|es|fr)?/decisions/treaty/?$'] = 'index.php?pagename=decisions&expand=treaty&lng=$matches[1]'; // http://informea/decisions/treaty/
             $imea_rules['(ro|es|fr)?/decisions/term/?$'] = 'index.php?pagename=decisions&expand=term&lng=$matches[1]'; // http://informea/decisions/term/
@@ -224,6 +224,7 @@ if (!class_exists('imeasite')) {
             $vars[] = 'show_rss';
             $vars[] = 'category';
             $vars[] = 'id_decision';
+            $vars[] = 'id';
             return $vars;
         }
 

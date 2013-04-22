@@ -208,7 +208,11 @@ class informea_treaties extends imea_treaties_page {
         }
     }
 
-    function get_treaty_by_odata_name($odata_name) {
+    /**
+     * @param string $odata_name
+     * @return stdClass
+     */
+    static function get_treaty_by_odata_name($odata_name) {
         global $wpdb;
         return $wpdb->get_row("SELECT * FROM ai_treaty WHERE odata_name = '$odata_name' AND use_informea=1");
     }
@@ -230,7 +234,7 @@ class informea_treaties extends imea_treaties_page {
      * @param $title Treaty title
      * @return WP SQL result object
      */
-    function get_treaties($title = null) {
+    static function get_treaties($title = null) {
         global $wpdb;
         if ($title) {
             return $wpdb->get_results("SELECT * FROM ai_treaty WHERE enabled = 1 AND use_informea=1 AND (short_title LIKE '%$title%' OR long_title LIKE '%$title%') ORDER BY short_title");
@@ -251,9 +255,9 @@ class informea_treaties extends imea_treaties_page {
             $region = '';
         }
         $data = $wpdb->get_results($wpdb->prepare("SELECT a.*, b.depository AS depository
-			FROM ai_treaty a
-			INNER JOIN ai_organization b ON a.id_organization = b.id
-			WHERE a.enabled = 1 AND a.use_informea=1 AND a.region = %s ORDER BY a.`theme`, a.`order`", $region));
+            FROM ai_treaty a
+            INNER JOIN ai_organization b ON a.id_organization = b.id
+            WHERE a.enabled = 1 AND a.use_informea=1 AND a.region = %s ORDER BY a.`theme`, a.`order`", $region));
         $ret = array();
         foreach ($data as &$row) {
             if (!isset($ret[$row->theme])) {
@@ -265,36 +269,10 @@ class informea_treaties extends imea_treaties_page {
     }
 
 
-    function get_cloud_terms_for_treaty_page($limit = 20) {
+    static function get_cloud_terms_for_treaty_page($id, $limit = 20) {
         $ret = array();
-        if (!empty($this->treaty->id)) {
-            $ret = $this->get_popular_terms($this->treaty->id, $limit);
-        }
-        if (!empty($this->tags)) {
-            foreach ($this->tags as $tag) {
-                $ob = new StdClass();
-                $ob->text = $tag->term;
-                $ob->url = get_bloginfo('url') . '/terms/' . $tag->id;
-                $ob->popularity = 0;
-                $ret[] = $ob;
-            }
-        }
-        if (!empty($this->other_agreements)) {
-            foreach ($this->other_agreements as $tag) {
-                $ob = new StdClass();
-                $ob->text = $tag->term;
-                $ob->url = get_bloginfo('url') . '/terms/' . $tag->id;
-                $ob->popularity = 0;
-                $ret[] = $ob;
-            }
-        }
-
-        if ($this->agreement) {
-            $ob = new StdClass();
-            $ob->text = $this->agreement->short_title;
-            $ob->url = get_permalink() . '/' . $this->agreement->id;
-            $ob->popularity = 0;
-            $ret[] = $ob;
+        if (!empty($id)) {
+            $ret = self::get_popular_terms($id, $limit);
         }
         return $ret;
     }
@@ -314,13 +292,14 @@ class informea_treaties extends imea_treaties_page {
         if($tagged === NULL) {
             $tagged = $this->tab_decisions_with_paragraph_ids();
         }
-        if(!in_array($decision->id, $tagged)) {
-            return $decision->number;
-        } else {
+        //if(!in_array($decision->id, $tagged)) {
+        //    return $decision->number;
+        // } else {
             $no = $decision->number;
+            $text = ucwords(strtolower(self::get_title($decision)));
             $url = sprintf('%s/treaties/%s/decisions/%d', get_bloginfo('url'), $treaty->odata_name, $decision->id);
-            return sprintf('<a name="decision-%d" target="_blank" href="%s">%s</a>', $no, $url, $no);
-        }
+            return sprintf('<a name="decision-%d" target="_blank" href="%s">%s</a>', $no, $url, $text);
+        // }
     }
 
 
@@ -354,6 +333,13 @@ class informea_treaties extends imea_treaties_page {
         $ob = new self();
         $treaties = $ob->get_treaties();
         return $treaties[array_rand($treaties)];
+    }
+
+
+    static function ui_secondary_theme($treaty) {
+        if (!empty($treaty->theme_secondary)) {
+            echo sprintf('<div class="clear"></div><span class="theme">(%s)</span>', $treaty->theme_secondary);
+        }
     }
 }
 
