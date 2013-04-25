@@ -244,6 +244,16 @@ class informea_treaties extends imea_treaties_page {
     }
 
 
+    static function get_treaties_keyed_by_id() {
+        $ret = array();
+        $rows = self::get_treaties();
+        foreach($rows as $row) {
+            $ret[$row->id] = $row;
+        }
+        return $rows;
+    }
+
+
     /**
      * Retrieve treaties list by theme based on region
      * @param $region region to get treaties from
@@ -298,7 +308,7 @@ class informea_treaties extends imea_treaties_page {
             $no = $decision->number;
             $text = ucwords(strtolower(self::get_title($decision)));
             $url = sprintf('%s/treaties/%s/decisions/%d', get_bloginfo('url'), $treaty->odata_name, $decision->id);
-            return sprintf('<a name="decision-%d" target="_blank" href="%s">%s</a>', $no, $url, $text);
+            return sprintf('<a class="title" name="decision-%d" target="_blank" href="%s">%s</a>', $no, $url, $text);
         // }
     }
 
@@ -386,7 +396,7 @@ class informea_countries extends imea_countries_page {
     }
 
 
-    function get_treaties_with_membership() {
+    static function get_treaties_with_membership() {
         global $wpdb;
         return $wpdb->get_results('SELECT b.* FROM ai_treaty_country a
 				INNER JOIN ai_treaty b ON b.`id` = a.`id_treaty` WHERE b.use_informea=1
@@ -455,10 +465,8 @@ class informea_countries extends imea_countries_page {
      * @param integer $id_country Country ID
      * @return array Array of treaties having property national_reports array with ai_country_report objects
      */
-    function get_national_reports($id_country = NULL) {
+    static function get_national_reports($id_country = NULL) {
         global $wpdb;
-
-        $id_country = !empty($id_country) ? $id_country : $this->id_country;
         $treaties = $wpdb->get_results(
             $wpdb->prepare("SELECT b.* FROM ai_country_report a INNER JOIN ai_treaty b ON a.id_treaty = b.id WHERE b.enabled = TRUE AND b.use_informea=1 AND a.id_country=%d GROUP BY b.id", $id_country)
             , OBJECT_K
@@ -483,10 +491,8 @@ class informea_countries extends imea_countries_page {
      * @param integer $id_country Country ID
      * @return array Array of treaties having property national_plans array with ai_country_plan objects
      */
-    function get_national_plans($id_country = NULL) {
+    static function get_national_plans($id_country = NULL) {
         global $wpdb;
-
-        $id_country = !empty($id_country) ? $id_country : $this->id_country;
         $treaties = $wpdb->get_results(
             $wpdb->prepare("SELECT b.* FROM ai_country_plan a INNER JOIN ai_treaty b ON a.id_treaty = b.id WHERE b.enabled = TRUE AND b.use_informea=1 AND a.id_country=%d GROUP BY b.id", $id_country)
             , OBJECT_K
