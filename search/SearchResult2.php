@@ -62,9 +62,11 @@ abstract class AbstractSearchResult2 {
 
     function collapsible_content($uid, $title, $content, $target = null) {
         $url = !empty($target) ? $target->view_item_link() : $this->view_item_link();
+        $script = "$(this).siblings('div').toggle();";
         $ret = '';
-        $ret .= '<a id=\'link-' . $uid . '\' href="javascript:details(\'' . $uid . '\');" class="list-item-title-click closed" title="Click to see details for this item">' . $title . '</a>' . $url;
-        $ret .= '<div id="' . $uid . '" class="hidden">' . $content . '</div>';
+        $ret .= sprintf('<a href="javascript:void(0);" onclick="%s"><i class="icon icon-plus-sign"></a></i>', $script);
+        $ret .= sprintf('<a href="javascript:void(0);" onclick="%s">%s</a>%s', $script, $title , $url);
+        $ret .= '<div class="hidden">' . $content . '</div>';
         return $ret;
     }
 
@@ -73,7 +75,8 @@ abstract class AbstractSearchResult2 {
     }
 
     function view_item_link() {
-        return '&nbsp;<a href="' . $this->get_item_url() . '" title="View item in context of the treaty text"><img class="middle" src="' . get_bloginfo('template_directory') . '/images/external.png" /></a>';
+        return sprintf('<a href="%s" class="external" target="_blank" title="%s">&rarr;</a>',
+            $this->get_item_url(), __('Open item page in a new window', 'informea'));
     }
 }
 
@@ -151,11 +154,10 @@ class TreatySearchResult2 extends AbstractSearchResult2 {
     function get_title($tab) {
         $d = $this->format_date_title($this->db->start, '%Y');
         return $this->db->short_title;
-        // return $this->get_link($this->db->short_title, $this->get_treaty_link());
     }
 
     public function get_item_url() {
-        return get_bloginfo('url') . "/treaties/{$this->id}";
+        return sprintf('%s/treaties/%s', get_bloginfo('url'), $this->db->odata_name);
     }
 
 
@@ -167,23 +169,21 @@ class TreatySearchResult2 extends AbstractSearchResult2 {
 
     public function get_content($tab) {
         if ($this->from_tagging && empty($this->articles) && empty($this->decisions)) {
-            return '<span class="highlight-matching-paragraph"><p class="highlight_snippet">This treaty was tagged with InforMEA keywords</p></span>';
+            return '<span class="tagged text-grey">This treaty was tagged with InforMEA keywords</span>';
         }
-
         $ret = '';
-
         if ($tab == 1 || $tab == 2 || $tab == 3) {
             $ca = count($this->articles);
             if ($ca > 0) {
-                $ret .= $this->plural('Article:', 'Articles (%d):', $ca);
-                $ret .= '<div class="matching-articles">';
-                $ret .= '<ul class="matching-article">';
+                $ret .= sprintf('<strong>%s</strong>', $this->plural('Article:', 'Articles (%d):', $ca));
+                $ret .= '<ul class="articles">';
                 foreach ($this->articles as $article) {
                     $uid = slugify($article->id . ' ' . $article->entity_type);
-                    $ret .= '<li>' . $this->collapsible_content($uid, $article->get_title($tab), $article->get_content($tab), $article) . '</li>';
+                    $ret .= '<li>';
+                    $ret .= $this->collapsible_content($uid, $article->get_title($tab), $article->get_content($tab), $article);
+                    $ret .= '</li>';
                 }
                 $ret .= '</ul>';
-                $ret .= '</div>';
             }
         }
         // TODO: Sort decisions alphabetically before displaying them
@@ -199,7 +199,7 @@ class TreatySearchResult2 extends AbstractSearchResult2 {
                 $ret .= '</ul>';
             }
         }
-        return !empty($ret) ? '<div class="result-treaty">' . $ret . '</div>' : '';
+        return $ret;
     }
 
     function get_icon($tab) {
@@ -211,6 +211,7 @@ class TreatySearchResult2 extends AbstractSearchResult2 {
 
 
 class TreatyArticleSearchResult2 extends AbstractSearchResult2 {
+    public $treaty;
     public $paragraphs = array();
 
     private $from_tagging = false;
@@ -235,7 +236,8 @@ class TreatyArticleSearchResult2 extends AbstractSearchResult2 {
     }
 
     public function get_item_url() {
-        return get_bloginfo('url') . "/treaties/{$this->db->id_treaty}?id_treaty_article={$this->db->id}#article_{$this->db->id}";
+        return sprintf('%s/treaties/%s?id_treaty_article=%s#article_%s',
+            get_bloginfo('url'), $this->treaty->odata_name, $this->db->id, $this->db->id);
     }
 
     public function get_description($tab) {
@@ -250,33 +252,26 @@ class TreatyArticleSearchResult2 extends AbstractSearchResult2 {
         if ($cp <= 0) {
             if (!$this->from_tagging) {
                 $highlight = $this->context->solr_invoker->highlight($this->id, $this->entity_type);
-                $ret .= '<div class="matching-paragraph">' . $highlight . '</div>';
+                $ret .= sprintf('<div class="article">%s</div>', $highlight);
             } else {
-                $ret = '<span class="highlight-matching-paragraph"><p class="highlight_snippet">';
-                $ret .= subwords(strip_tags($this->db->content), 100);
-                $ret .= '</p></span>';
+                $ret .= sprintf('<div class="article">%s</div>', subwords(strip_tags($this->db->content), 100));
             }
         } else {
-            $ret .= '<div class="matching-paragraphs">';
-            $ret .= $this->plural('Paragraph: ', 'Paragraphs: ', $cp);
-            if ($this->is_dirty_search()) {
-                $ret .= '<ul class="matching-paragraph">';
-                foreach ($this->paragraphs as $paragraph) {
+            $ret .= sprintf('<strong>%s</strong>', $this->plural('Paragraph: ', 'Paragraphs: ', $cp));
+            $ret .= '<ul class="paragraphs">';
+            foreach ($this->paragraphs as $paragraph) {
+                if ($this->is_dirty_search()) {
                     $uid = slugify($paragraph->id . ' ' . $paragraph->entity_type);
-                    $ret .= '<li>';
-                    $ret .= $this->collapsible_content($uid, $paragraph->get_title($tab, $this), $paragraph->get_content($tab), $paragraph);
-                    $ret .= '</li>';
+                    $ret .= sprintf('<li>%s</li>',
+                        $this->collapsible_content($uid, $paragraph->get_title($tab, $this),
+                        $paragraph->get_content($tab), $paragraph)
+                    );
+                } else {
+                    $ret .= sprintf('<li>%s %s %s</li>', $paragraph->db->official_order,
+                                $paragraph->get_content($tab), $paragraph->view_item_link());
                 }
-                $ret .= '</ul>';
-            } else {
-                $c = 0;
-                $ret .= '<ul class="matching-paragraph">';
-                foreach ($this->paragraphs as $paragraph) {
-                    $ret .= '<li class="highlight_snippet">' . $paragraph->db->official_order . ' ' . $paragraph->get_content($tab) . $paragraph->view_item_link() . '</li>';
-                }
-                $ret .= '</ul>';
             }
-            $ret .= '</div>';
+            $ret .= '</ul>';
         }
         return $ret;
     }
@@ -306,13 +301,14 @@ class TreatyParagraphSearchResult2 extends AbstractSearchResult2 {
     function get_title($tab) {
         $label = !empty($this->db->official_order) ? $this->db->official_order : $this->db->order;
         return $label;
-        // return $this->get_link($label, "/treaties/{$parent_article->db->id_treaty}?id_treaty_article={$this->db->id_treaty_article}#article_{$parent_article->db->id}_paragraph_{$this->id}", 'This paragraph has a match on it. Click to open', 'link treaty-tipsy');
     }
 
+
     public function get_item_url() {
-        global $wpdb; // TODO: optimize this
-        $parent_article = $wpdb->get_row('SELECT * FROM ai_treaty_article WHERE id=' . $this->db->id_treaty_article);
-        return get_bloginfo('url') . "/treaties/{$parent_article->id_treaty}?id_treaty_article={$this->db->id_treaty_article}#article_{$parent_article->id}_paragraph_{$this->id}";
+        $id = $this->db->id_treaty_article;
+        $article = imea_request_cache::get_treaty_article($id);
+        $treaty = imea_request_cache::get_treaty($article->id_treaty);
+        return sprintf('%s/treaties/%s?id_treaty_article=%s#article_%s_paragraph_%s', get_bloginfo('url'), $treaty->odata_name, $id, $article->id, $this->id);
     }
 
 
@@ -353,6 +349,7 @@ class DecisionSearchResult2 extends AbstractSearchResult2 {
             $treaty = $wpdb->get_row($wpdb->prepare('SELECT * FROM ai_treaty WHERE id=%d', $this->db->id_treaty));
             return $this->html_img($treaty->logo_medium);
         }
+        return '';
     }
 
 
@@ -375,7 +372,7 @@ class DecisionSearchResult2 extends AbstractSearchResult2 {
     }
 
     public function get_item_url() {
-        return get_bloginfo('url') . "/treaties/{$this->db->id_treaty}/decisions?showall=true#decision-{$this->id}";
+        return get_bloginfo('url') . "/treaties/{$this->db->odata_name}/decisions?showall=true#decision-{$this->id}";
     }
 
 
@@ -394,19 +391,20 @@ class DecisionSearchResult2 extends AbstractSearchResult2 {
             $ret .= '</div>';
         } else {
             if ($this->from_tagging) {
-                if (count($this->paragraphs)) {
-                    $ret .= '<span class="highlight-matching-paragraph">';
+                $cp = count($this->paragraphs);
+                if ($cp) {
+                    $ret .= sprintf('<strong>%s</strong>', $this->plural('Paragraph: ', 'Paragraphs: ', $cp));
+                    $ret .= '<ul class="paragraphs">';
                     foreach ($this->paragraphs as $paragraph) {
-                        $ret .= '<p class="highlight_snippet">' . $paragraph->content . '</p>';
+                        $ret .= sprintf('<li>%s</li>', $paragraph->content);
                     }
-                    $ret .= '</span>';
+                    $ret .= '</ul>';
                 } else {
-                    $ret = '<span class="highlight-matching-paragraph"><p class="highlight_snippet">';
-                    $ret .= 'This decision was tagged with InforMEA keywords';
-                    $ret .= '</p></span>';
+                    $ret = '<div class="paragraph text-grey">This decision was tagged with InforMEA keywords</div>';
                 }
             } else {
-                $ret = '<div class="matching-decision">' . $this->context->solr_invoker->highlight($this->id, $this->entity_type) . '</div>';
+                $ret = sprintf('<div class="paragraph">%s</div>',
+                    $this->context->solr_invoker->highlight($this->id, $this->entity_type));
             }
         }
         return $ret;
@@ -450,10 +448,9 @@ class DecisionDocumentSearchResult2 extends AbstractSearchResult2 {
     } // Not needed
 
     public function get_content($tab) {
-
         $ret = '';
         if (!empty($excerpt)) {
-            $para_id = slugify($uid);
+            $para_id = slugify($tab);
             $ret = '<a id=\'link-highlight-' . $para_id . '\' href="javascript:details(\'highlight-' . $para_id . '\');" class="list-item-title-click closed" title="View excerpts from the matching paragraphs">View excerpt</a>';
             $ret .= '<div id="highlight-' . $para_id . '" class="matching-paragraph hidden">' . $excerpt . '</div>';
         } else {

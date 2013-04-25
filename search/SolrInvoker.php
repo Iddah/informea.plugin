@@ -158,11 +158,13 @@ class InformeaSolrInvoker {
                         $field = $field->offsetGet('text');
                         if ($field) {
                             foreach ($field as $snippet) {
-                                $excerpt .= '<p class="highlight_snippet"> ... ' . htmlspecialchars(strip_tags($snippet)) . '... </p>';
+                                $excerpt .= htmlspecialchars(strip_tags($snippet));
                             }
-                            $excerpt = str_replace('$$$$$', '<strong class="search_highlight">', $excerpt);
-                            $excerpt = str_replace('#####', '</strong>', $excerpt);
-                            $excerpt = str_replace('&nbsp;', ' ', $excerpt);
+                            $excerpt = str_replace(
+                                array('$$$$$', '#####', '&nbsp;'),
+                                array('<strong class="highlight">', '</strong>', ' '),
+                                $excerpt
+                            );
                         }
                     }
                 }

@@ -53,8 +53,8 @@ if (!class_exists('imeasite')) {
             $imea_rules['(ro|es|fr)?/decisions$'] = 'index.php?pagename=decisions&expand=treaty'; // http://informea/decisions/treaty/
             $imea_rules['(ro|es|fr)?/decisions/terms/?$'] = 'index.php?pagename=decisions&expand=term'; // http://informea/decisions/term/
 
-            $imea_rules['(ro|es|fr)?/?terms/(theme|alphabet|list)?$'] = 'index.php?pagename=terms&expand=$matches[2]'; // http://informea/terms/theme
-            $imea_rules['(ro|es|fr)?/?terms/(\d*)/?(treaties|decisions|ecolex)?$'] = 'index.php?pagename=terms&id_term=$matches[2]&tab=$matches[3]'; // http://informea/terms/id/treaties
+            $imea_rules['(ro|es|fr)?/?terms/(hierarchical|alphabetical|list)?$'] = 'index.php?pagename=terms&expand=$matches[2]'; // http://informea/terms/theme
+            $imea_rules['(ro|es|fr)?/?terms/(\d*)/?(treaties|decisions|ecolex)?$'] = 'index.php?pagename=terms&id=$matches[2]&expand=$matches[3]'; // http://informea/terms/id/treaties
 
             $imea_rules['(ro|es|fr)?/?highlights/rss?'] = 'index.php?pagename=highlights&show_rss=True'; // http://informea/highlights/rss
             $imea_rules['(ro|es|fr)?/?highlights/(.*)/(\d*)$'] = 'index.php?pagename=highlights&highlight_category=$matches[2]&page=$matches[3]'; // http://informea/highlights/category_name & http://informea/highlights/category_name/page (pagination)

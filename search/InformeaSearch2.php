@@ -349,6 +349,7 @@ class InformeaSearch2 extends AbstractSearch {
         foreach ($articles as $id_article => $id_treaty) {
             $article = new TreatyArticleSearchResult2($id_article, $this, $articles_ob[$id_article], in_array($id_article, $tmp_tak));
             $treaty = $roots[$id_treaty];
+            $article->treaty = $treaty;
             $treaty->articles[$id_article] = $article;
         }
         // 4.3 Put paragraphs into treaty articles
@@ -576,6 +577,7 @@ class InformeaSearch2 extends AbstractSearch {
                     $db_treaty_article = $cache_ai_treaty_articles[$article->id];
                     $article = new TreatyArticleSearchResult2($article->id, $this, $db_treaty_article, true);
                     $article->set_from_tagging(true);
+                    $article->treaty = $treaty->db;
                     $treaty->articles[$article->id] = $article;
                     imea_debug(sprintf('Article added by tagging engine: treaty => %s, article => %s', $treaty->db->short_title, $article->db->title));
                 }
@@ -600,6 +602,7 @@ class InformeaSearch2 extends AbstractSearch {
                 } else {
                     $db_treaty_article = $cache_ai_treaty_articles[$paragraph->id_article];
                     $article = new TreatyArticleSearchResult2($paragraph->id_article, $this, $db_treaty_article, false);
+                    $article->treaty = $treaty->db;
                     $treaty->articles[$paragraph->id_article] = $article;
                 }
                 if (!array_key_exists($paragraph->id, $article->paragraphs)) {
