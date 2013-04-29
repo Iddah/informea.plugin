@@ -24,8 +24,8 @@ if (!class_exists('imeasite')) {
 
             $imea_rules['(ro|es|fr)?/?rss?'] = 'index.php?pagename=rss-feeds'; // http://informea/rss
 
-            $imea_rules['(ro|es|fr)?/?events/(list|calendar)?$'] = 'index.php?pagename=events&expand=$matches[2]'; // http://informea/events/list
             $imea_rules['(ro|es|fr)?/?events/rss?'] = 'index.php?pagename=events&show_rss=True'; // http://informea/events/rss
+            $imea_rules['(ro|es|fr)?/?events/(\d*)?/?$'] = 'index.php?pagename=events&fe_page=$matches[2]'; // http://informea/events/
 
             $imea_rules['(ro|es|fr)?/?countries/(map|parties|treaties|grid)?$'] = 'index.php?pagename=countries&expand=$matches[2]'; // http://informea/countries/grid
             $imea_rules['(ro|es|fr)?/?countries/(\d*)/?(membership|nfp|reports|map|plans|peblds|ecolex-legislation|ecolex-caselaw)?$'] = 'index.php?pagename=countries&id=$matches[2]&expand=$matches[3]'; // http://informea/countries/id/nfp
@@ -95,6 +95,7 @@ if (!class_exists('imeasite')) {
             $vars[] = 'id_decision';
             $vars[] = 'id';
             $vars[] = 'page';
+            $vars[] = 'fe_page';
             return $vars;
         }
 

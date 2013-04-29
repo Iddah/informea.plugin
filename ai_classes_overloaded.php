@@ -18,6 +18,12 @@ add_action('wp_ajax_country_nfp', 'ajax_country_nfp');
 add_action('wp_ajax_nopriv_country_sites_markers', 'ajax_country_sites_markers');
 add_action('wp_ajax_country_sites_markers', 'ajax_country_sites_markers');
 
+add_action('wp_ajax_nopriv_get_event_list', array('informea_events', 'ajax_get_event_list'));
+add_action('wp_ajax_get_event_list', array('informea_events', 'ajax_get_event_list'));
+add_action('wp_ajax_nopriv_get_event_list_html', array('informea_events', 'ajax_get_event_list_html'));
+add_action('wp_ajax_get_event_list_html', array('informea_events', 'ajax_get_event_list_html'));
+
+
 /* Ajax endpoints */
 
 function ajax_countries_autocomplete() {
@@ -515,17 +521,166 @@ class informea_countries extends imea_countries_page {
 
 class informea_events extends imea_events_page {
 
+    public static function get_event_types() {
+        return array(
+            '' => '-- All --',
+            'cop' => 'COP/MOP',
+            'conference' => 'Conference',
+            'working' => 'Working',
+            'workshop' => 'Workshop',
+            'symposia' => 'Symposia',
+            'expert' => 'Expert',
+            'subsidiary' => 'Subsidiary'
+        );
+    }
+
+    public static function ajax_get_event_list() {
+        $rows = self::get_event_list();
+        header('Content-Type:application/json');
+        echo json_encode($rows);
+        die();
+    }
+
+
+    public static function ajax_get_event_list_html() {
+        $rows = self::get_event_list();
+        $ret = '';
+        header('Content-Type:text/html');
+        foreach($rows as $row) {
+            $ret .= self::event_to_html($row) . "\n";
+        }
+        echo $ret;
+        die();
+    }
+
+
+    public static function event_to_html($e, $fe_type = NULL) {
+        $cop_class = (($e->type == 'cop') && $fe_type != 'cop') ? ' cop' : '';
+    ?>
+            <li>
+                <div class="date">
+                    <div class="month"><?php echo format_mysql_date($e->start, 'M'); ?></div>
+                    <div class="day"><?php echo format_mysql_date($e->start, 'j'); ?></div>
+                    <div class="year"><?php echo format_mysql_date($e->start, 'Y'); ?></div>
+                </div>
+                <div class="description<?php echo $cop_class; ?>">
+                    <h3><?php echo $e->title; ?></h3>
+                    <div class="clear"></div>
+                    <ul class="info">
+                        <li>
+                            <a href="<?php echo self::url_treaty_filter($e->id_treaty); ?>" title="See all <?php echo $e->treaty; ?> events for this year"><?php echo $e->treaty; ?></a>
+                        </li>
+                        <?php if(!empty($e->event_url)) : ?>
+                        <li>
+                            <div class="info"><a target="_blank" href="<?php echo $e->event_url;?>">View info</a></div>
+                        </li>
+                        <?php endif; ?>
+
+                        <?php if(!empty($e->type)) : ?>
+                        <li>
+                            <div class="info"><span class="type"><?php echo ucfirst($e->type); ?></div>
+                        </li>
+                        <?php endif; ?>
+                        <?php if(!empty($e->kind)) : ?>
+                        <li>
+                            <div class="info"><?php imea_events_page::decode_kind($e); ?></div>
+                        </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </li>
+    <?php
+    }
+
+    public static function url_treaty_filter($id_treaty) {
+        $page_size = get_request_int('fe_page_size', 50);
+        $fe_type = get_request_value('fe_type');
+        $year = get_request_int('fe_year');
+        $id_country = get_request_int('fe_country');
+        $page = get_request_variable('fe_page', 0, 0);
+        $show_past = get_request_int('fe_show_past');
+
+        return sprintf(
+            '%s/events?fe_treaty=%s&fe_type=%s&fe_year=%s&fe_country=%s&fe_page_size=%s&fe_show_past=%s&page=%s',
+            get_bloginfo('url'), $id_treaty, $fe_type, $year, $id_country, $page_size, $show_past, ($page+1)
+        );
+    }
+
+
+    /**
+     * Count total number of events
+     * @return integer Number of events matching filter criteria
+     */
+    public static function count_event_list() {
+        global $wpdb;
+        return $wpdb->get_var('SELECT COUNT(*) ' . self::get_sql_where_event_list());
+    }
+
+
+    /**
+     * Events page filtering
+     * @param $default_page_size integer (Optional) page size. Default 10.
+     * @return array List of events
+     */
+    public static function get_event_list($default_page_size = 10) {
+        global $wpdb;
+        $page = get_request_variable('fe_page', 0, 0);
+        $page_size = get_request_int('fe_page_size', $default_page_size);
+
+        $sql = '
+            SELECT a.id, a.event_url, a.title, a.abbreviation, a.description, a.start, a.location, a.city, a.type, a.id_treaty,
+                b.short_title AS treaty ';
+        $sql .= self::get_sql_where_event_list();
+
+        $start = $page + ($page * $page_size);
+        $end =  $page_size;
+        $sql .= sprintf(' ORDER BY a.start DESC LIMIT %s, %s', $start, $end);
+
+        return $wpdb->get_results($sql);
+    }
+
+
+    private static function get_sql_where_event_list() {
+        global $wpdb;
+
+        $id_treaty = get_request_int('fe_treaty');
+        $type = get_request_value('fe_type');
+        $fe_year = get_request_int('fe_year');
+        if($fe_year == 0) {
+            $fe_year = strftime('%Y');
+        } // Show only current year
+        $show_past = get_request_int('fe_show_past');
+
+        $sql = ' FROM ai_event a
+                     INNER JOIN ai_treaty b ON a.id_treaty = b.id
+                WHERE a.use_informea = 1 ';
+        if(!empty($id_treaty)) {
+            $sql .= $wpdb->prepare(' AND b.id = %d', $id_treaty);
+        }
+        if(!empty($type)) {
+            $sql .= $wpdb->prepare(' AND a.type = %s', $type);
+        }
+        if($fe_year > 0) {
+            $sql .= $wpdb->prepare(' AND YEAR(a.start) = %d', $fe_year);
+        }
+        if(!$show_past) {
+            $sql .= $wpdb->prepare(' AND a.start > NOW()');
+        }
+        return $sql;
+    }
+
 
     /**
      * Retrieve the list of conventions that have events
-     * @return List of ai_treaty
+     * @return array of ai_treaty
      */
-    function get_treaties() {
+    public static function get_treaties() {
         global $wpdb;
         $sql = "SELECT a.* FROM ai_treaty a
-			INNER JOIN ai_event b ON b.id_treaty = a.id
-			WHERE (a.enabled=1 AND a.use_informea=1) OR odata_name='unep' GROUP BY a.id ORDER BY a.short_title
-		";
+            INNER JOIN ai_event b ON b.id_treaty = a.id
+            WHERE (a.enabled=1 AND a.use_informea=1) OR odata_name='unep' GROUP BY a.id ORDER BY a.short_title
+        ";
         $rows = $wpdb->get_results($sql);
         $ret = array();
         foreach ($rows as $row) {

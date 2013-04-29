@@ -20,13 +20,6 @@ if (!function_exists('imea_log')) {
     }
 }
 
-if (!function_exists('format_mysql_date')) {
-    function format_mysql_date($date, $fmt_out = 'j M, Y') {
-        $d = strtotime($date);
-        return date($fmt_out, $d);
-    }
-}
-
 if (!function_exists('imea_debug')) {
     /**
      * Output debug information. Works if user enables 'Debug' in plugin configuration page from administration area.
