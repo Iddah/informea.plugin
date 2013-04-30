@@ -57,8 +57,9 @@ if (!class_exists('imeasite')) {
             $imea_rules['(ro|es|fr)?/?terms/(\d*)/?(treaties|decisions|ecolex)?$'] = 'index.php?pagename=terms&id=$matches[2]&expand=$matches[3]'; // http://informea/terms/id/treaties
 
             $imea_rules['(ro|es|fr)?/?highlights/rss?'] = 'index.php?pagename=highlights&show_rss=True'; // http://informea/highlights/rss
-            $imea_rules['(ro|es|fr)?/?highlights/(.*)/(\d*)$'] = 'index.php?pagename=highlights&highlight_category=$matches[2]&page=$matches[3]'; // http://informea/highlights/category_name & http://informea/highlights/category_name/page (pagination)
-            $imea_rules['(ro|es|fr)?/?highlights/(.*)$'] = 'index.php?pagename=highlights&highlight_category=$matches[2]'; // http://informea/highlights/category_name & http://informea/highlights/category_name
+            $imea_rules['(ro|es|fr)?/?highlights/(.*)/(\d*)/?$'] = 'index.php?pagename=highlights&topic=$matches[2]&h_page=$matches[3]'; // http://informea/highlights/category_name & http://informea/highlights/topic/page
+            $imea_rules['(ro|es|fr)?/?highlights/(\d*)/?$'] = 'index.php?pagename=highlights&h_page=$matches[2]'; // http://informea/highlights/category_name & http://informea/highlights/topic/page
+            $imea_rules['(ro|es|fr)?/?highlights/(.*)$'] = 'index.php?pagename=highlights&topic=$matches[2]'; // http://informea/highlights/category_name & http://informea/highlights/topic
 
             //var_dump($rules);
             //var_dump($imea_rules + $rules);
@@ -87,8 +88,7 @@ if (!class_exists('imeasite')) {
             $vars[] = 'id_contact';
             $vars[] = 'id_parent';
 
-            $vars[] = 'highlight_category';
-            $vars[] = 'highlight_id';
+            $vars[] = 'topic';
 
             $vars[] = 'show_rss';
             $vars[] = 'category';
@@ -96,6 +96,7 @@ if (!class_exists('imeasite')) {
             $vars[] = 'id';
             $vars[] = 'page';
             $vars[] = 'fe_page';
+            $vars[] = 'h_page';
             return $vars;
         }
 
