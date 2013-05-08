@@ -38,7 +38,7 @@ abstract class InformeaBaseSearchRenderer {
         $ret = sprintf('<h3>%s</h3>', __('Articles', 'informea'));
         $ret .= '<ul class="articles">';
         foreach ($treaty->articles as $article) {
-            $url = sprintf('%s/treaties/%s?id_treaty_article=%s#article_%s', get_bloginfo('url'), $treaty->id, $article->id, $article->id);
+            $url = sprintf('%s/treaties/%s?id_treaty_article=%s#article_%s', get_bloginfo('url'), $treaty->odata_name, $article->id, $article->id);
             $ret .= '<li>';
             $css = count($article->paragraphs) ? 'toggle-result' : 'ajax-expand';
             $label = !empty($article->official_order) ? sprintf('%s %s', $article->official_order, $article->title) : $article->title;
@@ -60,7 +60,8 @@ abstract class InformeaBaseSearchRenderer {
             $ret .= '<h3>Paragraphs</h3>';
             $ret .= '<ul class="paragraphs">';
             foreach ($article->paragraphs as $paragraph) {
-                $url = sprintf('%s/treaties/%s?id_treaty_article=%s#article_%s_paragraph_%s', get_bloginfo('url'), $article->id_treaty, $article->id, $article->id, $paragraph->id);
+                $treaty = CacheManager::load_treaty($article->id_treaty);
+                $url = sprintf('%s/treaties/%s?id_treaty_article=%s#article_%s_paragraph_%s', get_bloginfo('url'), $treaty->odata_name, $article->id, $article->id, $paragraph->id);
                 $ret .= '<li>';
                 $ret .= sprintf('<div class="highlight">%s <a href="%s" target="_blank"><i class="icon icon-share-alt"></i></a></div>', $paragraph->content, $url);
                 $ret .= '</li>';
@@ -132,7 +133,8 @@ class InformeaSearchRendererTab1 extends InformeaBaseSearchRenderer {
     }
 
     function render_decision($decision) {
-        $url = sprintf('%s/treaties/%s/decisions?showall=true#decision-%s', get_bloginfo('url'), $decision->id_treaty, $decision->id);
+        $treaty = CacheManager::load_treaty($decision->id_treaty);
+        $url = sprintf('%s/treaties/%s/decisions?showall=true#decision-%s', get_bloginfo('url'), $treaty->odata_name, $decision->id);
         $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
         $label = sprintf('%s, <strong>%s</strong> %s - %s', mysql2date('j F Y', $decision->published), $decision->treaty_title, $decision->number, $decision->short_title);
         $ret = '<li>';
@@ -200,7 +202,7 @@ class InformeaSearchRendererTab2 extends InformeaBaseSearchRenderer {
         $ret .= '<ul>';
         foreach ($treaty->decisions as $decision) {
             $label = sprintf('%s - %s', $decision->number, subwords($decision->short_title, 10));
-            $url = sprintf('%s/treaties/%s/decisions?showall=true#decision-%s', get_bloginfo('url'), $decision->id_treaty, $decision->id);
+            $url = sprintf('%s/treaties/%s/decisions?showall=true#decision-%s', get_bloginfo('url'), $treaty->odata_name, $decision->id);
             $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
             $ret .= '<li>';
             $ret .= sprintf('<a data-toggle="decision-%s" data-id="%s" data-role="decision" href="javascript:void(0);" class="%s arrow closed left"><i class="icon icon-plus-sign"></i>%s</a>', $decision->id, $decision->id, $css, $label);
