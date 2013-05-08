@@ -16,19 +16,11 @@ abstract class InformeaBaseSearchRenderer {
      */
     function render_treaty($treaty) {
         $ret = '<li class="treaty">';
-        $tooltips = array(__('Click to see treaty content', 'informea'), __('Convention logo', 'informea'), __('Click to open treaty text into a new window', 'informea'));
-
         $css = count($treaty->articles) || count($treaty->decisions) ? 'toggle-result' : 'ajax-expand';
-
-        $ret .= sprintf('<a id="arrow-treaty-%s" class="%s arrow closed arrow left" title="%s" href="javascript:void(0);"></a>', $treaty->id, $css, $tooltips[0]);
-        $ret .= sprintf('<img title="%s" src="%s" />', $tooltips[1], $treaty->logo_medium);
-        $ret .= sprintf('<a id="expand-treaty-%s" class="%s title left" title="%s" href="javascript:void(0);">%s</a>', $treaty->id, $css, $tooltips[0], $treaty->short_title);
-        $ret .= sprintf('<a href="%s" class="external title" target="_blank" title="%s"></a>', get_bloginfo('url') . '/treaties/' . $treaty->id, $tooltips[2]);
-        $ret .= '<div class="clear"></div>';
-        $ret .= sprintf('<div id="result-treaty-%s" class="content hidden">', $treaty->id);
+        $ret .= sprintf('<a data-role="treaty" data-id="%s" data-toggle="treaty-%s" href="javascript:void(0);" class="%s"><i class="icon icon-plus-sign"></i>%s</a>', $treaty->id, $treaty->id, $css, $treaty->short_title);
+        $ret .= sprintf('<div id="treaty-%s" class="hidden">', $treaty->id);
         $ret .= $this->render_articles($treaty);
         $ret .= $this->render_decisions($treaty);
-        $ret .= '<div class="clear"></div>';
         $ret .= '</div>';
         $ret .= '</li>';
         return $ret;
@@ -43,26 +35,21 @@ abstract class InformeaBaseSearchRenderer {
         if (empty($treaty->articles)) {
             return '';
         }
-        $ret = '<span>';
-        $ret .= sprintf('<h2>%s</h2>', __('Articles', 'informea'));
+        $ret = sprintf('<h3>%s</h3>', __('Articles', 'informea'));
         $ret .= '<ul class="articles">';
-        $tooltips = array(__('Click to see article content', 'informea'));
         foreach ($treaty->articles as $article) {
+            $url = sprintf('%s/treaties/%s?id_treaty_article=%s#article_%s', get_bloginfo('url'), $treaty->id, $article->id, $article->id);
             $ret .= '<li>';
             $css = count($article->paragraphs) ? 'toggle-result' : 'ajax-expand';
-            $ret .= sprintf('<a id="arrow-treaty_article-%s" class="%s arrow closed left" title="%s" href="javascript:void(0);"></a>', $article->id, $css, $tooltips[0]);
-            $ret .= sprintf('<a id="expand-treaty_article-%s" class="%s title left" title="%s" href="javascript:void(0);">%s %s</a>', $article->id, $css, $tooltips[0], $article->number, $article->title);
-            $url = sprintf('%s/treaties/%s?id_treaty_article=%s#article_%s', get_bloginfo('url'), $treaty->id, $article->id, $article->id);
-            $ret .= sprintf('<a href="%s" class="external title left" target="_blank" title="%s"></a>', $url, $tooltips[2]);
-            $ret .= '<div class="clear"></div>';
-            $ret .= sprintf('<div id="result-treaty_article-%s" class="content hidden">', $article->id);
+            $label = !empty($article->official_order) ? sprintf('%s %s', $article->official_order, $article->title) : $article->title;
+            $ret .= sprintf('<a data-role="treaty_article" data-id="%s" data-toggle="treaty-article-%s" class="%s" href="javascript:void(0);"><i class="icon-plus-sign"></i>%s</a>', $article->id, $article->id, $css, $label);
+            $ret .= sprintf('<a href="%s" target="_blank"><i class="icon icon-share-alt"></i></a>', $url);
+            $ret .= sprintf('<div id="treaty-article-%s" class="hidden">', $article->id);
             $ret .= $this->render_treaty_paragraphs($article);
             $ret .= '</div>';
             $ret .= '<li>';
         }
         $ret .= '</ul>';
-        $ret .= '<div class="clear"></div>';
-        $ret .= '</span>';
         return $ret;
     }
 
@@ -70,17 +57,12 @@ abstract class InformeaBaseSearchRenderer {
     function render_treaty_paragraphs($article) {
         $ret = '';
         if (count($article->paragraphs) > 0) {
-            $tooltips = array(__('Click to see paragraph content', 'informea'), __('Click to see paragraph inside treaty text, into a new window', 'informea'));
             $ret .= '<h3>Paragraphs</h3>';
             $ret .= '<ul class="paragraphs">';
             foreach ($article->paragraphs as $paragraph) {
-                $ret .= '<li>';
-                $title = !empty($paragraph->official_order) ? $paragraph->official_order : $paragraph->order;
-                $ret .= sprintf('<a id="arrow-treaty_article_paragraph-%s" class="ajax-expand arrow closed left" href="javascript:void(0);">%s</a>', $paragraph->id, $title);
                 $url = sprintf('%s/treaties/%s?id_treaty_article=%s#article_%s_paragraph_%s', get_bloginfo('url'), $article->id_treaty, $article->id, $article->id, $paragraph->id);
-                $ret .= sprintf('<a href="%s" class="external title left" target="_blank" title="%s"></a>', $url, $tooltips[1]);
-                $ret .= '<div class="clear"></div>';
-                $ret .= sprintf('<div id="result-treaty_article_paragraph-%s" class="content hidden"></div>', $paragraph->id);
+                $ret .= '<li>';
+                $ret .= sprintf('<div class="highlight">%s <a href="%s" target="_blank"><i class="icon icon-share-alt"></i></a></div>', $paragraph->content, $url);
                 $ret .= '</li>';
             }
             $ret .= '</ul>';
@@ -116,12 +98,9 @@ abstract class InformeaBaseSearchRenderer {
                 $ret .= '<li>';
                 $title = $document->filename;
                 $url = sprintf('%s/download?entity=decision_document&id=%s', get_bloginfo('url'), $document->id);
-                $ret .= sprintf('<a id="arrow-decision_document-%s" class="ajax-expand arrow closed left" href="javascript:void(0);"></a>', $document->id);
-                $ret .= sprintf('<a id="expand-decision_document-%s" href="javascript:void(0);" class="ajax-expand left title">%s</a>', $document->id, $title);
-                $ret .= sprintf('<a href="%s" class="external title left" target="_blank" title="%s"></a>', $url, $tooltips[0]);
-                $ret .= '<div class="clear"></div>';
-                $ret .= sprintf('<div id="result-decision_document-%s" class="content hidden"></div>', $document->id);
-                $ret .= '<div class="clear"></div>';
+                $ret .= sprintf('<a data-id="%s" data-toggle="decision-document-%s" data-role="decision_document" class="ajax-expand" href="javascript:void(0);"><i class="icon icon-plus-sign"></i>%s</a>', $document->id, $document->id, $title);
+                $ret .= sprintf('<a href="%s"><i class="icon icon-download"></i></a>', $url);
+                $ret .= sprintf('<div id="decision-document-%s" class="hidden"></div>', $document->id);
                 $ret .= '</li>';
             }
             $ret .= '</ul>';
@@ -143,7 +122,6 @@ class InformeaSearchRendererTab1 extends InformeaBaseSearchRenderer {
         foreach ($results as $row) {
             $ret .= call_user_func(array($this, 'render_' . $row->entity_type), $row);
         }
-        return $ret;
         $ret .= '</ul>';
         return $ret;
     }
@@ -154,25 +132,22 @@ class InformeaSearchRendererTab1 extends InformeaBaseSearchRenderer {
     }
 
     function render_decision($decision) {
-        $tooltips = array(__('Click to see decision content', 'informea'), __('Convention logo', 'informea'), __('Click to open decision into treaty context', 'informea'));
-        $ret .= '<li class="decision">';
-        $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
-        $ret .= sprintf('<a id="arrow-decision-%s" href="javascript:void(0);" class="%s arrow closed left"></a>', $decision->id, $css);
-        $ret .= sprintf('<div class="logo-medium left" title="%s"><img src="%s" /></div>', $tooltips[1], $decision->logo_medium);
         $url = sprintf('%s/treaties/%s/decisions?showall=true#decision-%s', get_bloginfo('url'), $decision->id_treaty, $decision->id);
-        $ret .= sprintf('<a id="expand-decision-%s" href="javascript:void(0);" class="%s left title" title="%s">%s - %s</a>', $decision->id, $css, $decision->short_title, $decision->number, subwords($decision->short_title, 13));
-        $ret .= sprintf('<a href="%s" class="external title left" target="_blank" title="%s"></a>', $url, $tooltips[0]);
-        $ret .= '<div class="clear"></div>';
-        $ret .= sprintf('<div id="result-decision-%s" class="content hidden">', $decision->id);
+        $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
+        $label = sprintf('%s, <strong>%s</strong> %s - %s', mysql2date('j F Y', $decision->published), $decision->treaty_title, $decision->number, $decision->short_title);
+        $ret = '<li>';
+        $ret .= sprintf('<a data-id="%s" data-toggle="decision-%s" data-role="decision" href="javascript:void(0);" class="%s"><i class="icon-plus-sign"></i>%s</a>', $decision->id, $decision->id, $css, $label);
+        $ret .= sprintf('<a href="%s" target="_blank"><i class="icon icon-share-alt"></i></a>', $url);
+        $ret .= sprintf('<div id="decision-%s" class="content hidden">', $decision->id);
         $ret .= $this->render_decision_paragraphs($decision);
         $ret .= $this->render_decision_documents($decision);
         $ret .= '</div>';
-        $ret .= '<div class="clear"></div>';
         $ret .= '</li>';
         return $ret;
     }
 
     function render_event($row) {
+        $ret = '';
         $tooltips = array(__('Convention logo', 'informea'), __('Click to open decision into treaty context', 'informea'));
         $ret .= '<li class="event">';
         $ret .= sprintf('<a id="arrow-event-%s" href="javascript:void(0);" class="arrow left"></a>', $row->id);
@@ -181,7 +156,6 @@ class InformeaSearchRendererTab1 extends InformeaBaseSearchRenderer {
         $ret .= empty($row->event_url) ? subwords($row->title) : sprintf('<a href="%s" target="_blank" title="%s" class="left">%s</a>', $row->event_url, $row->title, subwords($row->title));
         $ret .= sprintf('&nbsp; - %s', format_mysql_date($row->start));
         $ret .= '</div>';
-        $ret .= '<div class="clear"></div>';
         $ret .= '</li>';
         return $ret;
     }
@@ -222,18 +196,16 @@ class InformeaSearchRendererTab2 extends InformeaBaseSearchRenderer {
         if (empty($treaty->decisions)) {
             return '';
         }
-        $ret = '<h2>Decisions</h2>';
+        $ret = '<h3>Decisions</h3>';
         $ret .= '<ul>';
-        $tooltips = array(__('Click to see decision in context of the treaty', 'informea'));
         foreach ($treaty->decisions as $decision) {
-            $ret .= '<li>';
-            $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
-            $ret .= sprintf('<a id="arrow-decision-%s" href="javascript:void(0);" class="%s arrow closed left"></a>', $decision->id, $css);
-            $ret .= sprintf('<a id="expand-decision-%s" href="javascript:void(0);" class="%s left title" title="%s">%s - %s</a>', $decision->id, $css, $decision->short_title, $decision->number, subwords($decision->short_title, 10));
+            $label = sprintf('%s - %s', $decision->number, subwords($decision->short_title, 10));
             $url = sprintf('%s/treaties/%s/decisions?showall=true#decision-%s', get_bloginfo('url'), $decision->id_treaty, $decision->id);
-            $ret .= sprintf('<a href="%s" class="external title left" target="_blank" title="%s"></a>', $url, $tooltips[0]);
-            $ret .= '<div class="clear"></div>';
-            $ret .= sprintf('<div id="result-decision-%s" class="content hidden">', $decision->id);
+            $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
+            $ret .= '<li>';
+            $ret .= sprintf('<a data-toggle="decision-%s" data-id="%s" data-role="decision" href="javascript:void(0);" class="%s arrow closed left"><i class="icon icon-plus-sign"></i>%s</a>', $decision->id, $decision->id, $css, $label);
+            $ret .= sprintf('<a href="%s" target="_blank"><i class="icon icon-share-alt"></i></a>', $url);
+            $ret .= sprintf('<div id="decision-%s" class="hidden">', $decision->id);
             $ret .= $this->render_decision_paragraphs($decision);
             $ret .= $this->render_decision_documents($decision);
             $ret .= '</div>';

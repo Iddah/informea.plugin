@@ -142,13 +142,12 @@ class AbstractSearch {
      */
     function get_start_date($solr = false) {
         $ret = null;
-        $sm = $this->get_request_int('q_start_month', 0);
         $sy = $this->get_request_int('q_start_year', 0);
-        if ($sm > 0 && $sm < 13 && $sy > 0) {
+        if ($sy > 0) {
             if ($solr) {
-                $ret = sprintf("%04d-%02d-01T00:00:00Z", $sy, $sm);
+                $ret = sprintf("%04d-01-01T00:00:00Z", $sy);
             } else {
-                $ret = sprintf("%04d-%02d-01", $sy, $sm);
+                $ret = sprintf("%04d-01-01", $sy);
             }
         }
         return $ret;
@@ -160,13 +159,12 @@ class AbstractSearch {
      */
     function get_end_date($solr = false) {
         $ret = null;
-        $em = $this->get_request_int('q_end_month', 0);
         $ey = $this->get_request_int('q_end_year', 0);
-        if ($em > 0 && $em < 13 && $ey > 0) {
+        if ($ey > 0) {
             if ($solr) {
-                $ret = sprintf("%04d-%02d-31T00:00:00Z", $ey, $em);
+                $ret = sprintf("%04d-12-31T00:00:00Z", $ey);
             } else {
-                $ret = sprintf("%04d-%02d-31", $ey, $em);
+                $ret = sprintf("%04d-12-31", $ey);
             }
         }
         return $ret;

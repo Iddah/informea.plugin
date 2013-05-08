@@ -143,23 +143,26 @@ class InformeaSearch3 extends AbstractSearch {
 
     private function merge_results($db, $solr) {
         $ret = $solr;
+        $filter_treaty = $this->get_treaties();
         foreach ($db['treaties'] as $id_treaty => $arr_treaty) {
-            // Merge articles
-            if (!isset($ret['treaties'][$id_treaty])) {
-                $ret['treaties'][$id_treaty] = array('articles' => array(), 'decisions' => array());
-            }
-            if (!empty($arr_treaty['articles'])) {
-                $ret['treaties'][$id_treaty]['articles'] += $arr_treaty['articles'];
-            }
+            if(in_array($id_treaty, $filter_treaty)) {
+                // Merge articles
+                if (!isset($ret['treaties'][$id_treaty])) {
+                    $ret['treaties'][$id_treaty] = array('articles' => array(), 'decisions' => array());
+                }
+                if (!empty($arr_treaty['articles'])) {
+                    $ret['treaties'][$id_treaty]['articles'] += $arr_treaty['articles'];
+                }
 
-            // Merge decisions
-            if (!empty($arr_treaty['decisions'])) {
-                foreach ($arr_treaty['decisions'] as $id_decision => $arr_decision) {
-                    if (!isset($ret['treaties'][$id_treaty]['decisions'][$id_decision])) {
-                        $ret['treaties'][$id_treaty]['decisions'][$id_decision] = array('paragraphs' => array(), 'documents' => array());
+                // Merge decisions
+                if (!empty($arr_treaty['decisions'])) {
+                    foreach ($arr_treaty['decisions'] as $id_decision => $arr_decision) {
+                        if (!isset($ret['treaties'][$id_treaty]['decisions'][$id_decision])) {
+                            $ret['treaties'][$id_treaty]['decisions'][$id_decision] = array('paragraphs' => array(), 'documents' => array());
+                        }
+                        $ret['treaties'][$id_treaty]['decisions'][$id_decision]['paragraphs'] += $arr_decision['paragraphs'];
+                        $ret['treaties'][$id_treaty]['decisions'][$id_decision]['documents'] += $arr_decision['documents'];
                     }
-                    $ret['treaties'][$id_treaty]['decisions'][$id_decision]['paragraphs'] += $arr_decision['paragraphs'];
-                    $ret['treaties'][$id_treaty]['decisions'][$id_decision]['documents'] += $arr_decision['documents'];
                 }
             }
         }
@@ -269,38 +272,54 @@ class InformeaSearch3 extends AbstractSearch {
             if (empty($resp->response->docs)) {
                 return $ret;
             }
+            $filter_treaty = $this->get_treaties();
             foreach ($resp->response->docs as $doc) {
                 $id_entity = intval($doc->getField('id')->values[0]);
                 $type = $doc->getField('entity_type')->values[0];
                 $ob = new stdClass();
                 switch ($type) {
                     case 'treaty';
-                        $this->results_add_treaty($ret['treaties'], $id_entity);
+                        if(in_array($id_entity, $filter_treaty)) {
+                            $this->results_add_treaty($ret['treaties'], $id_entity);
+                        }
                         break;
                     case 'treaty_article';
-                        $ob->id_entity = $id_entity;
-                        $ob->id_parent = $doc->treaty_id->values[0]; // id_treaty
-                        $this->results_add_article($ret['treaties'], $ob);
+                        if(in_array($doc->treaty_id->values[0], $filter_treaty)) {
+                            $ob->id_entity = $id_entity;
+                            $ob->id_parent = $doc->treaty_id->values[0]; // id_treaty
+                            $this->results_add_article($ret['treaties'], $ob);
+                        }
                         break;
                     case 'treaty_article_paragraph';
-                        $ob->id_entity = $id_entity;
-                        $ob->id_parent = $doc->treaty_article_id->values[0]; // id_article
-                        $this->results_add_treaty_paragraph($ret['treaties'], $ob);
+                        $id_treaty = CacheManager::get_treaty_for_treaty_paragraph($id_entity);
+                        if(in_array($id_treaty, $filter_treaty)) {
+                            $ob->id_entity = $id_entity;
+                            $ob->id_parent = $doc->treaty_article_id->values[0]; // id_article
+                            $this->results_add_treaty_paragraph($ret['treaties'], $ob);
+                        }
                         break;
                     case 'decision';
                         $ob->id_entity = $id_entity;
                         $ob->id_parent = CacheManager::get_treaty_for_decision($id_entity); // id_treaty
-                        $this->results_add_decision($ret['treaties'], $ob);
+                        if(in_array($ob->id_parent, $filter_treaty)) {
+                            $this->results_add_decision($ret['treaties'], $ob);
+                        }
                         break;
                     case 'decision_paragraph';
-                        $ob->id_entity = $id_entity;
-                        $ob->id_parent = $doc->decision_id->values[0]; // id_decision
-                        $this->results_add_decision_paragraph($ret['treaties'], $ob);
+                        $id_treaty = CacheManager::get_treaty_for_decision_paragraph($ob->id_entity);
+                        if(in_array($id_treaty, $filter_treaty)) {
+                            $ob->id_entity = $id_entity;
+                            $ob->id_parent = $doc->decision_id->values[0]; // id_decision
+                            $this->results_add_decision_paragraph($ret['treaties'], $ob);
+                        }
                         break;
                     case 'decision_document';
                         $ob->id_entity = $id_entity;
                         $ob->id_parent = $doc->decision_id->values[0]; // id_decision
-                        $this->results_add_decision_document($ret['treaties'], $ob);
+                        $id_treaty = CacheManager::get_treaty_for_decision($ob->id_parent);
+                        if(in_array($id_treaty, $filter_treaty)) {
+                            $this->results_add_decision_document($ret['treaties'], $ob);
+                        }
                         break;
                     case 'event':
                         $ret['events'][] = $id_entity;
@@ -528,6 +547,12 @@ class InformeaSearch3Tab1 extends InformeaSearch3 {
         $where_events = count($events) > 0 ? sprintf('WHERE id IN (%s)', implode(',', $events)) : ' WHERE 1 <> 1 ';
         $start = $this->get_page_size() * $this->get_page();
         $end = $this->get_page_size();
+
+        $start_date = $this->get_start_date();
+        $end_date = $this->get_end_date();
+        $where_date = !empty($start_date) ? ' AND `date` > ' . $start_date : '';
+        $where_date .= !empty($end_date) ? ' AND `date` < ' . $end_date : '';
+
         $limit = $all ? '' : sprintf(' LIMIT %s, %s', $start, $end);
         $sql = sprintf("
             SELECT * FROM (
@@ -536,10 +561,11 @@ class InformeaSearch3Tab1 extends InformeaSearch3 {
                 SELECT id AS `id_entity`, 'decision' AS `type`, published AS `date` FROM ai_decision %s
                 UNION
                 SELECT id AS `id_entity`, 'event' AS `type`, start AS `date` FROM ai_event %s
-            ) soup ORDER BY `date` %s %s",
+            ) soup WHERE 1 = 1 ORDER BY `date` %s %s %s",
             $where_treaty,
             $where_decision,
             $where_events,
+            $where_date,
             $this->get_sort_direction(),
             $limit
         );
@@ -609,11 +635,8 @@ class InformeaSearch3Tab3 extends InformeaSearch3 {
                 $data['decisions'] = array();
             }
             $treaty = CacheManager::load_treaty($id_treaty);
-            if ($treaty->regional == '0') {
-                $treaty = CacheManager::load_treaty_hierarchy($id_treaty, $data);
-                if (count($treaty->articles) > 0) {
-                    $ret[$id_treaty] = $treaty;
-                }
+            if($treaty->regional == '0') {
+                $ret[$id_treaty] = CacheManager::load_treaty_hierarchy($id_treaty, $data);
             }
         }
         $this->results = $ret;
@@ -686,11 +709,7 @@ class InformeaSearch3Tab5 extends InformeaSearch3 {
             }
             $treaty = CacheManager::load_treaty($id_treaty);
             if ($treaty->regional == '1') {
-                $treaty = CacheManager::load_treaty_hierarchy($id_treaty, $data);
-                if (count($treaty->articles > 0)) {
-                    $treaty = CacheManager::load_treaty_hierarchy($id_treaty, $data);
-                    $ret[$id_treaty] = $treaty;
-                }
+                $ret[$id_treaty] = CacheManager::load_treaty_hierarchy($id_treaty, $data);
             }
         }
         $this->results = $ret;
