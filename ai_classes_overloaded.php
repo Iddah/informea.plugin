@@ -391,6 +391,20 @@ class informea_treaties extends imea_treaties_page {
     }
 
 
+    static function article_url($treaty, $article) {
+        echo sprintf(
+            '%s/treaties/%s?id_treaty_article=%s#article_%s',
+            get_bloginfo('url'), $treaty->odata_name, $article->id, $article->id);
+    }
+
+
+    static function paragraph_url($treaty, $article, $paragraph) {
+        echo sprintf(
+            '%s/treaties/%s?id_treaty_article=7#article_7_paragraph_2305',
+            get_bloginfo('url'), $treaty->odata_name, $article->id, $article->id, $paragraph->id);
+    }
+
+
     static function admin_article_add_paragraph_url($article) {
         echo sprintf(
             '%sadmin.php?page=informea_treaties&act=treaty_add_article_paragraph&id_treaty=%s&id_treaty_article=%s',
