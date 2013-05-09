@@ -424,6 +424,14 @@ class informea_treaties extends imea_treaties_page {
             '%sadmin.php?page=informea_treaties&act=treaty_add_article_paragraph&id_treaty=%s&id_treaty_article=%s&order=%s',
             admin_url(), $article->id_treaty, $article->id, ($paragraph->order + 1));
     }
+
+
+    static function decision_url($treaty, $decision) {
+        echo sprintf(
+            '%s/treaties/%s/decisions?showall=1#decision_%s',
+            get_bloginfo('url'), $treaty->odata_name, $decision->id);
+    }
+
 }
 
 
