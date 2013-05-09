@@ -213,6 +213,53 @@ class informea_treaties extends imea_treaties_page {
 
 
     /**
+     * Retrieve the list of decisions for this treaty
+     * @param $id_treaty integer Treaty Identified
+     * @return integer Number of decisions for this treaty
+     */
+    static function get_decisions_count($id_treaty) {
+        global $wpdb;
+        $sql = $wpdb->prepare(
+            "SELECT COUNT(*) AS cnt
+                FROM ai_decision
+                WHERE id_treaty = %d AND status <> 'retired'
+                ORDER BY published DESC",
+            $id_treaty
+        );
+        return $wpdb->get_var($sql);
+    }
+
+
+    /**
+     * Retrieve decisions grouped by meeting
+     * @param $id_treaty integer Treaty identified
+     * @return array
+     */
+    static function group_decisions_by_meeting($id_treaty) {
+        if($id_treaty != 5) {
+            return parent::group_decisions_by_meeting($id_treaty);
+        } else {
+            global $wpdb;
+            $ret = array();
+            // Hack! Stockholm do not have id_meeting, darn it!
+            $meetings = $wpdb->get_results(
+                'SELECT DISTINCT meeting_title AS title
+                    FROM ai_decision
+                    WHERE id_treaty=5
+                    ORDER BY meeting_title DESC'
+            );
+            foreach($meetings as &$row) {
+                $row->decisions = $wpdb->get_results($wpdb->prepare(
+                    'SELECT * FROM ai_decision WHERE id_treaty=5 AND meeting_title=%s', $row->title
+                ));
+                $ret[] = $row;
+            }
+            return $ret;
+        }
+    }
+
+
+    /**
      * @param string $odata_name
      * @return stdClass
      */
