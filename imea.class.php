@@ -37,10 +37,13 @@ if (!class_exists('imeasite')) {
 
             // Preserve line below for backward-compatibility with old URLs without tabs
             $imea_rules['(ro|es|fr)?/?treaties/(.*)/decisions/(\d*)'] = 'index.php?pagename=treaties&id=$matches[2]&id_decision=$matches[3]&showall=$matches[4]&expand=decision'; // http://informea/treaties/{odata_name}/decisions/{id}
-            $imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(sendmail)?/?(\d*)?/?(\d*)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=$matches[3]&id_contact=$matches[4]&id_parent=$matches[5]'; // http://informea/treaties/id/sendmail/1234/1
+
+            // http://informea/treaties/id/decisions/showall#decisions-id
+            $imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(treaty|decisions|print|nfp|coverage)?/?(showall)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=$matches[3]&showall=$matches[4]';
+            // http://informea/treaties/id/sendmail/1234/1
+            $imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(sendmail)?/?(\d*)?/?(\d*)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=$matches[3]&id_contact=$matches[4]&id_parent=$matches[5]';
             $imea_rules['(ro|es|fr)?/?treaties/(.*)/sendmail/(\d*)/(\d*)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=sendmail&id_contact=$matches[3]&id_parent=$matches[4]'; // http://informea/treaties/odata_name/sendmail/1234/1
             $imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(\d*)?$'] = 'index.php?pagename=treaties&id_treaty=$matches[2]&id_treaty_article=$matches[3]'; // http://informea/treaties/id/id_treaty_article#article_id_paragraph_id
-            $imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(treaty|decisions|print|nfp|coverage)?/?(showall)?$'] = 'index.php?pagename=treaties&id_treaty=$matches[2]&expand=$matches[3]&showall=$matches[4]'; // http://informea/treaties/id/decisions/showall#decisions-id
 
             //URL: /treaties/region/global, /treaties/region/Europe ...
             $imea_rules['(ro|es|fr)?/?treaties/region/(.*)/icon$'] = 'index.php?pagename=treaties&category=$matches[2]&expand=icon'; // /icon suffix
