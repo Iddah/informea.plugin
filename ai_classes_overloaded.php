@@ -173,16 +173,13 @@ class informea_treaties extends imea_treaties_page {
         parent::__construct($id_treaty, $arr_parameters);
     }
 
-    function get_treaty_from_request() {
-        $ret = NULL;
-        $this->id_treaty = get_request_variable('id_treaty', 1);
-        if (empty($this->id_treaty)) {
-            $odata_name = get_request_variable('treaty');
-            $ret = $this->get_treaty_by_odata_name($odata_name);
-            $this->id_treaty = $ret->id;
+    static function get_treaty_from_request() {
+        $id = get_request_variable('id');
+        $treaty = self::get_treaty_by_odata_name($id);
+        if(empty($treaty)) { // Compatibility
+            $treaty = self::get_treaty_by_id($id);
         }
-        $this->init();
-        return $ret;
+        return $treaty;
     }
 
     function handle_view() {
@@ -213,6 +210,7 @@ class informea_treaties extends imea_treaties_page {
             exit(0);
         }
     }
+
 
     /**
      * @param string $odata_name
@@ -356,6 +354,61 @@ class informea_treaties extends imea_treaties_page {
         if (!empty($treaty->theme_secondary)) {
             echo sprintf('<div class="clear"></div><span class="theme">(%s)</span>', $treaty->theme_secondary);
         }
+    }
+
+
+    function admin_delete_article() {
+        if ($this->get_action() == 'delete_article' && current_user_can('manage_options')) {
+            if(!check_admin_referer('treaty_delete_article')) {
+                die('Security check');
+            }
+            $id_article = get_request_int('id_article');
+            $this->delete_article($id_article);
+            return __('Article has been successfully deleted', 'informea');
+        }
+        return FALSE;
+    }
+
+
+    function admin_delete_article_paragraph() {
+        if ($this->get_action() == 'delete_article_paragraph' && current_user_can('manage_options')) {
+            if(!check_admin_referer('treaty_delete_paragraph')) {
+                die('Security check');
+            }
+
+            $id_paragraph = get_request_int('id_paragraph');
+            $this->delete_paragraph($id_paragraph);
+            return __('Paragraph has been successfully deleted', 'informea');
+        }
+        return FALSE;
+    }
+
+
+    static function admin_article_edit_url($article) {
+        echo sprintf(
+            '%sadmin.php?page=informea_treaties&act=treaty_edit_article&id_treaty=%s&id_treaty_article=%s',
+            admin_url(), $article->id_treaty, $article->id);
+    }
+
+
+    static function admin_article_add_paragraph_url($article) {
+        echo sprintf(
+            '%sadmin.php?page=informea_treaties&act=treaty_add_article_paragraph&id_treaty=%s&id_treaty_article=%s',
+            admin_url(), $article->id_treaty, $article->id);
+    }
+
+
+    static function admin_paragraph_edit_url($article, $paragraph) {
+        echo sprintf(
+            '%sadmin.php?page=informea_treaties&act=treaty_edit_article_paragraph&id_treaty=%s&id_treaty_article=%s&id_treaty_article_paragraph=%s',
+            admin_url(), $article->id_treaty, $article->id, $paragraph->id);
+    }
+
+
+    static function admin_paragraph_insert_below_url($article, $paragraph) {
+        echo sprintf(
+            '%sadmin.php?page=informea_treaties&act=treaty_add_article_paragraph&id_treaty=%s&id_treaty_article=%s&order=%s',
+            admin_url(), $article->id_treaty, $article->id, ($paragraph->order + 1));
     }
 }
 
