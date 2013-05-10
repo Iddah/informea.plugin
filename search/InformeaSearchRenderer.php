@@ -134,7 +134,7 @@ class InformeaSearchRendererTab1 extends InformeaBaseSearchRenderer {
 
     function render_decision($decision) {
         $treaty = CacheManager::load_treaty($decision->id_treaty);
-        $url = sprintf('%s/treaties/%s/decisions?showall=true#decision-%s', get_bloginfo('url'), $treaty->odata_name, $decision->id);
+        $url = sprintf('%s/treaties/%s/decisions?showall=true#decision_%s', get_bloginfo('url'), $treaty->odata_name, $decision->id);
         $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
         $label = sprintf('%s, <strong>%s</strong> %s - %s', mysql2date('j F Y', $decision->published), $decision->treaty_title, $decision->number, $decision->short_title);
         $ret = '<li>';
@@ -202,7 +202,7 @@ class InformeaSearchRendererTab2 extends InformeaBaseSearchRenderer {
         $ret .= '<ul>';
         foreach ($treaty->decisions as $decision) {
             $label = sprintf('%s - %s', $decision->number, subwords($decision->short_title, 10));
-            $url = sprintf('%s/treaties/%s/decisions?showall=true#decision-%s', get_bloginfo('url'), $treaty->odata_name, $decision->id);
+            $url = sprintf('%s/treaties/%s/decisions?showall=true#decision_%s', get_bloginfo('url'), $treaty->odata_name, $decision->id);
             $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
             $ret .= '<li>';
             $ret .= sprintf('<a data-toggle="decision-%s" data-id="%s" data-role="decision" href="javascript:void(0);" class="%s arrow closed left"><i class="icon icon-plus-sign"></i>%s</a>', $decision->id, $decision->id, $css, $label);
