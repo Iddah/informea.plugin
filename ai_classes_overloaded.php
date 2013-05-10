@@ -359,7 +359,7 @@ class informea_treaties extends imea_treaties_page {
             $no = $decision->number;
             $text = ucwords(strtolower(self::get_title($decision)));
             $url = sprintf('%s/treaties/%s/decisions/%d', get_bloginfo('url'), $treaty->odata_name, $decision->id);
-            return sprintf('<a class="title" name="decision-%d" target="_blank" href="%s">%s</a>', $no, $url, $text);
+            return sprintf('<a class="title" name="decision-%d" href="%s">%s</a>', $no, $url, $text);
         // }
     }
 
