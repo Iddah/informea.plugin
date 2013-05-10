@@ -712,7 +712,7 @@ class informea_events extends imea_events_page {
 
 
     public static function event_to_html($e, $fe_type = NULL) {
-        $cop_class = (($e->type == 'cop') && $fe_type != 'cop') ? ' cop' : '';
+        $cop_class = (($e->type == 'cop' || $e->type == 'mop') && $fe_type != 'cop') ? ' cop' : '';
     ?>
             <li>
                 <div class="date">
