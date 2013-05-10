@@ -638,6 +638,41 @@ class informea_countries extends imea_countries_page {
         }
         return $treaties;
     }
+
+
+    static function generate_parties_download_csv() {
+        $language = get_request_value('lang', 'en');
+        $split = ('en' == $language) ? ',' : ';';
+        $newline = "\r\n";
+        $page_data = new imea_countries_page(null);
+        $data = $page_data->index_grid();
+        $columns = $data['column'];
+        $countries = $data['countries'];
+        $signatures = $data['signatures'];
+        $line = 'Country';
+        foreach ($columns as $column) {
+            $line .= $split . $column->short_title;
+        }
+        $line .= $newline;
+        echo ($line);
+        foreach ($countries as $country) {
+            $line = $country->name;
+            foreach ($columns as $column) {
+                $id_treaty = $column->id;
+                $id_country = $country->id;
+                $coldata = '';
+                if (isset($signatures[$id_treaty])) {
+                    $tmparr = $signatures[$id_treaty];
+                    if (isset($tmparr[$id_country])) {
+                        $coldata = $tmparr[$id_country];
+                    }
+                }
+                $line .= $split . $coldata;
+            }
+            $line .= $newline;
+            echo ($line);
+        }
+    }
 }
 
 
@@ -758,7 +793,6 @@ class informea_events extends imea_events_page {
         $start = $page + ($page * $page_size);
         $end =  $page_size;
         $sql .= sprintf(' ORDER BY a.start DESC LIMIT %s, %s', $start, $end);
-
         return $wpdb->get_results($sql);
     }
 
