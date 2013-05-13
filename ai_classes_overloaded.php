@@ -3,6 +3,9 @@
 add_action('wp_ajax_nopriv_get_decision_paragraph_tags', 'informea_get_decision_paragraph_tags');
 add_action('wp_ajax_get_decision_paragraph_tags', 'informea_get_decision_paragraph_tags');
 
+add_action('wp_ajax_nopriv_get_decision_paragraph_tags_html', 'informea_get_decision_paragraph_tags_html');
+add_action('wp_ajax_get_decision_paragraph_tags_html', 'informea_get_decision_paragraph_tags_html');
+
 add_action('wp_ajax_nopriv_countries_autocomplete', 'ajax_countries_autocomplete');
 add_action('wp_ajax_countries_autocomplete', 'ajax_countries_autocomplete');
 
@@ -147,7 +150,7 @@ function ajax_country_nfp() {
 /**
  * Generate JSON object with paragraph tags based on paragraph id
  * @param @id_paragraph paragraph id from query string
- * @return JSON object
+ * @return string JSON string
  */
 function informea_get_decision_paragraph_tags() {
     $id_paragraph = get_request_int('id_paragraph', 0);
@@ -161,6 +164,31 @@ function informea_get_decision_paragraph_tags() {
         header('Content-Type:application/json');
         echo json_encode($arr);
     }
+    die();
+}
+
+
+/**
+ * Generate HTML with paragraph tags based on paragraph id
+ * @param @id_paragraph paragraph id from query string
+ * @return string HTML data
+ */
+function informea_get_decision_paragraph_tags_html() {
+    $id_paragraph = get_request_int('id_paragraph', 0);
+    $ret = '';
+    if ($id_paragraph > 0) {
+        $ob = new informea_decisions();
+        $tags = $ob->get_paragraph_tags($id_paragraph);
+        if(count($tags)) {
+            foreach($tags as $tag) {
+                $ret .= sprintf('<a href="%s/terms/%s" target="_blank">%s</a><br />', get_bloginfo('url'), $tag->id, $tag->term);
+            }
+        } else {
+            $ret = 'This article has not been tagged';
+        }
+    }
+    header('Content-Type:text/html');
+    echo $ret;
     die();
 }
 
@@ -513,6 +541,17 @@ class informea_decisions extends imea_decisions_page {
     function get_paragraph_tags($id_paragraph) {
         global $wpdb;
         return $wpdb->get_results($wpdb->prepare('SELECT b.* FROM ai_decision_paragraph_vocabulary a INNER JOIN voc_concept b ON a.id_concept = b.id WHERE a.id_decision_paragraph=%d', $id_paragraph));
+    }
+
+
+    static function tag_decision_paragraphs_url($treaty, $decision) {
+        echo sprintf('%s/admin.php?page=informea_decisions&act=decision_edit_decision&id_treaty=%s&id_decision=%s',
+            admin_url(), $treaty->id, $decision->id);
+    }
+
+    static function edit_decision_url($treaty, $decision) {
+        echo sprintf('%s/admin.php?page=informea_decisions&act=decision_edit&id_treaty=%s&id_decision=%s',
+            admin_url(), $treaty->id, $decision->id);
     }
 }
 
