@@ -333,6 +333,27 @@ class informea_treaties extends imea_treaties_page {
     }
 
 
+    static function generate_vcard($id_contact) {
+        $contact = self::get_contact_for_id($id_contact);
+        if(!empty($contact)) {
+            header("Content-type: text/x-vcard; charset=utf-8");
+            header("Content-Disposition: filename=\"" . $contact->first_name . " " . $contact->last_name . ".vcf\"");
+            echo "BEGIN:VCARD\n";
+            echo "VERSION:2.1\n";
+            echo "N:" . $contact->last_name . ";" . $contact->first_name . ";;" . $contact->prefix . "\n";
+            echo "FN:" . $contact->first_name . " " . $contact->last_name . "\n";
+            echo "ORG:" . $contact->institution . ";" . $contact->department . "\n";
+            echo "TITLE:" . $contact->position . "\n";
+            echo "TEL;WORK;VOICE:" . $contact->telephone . "\n";
+            echo "TEL;WORK;FAX:" . $contact->fax . "\n";
+            echo "EMAIL;PREF;INTERNET:" . $contact->email . "\n";
+            echo "ADR;WORK:;;" . str_replace("\r\n", " ", $contact->address) . ";;;;" . $contact->country_name . "\n";
+            echo "END:VCARD\n";
+        } else {
+            die('No such entity');
+        }
+    }
+
     /**
      * Retrieve treaties list by theme based on region
      * @param $region region to get treaties from
