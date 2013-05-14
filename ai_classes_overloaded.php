@@ -987,6 +987,12 @@ class informea_events extends imea_events_page {
         global $wpdb;
         return $wpdb->get_results("SELECT b.*, a.logo_medium, a.odata_name FROM ai_treaty a INNER JOIN ai_event b ON a.id = b.id_treaty WHERE a.enabled = 1 AND a.use_informea = 1 AND b.start > NOW() LIMIT 5");
     }
+
+
+    static function get_events_all() {
+        global $wpdb;
+        return $wpdb->get_results('SELECT * FROM ai_event ORDER BY `start` DESC');
+    }
 }
 
 

@@ -22,9 +22,10 @@ if (!class_exists('imeasite')) {
         function create_rewrite_rules($rules) {
             $imea_rules = array();
 
-            $imea_rules['(ro|es|fr)?/?rss?'] = 'index.php?pagename=rss-feeds'; // http://informea/rss
+            $imea_rules['(ro|es|fr)?/?rss?'] = 'index.php?spagename=rss-feed'; // http://informea/rss
+            $imea_rules['(ro|es|fr)?/?events/rss?'] = 'index.php?pagename=download&id=events&entity=rss'; // http://informea/events/rss
+            $imea_rules['(ro|es|fr)?/?highlights/rss?'] = 'index.php?pagename=download&id=highlights&entity=rss'; // http://informea/highlights/rss
 
-            $imea_rules['(ro|es|fr)?/?events/rss?'] = 'index.php?pagename=events&show_rss=True'; // http://informea/events/rss
             $imea_rules['(ro|es|fr)?/?events/(\d*)?/?$'] = 'index.php?pagename=events&fe_page=$matches[2]'; // http://informea/events/
 
             $imea_rules['(ro|es|fr)?/?countries/(map|parties|treaties|grid)?$'] = 'index.php?pagename=countries&expand=$matches[2]'; // http://informea/countries/grid
@@ -59,7 +60,6 @@ if (!class_exists('imeasite')) {
             $imea_rules['(ro|es|fr)?/?terms/(hierarchical|alphabetical|list)?$'] = 'index.php?pagename=terms&expand=$matches[2]'; // http://informea/terms/theme
             $imea_rules['(ro|es|fr)?/?terms/(\d*)/?(treaties|decisions|ecolex)?$'] = 'index.php?pagename=terms&id=$matches[2]&expand=$matches[3]'; // http://informea/terms/id/treaties
 
-            $imea_rules['(ro|es|fr)?/?highlights/rss?'] = 'index.php?pagename=highlights&show_rss=True'; // http://informea/highlights/rss
             $imea_rules['(ro|es|fr)?/?highlights/(.*)/(\d*)/?$'] = 'index.php?pagename=highlights&topic=$matches[2]&h_page=$matches[3]'; // http://informea/highlights/category_name & http://informea/highlights/topic/page
             $imea_rules['(ro|es|fr)?/?highlights/(\d*)/?$'] = 'index.php?pagename=highlights&h_page=$matches[2]'; // http://informea/highlights/category_name & http://informea/highlights/topic/page
             $imea_rules['(ro|es|fr)?/?highlights/(.*)$'] = 'index.php?pagename=highlights&topic=$matches[2]'; // http://informea/highlights/category_name & http://informea/highlights/topic
@@ -93,7 +93,7 @@ if (!class_exists('imeasite')) {
 
             $vars[] = 'topic';
 
-            $vars[] = 'show_rss';
+            $vars[] = 'entity';
             $vars[] = 'category';
             $vars[] = 'id_decision';
             $vars[] = 'id';
