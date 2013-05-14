@@ -434,7 +434,7 @@ class informea_treaties extends imea_treaties_page {
 
     /**
      * Retrieve treaties list by theme based on region
-     * @param $region region to get treaties from
+     * @param $region string Region to get treaties from
      * @return array with WP SQL result objects grouped by theme
      */
     function get_treaties_by_region_by_theme($region = '') {
