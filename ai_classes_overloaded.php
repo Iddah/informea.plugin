@@ -354,6 +354,84 @@ class informea_treaties extends imea_treaties_page {
         }
     }
 
+
+    static function send_message_to_nfp_validate() {
+        $errors = array();
+        $first_name = get_request_value('first_name');
+        if(empty($first_name)) {
+            $errors[] = 'Your first name is required';
+        }
+        $last_name = get_request_value('last_name');
+        if(empty($last_name)) {
+            $errors[] = 'Your last name is required';
+        }
+        $email = get_request_value('email');
+        if(empty($email)) {
+            $errors[] = 'Your e-mail address is required';
+        }
+        $message = get_request_value('message');
+        if(empty($message)) {
+            $errors[] = 'Message cannot be empty';
+        }
+
+        $id = get_request_value('id_contact');
+        $contact = self::get_contact_for_id($id);
+        if(empty($contact)) {
+            $errors[] = 'Invalid contact. Contact is not in our database';
+        }
+
+        $options = get_option('informea_options');
+        $private_key = $options['recaptcha_private'];
+        $resp = recaptcha_check_answer($private_key, $_SERVER['REMOTE_ADDR'],
+            get_request_value('recaptcha_challenge_field'),
+            get_request_value('recaptcha_response_field')
+        );
+        if (!$resp->is_valid) {
+            $errors[] = 'Invalid security. Please enter the correct captcha keywords';
+        }
+        return $errors;
+    }
+
+
+    static function send_message_to_nfp() {
+        $errors = array();
+        $id = get_request_value('id_contact');
+        $contact = self::get_contact_for_id($id);
+        $copy = get_request_boolean('copy');
+        $to = $contact->email;
+        $subject = __('Contact request sent from InforMEA portal', 'informea');
+        $body = get_request_value('message');
+        $first_name = get_request_value('first_name');
+        $last_name = get_request_value('last_name');
+        $salutation = get_request_value('salutation');
+        $email = get_request_value('email');
+
+        $fullbody = $body;
+        $fullbody .= "\n\n\n";
+        $fullbody .= sprintf(
+            __('This email was automatically send by the InforMEA portal (http://www.informea.org) because a person (%s %s <%s>) requested to contact you via our portal', 'informea'),
+            $first_name, $last_name, $email
+        );
+        $header = sprintf('From: %s %s %s <%s>', $salutation, $first_name, $last_name, $email);
+        if (mail($to, $subject, $fullbody, $header)) {
+            if($copy) {
+                $contact_prefix = $contact->prefix;
+                $contact_first_name = $contact->first_name;
+                $contact_last_name = $contact->last_name;
+
+                $subject = __("Copy of contact request sent from InforMEA portal", 'informea');
+                $fullbody = "This email was automatically sent by the InforMEA portal (http://www.informea.org) because you requested to contact $contact_prefix $contact_first_name $contact_last_name via our portal. \n\n Your message was: $body";
+                if (!mail($email, $subject, $fullbody, $header)) {
+                    $errors[] = __("Cannot send you the copy of the email.", 'informea');
+                }
+            }
+        } else {
+            $errors[] = 'Cannot send e-mail. Please contact informea.org administrators through feedback form and raise this issues';
+        }
+        return $errors;
+    }
+
+
     /**
      * Retrieve treaties list by theme based on region
      * @param $region region to get treaties from
