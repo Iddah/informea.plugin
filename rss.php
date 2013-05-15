@@ -74,7 +74,7 @@ class InformeaRSSWriter {
         $page_data = new informea_events();
         header('Content-Type: application/rss+xml');
         $base_url = get_bloginfo('url');
-        $events = $page_data->get_events_all();
+        $events = informea_events::get_events_rss();
         $countries_data = new imea_countries_page(1, array());
         $max_pub_date = 0;
 
@@ -85,7 +85,6 @@ class InformeaRSSWriter {
         $w->set_channel_field('description', 'The United Nations Environmental Law and Conventions Portal');
         $w->set_feed_image($base_url . '/wp-content/themes/informea/images/logo-black.png', 'InforMEA logo', $base_url, 80, 67);
 
-        $link = "";
         foreach ($events as $event) {
             if ($event->event_url) {
                 $link = $event->event_url;

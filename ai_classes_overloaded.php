@@ -993,6 +993,16 @@ class informea_events extends imea_events_page {
         global $wpdb;
         return $wpdb->get_results('SELECT * FROM ai_event ORDER BY `start` DESC');
     }
+
+
+    /**
+     * Retreive the events to generate the RSS feed
+     * @return array stdClass ai_event rows
+     */
+    static function get_events_rss() {
+        global $wpdb;
+        return $wpdb->get_results('SELECT * FROM ai_event WHERE `start` >= DATE_SUB(NOW(), INTERVAL 1 YEAR) ORDER BY `start` DESC');
+    }
 }
 
 
