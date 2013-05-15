@@ -46,7 +46,7 @@ class InformeaRSSWriter {
         $ret .= sprintf("		<link>%s</link>\n", $link);
         if (!empty($categories)) {
             foreach ($categories as $cat) {
-                $ret .= sprintf("		<category></category>\n", esc_attr($cat));
+                $ret .= sprintf("		<category>%s</category>\n", esc_attr($cat));
             }
         } else {
             $ret .= "		<category>Uncategorized</category>\n";
