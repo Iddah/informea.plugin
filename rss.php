@@ -35,17 +35,21 @@ class InformeaRSSWriter {
     public function add_item($guid, $title, $link, $pubDate, $categories = array(), $description = '') {
         $ret = "	<item>\n";
         if (strpos($guid, 'http') === 0) {
-            $ret .= "		<guid>$guid</guid>\n";
+            $ret .= sprintf("		<guid>%s</guid>\n", esc_attr($guid));
         } else {
-            $ret .= "		<guid isPermaLink=\"false\">$guid</guid>\n";
+            $ret .= sprintf("		<guid isPermaLink=\"false\">%s</guid>\n", esc_attr($guid));
         }
-        $ret .= "		<title>$title</title>\n";
-        $ret .= (!empty($description)) ? "		<description>$description</description>\n" : '';
-        $ret .= "		<link>$link</link>\n";
+        $ret .= sprintf("		<title>%s</title>\n", esc_attr($title));
+        if(!empty($description)) {
+            $ret .= sprintf("		<description>%s</description>\n", esc_attr($description));
+        }
+        $ret .= sprintf("		<link>%s</link>\n", $link);
         if (!empty($categories)) {
             foreach ($categories as $cat) {
-                $ret .= "		<category>$cat</category>\n";
+                $ret .= sprintf("		<category></category>\n", esc_attr($cat));
             }
+        } else {
+            $ret .= "		<category>Uncategorized</category>\n";
         }
         $ret .= "		<pubDate>$pubDate</pubDate>\n";
         $ret .= "	</item>\n";
