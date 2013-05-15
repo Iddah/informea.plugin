@@ -41,7 +41,10 @@ class InformeaRSSWriter {
         }
         $ret .= sprintf("		<title>%s</title>\n", esc_attr($title));
         if(!empty($description)) {
-            $ret .= sprintf("		<description>%s</description>\n", esc_attr($description));
+            $description = str_replace('<![CDATA[', '', $description);
+            $description = str_replace(']]>', '', $description);
+            $description = esc_attr($description);
+            $ret .= sprintf("		<description><![CDATA[%s]]></description>\n", $description);
         }
         $ret .= sprintf("		<link>%s</link>\n", $link);
         if (!empty($categories)) {
@@ -85,7 +88,7 @@ class InformeaRSSWriter {
         $w = new InformeaRSSWriter();
         $w->set_channel_field('title', 'InforMEA - Events');
         $w->set_channel_field('link', $base_url . '/events');
-        $w->set_channel_field('self', $base_url . '/events/rss');
+        $w->set_channel_field('self', $base_url . '/events/rss/');
         $w->set_channel_field('description', 'The United Nations Environmental Law and Conventions Portal');
         $w->set_feed_image($base_url . '/wp-content/themes/informea/images/logo-black.png', 'InforMEA logo', $base_url, 80, 67);
 
@@ -143,8 +146,10 @@ class InformeaRSSWriter {
                 $description .= '&#60;br />&#60;a href=' . $link . '>Visit event page&#60;/a>';
             }
             $guid = 'informea-org-event-id-' . $event->id;
-            $categories = array($event->short_title, 'Events');
-
+            $categories = array('Events');
+            if(!empty($event->short_title)) {
+                $categories[] = $event->short_title;
+            }
             $w->add_item($guid, $event->title, $link, $pubDate, $categories, $description);
         }
         $w->set_channel_field('pubDate', date('r', strtotime($max_pub_date)));
@@ -160,7 +165,7 @@ class InformeaRSSWriter {
         $w = new InformeaRSSWriter();
         $w->set_channel_field('title', 'InforMEA - Highlights');
         $w->set_channel_field('link', $base_url . '/events');
-        $w->set_channel_field('self', $base_url . '/highlights/rss');
+        $w->set_channel_field('self', $base_url . '/highlights/rss/');
         $w->set_channel_field('description', 'The United Nations Environmental Law and Conventions Portal');
         $w->set_feed_image($base_url . '/wp-content/themes/informea/images/logo-black.png', 'InforMEA logo', $base_url, 80, 67);
         $guids = array();
