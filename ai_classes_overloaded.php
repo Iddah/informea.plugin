@@ -109,6 +109,7 @@ function ajax_country_mea_membership() {
     <table>
         <?php foreach($membership as $row): ?>
         <tr>
+            <td><div class="thumbnail <?php echo $row->odata_name; ?>"></div></td>
             <td><a href="<?php echo get_bloginfo('url') . '/treaties/' . $row->odata_name;?>"><?php echo $row->short_title; ?></a></td>
             <td class="text-center"><?php echo mysql2date('Y', $row->date); ?></td>
         </tr>
@@ -126,7 +127,12 @@ function ajax_country_nfp() {
     <table>
         <?php foreach($nfps as $row): ?>
             <tr>
-                <td class="text-top"><a href="<?php echo get_bloginfo('url') . '/treaties/' . $row->odata_name;?>"><?php echo $row->short_title; ?></a></td>
+                <td>
+                    <div class="thumbnail <?php echo $row->odata_name; ?>"></div>
+                </td>
+                <td>
+                    <a href="<?php echo get_bloginfo('url') . '/treaties/' . $row->odata_name;?>"><?php echo $row->short_title; ?></a>
+                </td>
                 <td class="text-top">
                     <ul>
                     <?php foreach($row->focal_points as $p): ?>
