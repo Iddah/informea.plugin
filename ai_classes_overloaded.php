@@ -668,6 +668,16 @@ class informea_countries extends imea_countries_page {
     }
 
 
+    static function get_id_from_request() {
+        $id = get_request_variable('id');
+        if(!is_numeric($id)) {
+            $country = self::get_country_by_iso($id);
+            $id = $country->id;
+        }
+        return $id;
+    }
+
+
     static function get_treaties_with_membership() {
         global $wpdb;
         return $wpdb->get_results('SELECT b.* FROM ai_treaty_country a

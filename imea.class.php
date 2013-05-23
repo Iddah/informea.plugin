@@ -29,6 +29,7 @@ if (!class_exists('imeasite')) {
             $imea_rules['(ro|es|fr)?/?events/(\d*)?/?$'] = 'index.php?pagename=events&fe_page=$matches[2]'; // http://informea/events/
 
             $imea_rules['(ro|es|fr)?/?countries/(map|parties|treaties|grid)?$'] = 'index.php?pagename=countries&expand=$matches[2]'; // http://informea/countries/grid
+            $imea_rules['(ro|es|fr)?/?countries/?([A-z]{2})/?(membership|nfp|reports|map|plans|peblds|ecolex-legislation|ecolex-caselaw)?$'] = 'index.php?pagename=countries&id=$matches[2]&expand=$matches[3]'; // http://informea/countries/ISO2L
             $imea_rules['(ro|es|fr)?/?countries/(\d*)/?(membership|nfp|reports|map|plans|peblds|ecolex-legislation|ecolex-caselaw)?$'] = 'index.php?pagename=countries&id=$matches[2]&expand=$matches[3]'; // http://informea/countries/id/nfp
             $imea_rules['(ro|es|fr)?/?countries/(\d*)/?(sendmail)?/?(\d*)?/?(\d*)?$'] = 'index.php?pagename=countries&id=$matches[2]&expand=$matches[3]&id_contact=$matches[4]&id_parent=$matches[5]'; // http://informea/countries/id/sendmail/1234/1
 
