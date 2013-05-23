@@ -6,20 +6,20 @@ $req_cat_mea = get_request_value('cat_mea', array(), FALSE);
 <div class="wrap">
     <div id="breadcrumb">
         You are here:
-        <a href="<?php echo bloginfo('url'); ?>/wp-admin/admin.php?page=informea_highlights">Manage highlights</a>
+        <a href="<?php echo bloginfo('url'); ?>/wp-admin/admin.php?page=informea_news">Manage news</a>
         &raquo;
-        <a href="<?php echo bloginfo('url'); ?>/wp-admin/admin.php?page=informea_highlights&act=highlight_add_highlight">Add
+        <a href="<?php echo bloginfo('url'); ?>/wp-admin/admin.php?page=informea_news&act=news_add_news">Add
             new</a>
     </div>
     <div id="icon-tools" class="icon32"><br></div>
-    <h2>Add new highlight</h2>
+    <h2>Add new news</h2>
     <?php if ($page_data->actioned) { ?>
         <div class="updated settings-error" id="setting-error-settings_updated">
             <?php if ($page_data->success) { ?>
-                <strong>Highlight was successfully created!</strong>
+                <strong>News was successfully created!</strong>
             <?php } ?>
             <?php if (!$page_data->success) { ?>
-                <strong>Error adding highlight!</strong>
+                <strong>Error adding news!</strong>
                 <ul>
                     <?php foreach ($page_data->errors as $inpname => $inp_err) : ?>
                         <li><?php echo $inp_err; ?></li>
@@ -30,9 +30,9 @@ $req_cat_mea = get_request_value('cat_mea', array(), FALSE);
     <?php } ?>
 
     <form action="" method="post">
-        <?php wp_nonce_field('informea-admin_highlight_add_highlight'); ?>
-        <input type="hidden" name="page" value="informea_highlights"/>
-        <input type="hidden" name="act" value="highlight_add_highlight"/>
+        <?php wp_nonce_field('informea-admin_news_add_news'); ?>
+        <input type="hidden" name="page" value="informea_news"/>
+        <input type="hidden" name="act" value="news_add_news"/>
 
         <table class="form-table">
             <tr valign="top">
@@ -98,7 +98,7 @@ $req_cat_mea = get_request_value('cat_mea', array(), FALSE);
             </tr>
         </table>
         <p class="submit">
-            <input name="actioned" type="submit" class="button-primary" value="<?php esc_attr_e('Add highlight'); ?>"/>
+            <input name="actioned" type="submit" class="button-primary" value="<?php esc_attr_e('Add news'); ?>"/>
         </p>
     </form>
 </div>

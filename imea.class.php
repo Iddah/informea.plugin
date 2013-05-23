@@ -24,7 +24,7 @@ if (!class_exists('imeasite')) {
 
             $imea_rules['(ro|es|fr)?/?rss?'] = 'index.php?spagename=rss-feed'; // http://informea/rss
             $imea_rules['(ro|es|fr)?/?events/rss?'] = 'index.php?pagename=download&id=events&entity=rss'; // http://informea/events/rss
-            $imea_rules['(ro|es|fr)?/?highlights/rss?'] = 'index.php?pagename=download&id=highlights&entity=rss'; // http://informea/highlights/rss
+            $imea_rules['(ro|es|fr)?/?news/rss?'] = 'index.php?pagename=download&id=news&entity=rss'; // http://informea/news/rss
 
             $imea_rules['(ro|es|fr)?/?events/(\d*)?/?$'] = 'index.php?pagename=events&fe_page=$matches[2]'; // http://informea/events/
 
@@ -62,9 +62,16 @@ if (!class_exists('imeasite')) {
             $imea_rules['(ro|es|fr)?/?terms/(hierarchical|alphabetical|list)?$'] = 'index.php?pagename=terms&expand=$matches[2]'; // http://informea/terms/theme
             $imea_rules['(ro|es|fr)?/?terms/(\d*)/?(treaties|decisions|ecolex)?$'] = 'index.php?pagename=terms&id=$matches[2]&expand=$matches[3]'; // http://informea/terms/id/treaties
 
-            $imea_rules['(ro|es|fr)?/?highlights/(.*)/(\d*)/?$'] = 'index.php?pagename=highlights&topic=$matches[2]&h_page=$matches[3]'; // http://informea/highlights/category_name & http://informea/highlights/topic/page
-            $imea_rules['(ro|es|fr)?/?highlights/(\d*)/?$'] = 'index.php?pagename=highlights&h_page=$matches[2]'; // http://informea/highlights/category_name & http://informea/highlights/topic/page
-            $imea_rules['(ro|es|fr)?/?highlights/(.*)$'] = 'index.php?pagename=highlights&topic=$matches[2]'; // http://informea/highlights/category_name & http://informea/highlights/topic
+            $imea_rules['(ro|es|fr)?/?news/(.*)/(\d*)/?$'] = 'index.php?pagename=news&topic=$matches[2]&h_page=$matches[3]'; // http://informea/news/category_name & http://informea/news/topic/page
+            $imea_rules['(ro|es|fr)?/?news/(\d*)/?$'] = 'index.php?pagename=news&h_page=$matches[2]'; // http://informea/news/category_name & http://informea/news/topic/page
+            $imea_rules['(ro|es|fr)?/?news/(.*)$'] = 'index.php?pagename=news&topic=$matches[2]'; // http://informea/news/category_name & http://informea/news/topic
+
+            // For compatibility, to avoid broken URLs
+            $imea_rules['(ro|es|fr)?/?highlights/?'] = 'index.php?pagename=news'; // http://informea/highlights
+            $imea_rules['(ro|es|fr)?/?highlights/rss?'] = 'index.php?pagename=download&id=news&entity=rss'; // http://informea/highlights/rss
+            $imea_rules['(ro|es|fr)?/?highlights/(.*)/(\d*)/?$'] = 'index.php?pagename=news&topic=$matches[2]&h_page=$matches[3]'; // http://informea/highlights/category_name & http://informea/highlights/topic/page
+            $imea_rules['(ro|es|fr)?/?highlights/(\d*)/?$'] = 'index.php?pagename=news&h_page=$matches[2]'; // http://informea/highlights/category_name & http://informea/highlights/topic/page
+            $imea_rules['(ro|es|fr)?/?highlights/(.*)$'] = 'index.php?pagename=news&topic=$matches[2]'; // http://informea/highlights/category_name & http://informea/highlights/topic
 
             //var_dump($rules);
             //var_dump($imea_rules + $rules);

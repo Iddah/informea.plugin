@@ -22,10 +22,10 @@ $id_treaty = get_request_value('id_treaty');
         <a href="<?php echo bloginfo('url'); ?>/wp-admin/admin.php?page=informea_pictures">Manage pictures</a>
         &raquo;
         <a href="<?php echo bloginfo('url'); ?>/wp-admin/admin.php?page=informea_pictures&act=pict_highlight_thumbnail">Manage
-            highlights thumbail pictures</a>
+            news thumbail pictures</a>
     </div>
     <div id="icon-tools" class="icon32"><br></div>
-    <h2>Manage highlights thumbail pictures</h2>
+    <h2>Manage news thumbail pictures</h2>
 
     <?php if ($page_data->actioned) { ?>
         <div class="updated settings-error" id="setting-error-settings_updated">

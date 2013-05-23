@@ -157,15 +157,15 @@ class InformeaRSSWriter {
     }
 
 
-    public static function highlights_rss() {
-        $page_data = new imea_highlights_page();
+    public static function news_rss() {
+        $page_data = new imea_news_page();
         header('Content-Type: application/rss+xml');
         $base_url = get_bloginfo('url');
         $max_pub_date = 0;
         $w = new InformeaRSSWriter();
-        $w->set_channel_field('title', 'InforMEA - Highlights');
+        $w->set_channel_field('title', 'InforMEA - News');
         $w->set_channel_field('link', $base_url . '/events');
-        $w->set_channel_field('self', $base_url . '/highlights/rss/');
+        $w->set_channel_field('self', $base_url . '/news/rss/');
         $w->set_channel_field('description', 'The United Nations Environmental Law and Conventions Portal');
         $w->set_feed_image($base_url . '/wp-content/themes/informea/images/logo-black.png', 'InforMEA logo', $base_url, 80, 67);
         $guids = array();

@@ -58,7 +58,7 @@ if (!class_exists('imeasiteadmin')) {
             add_submenu_page('informea', __('InforMEA Treaties'), __('Manage treaties'), 'publish_posts', 'informea_treaties', array('imeasiteadmin', 'page_treaties'));
             add_submenu_page('informea', __('InforMEA Decisions'), __('Manage decisions'), 'publish_posts', 'informea_decisions', array('imeasiteadmin', 'page_decisions'));
             add_submenu_page('informea', __('InforMEA Meetings'), __('Manage meetings'), 'publish_posts', 'informea_events', array('imeasiteadmin', 'page_events'));
-            add_submenu_page('informea', __('InforMEA Highlights'), __('Manage Highlights'), 'manage_options', 'informea_highlights', array('imeasiteadmin', 'page_highlights'));
+            add_submenu_page('informea', __('InforMEA News'), __('Manage News'), 'manage_options', 'informea_news', array('imeasiteadmin', 'page_news'));
             add_submenu_page('informea', __('InforMEA Pictures'), __('Manage pictures'), 'manage_options', 'informea_pictures', array('imeasiteadmin', 'page_pictures'));
             add_submenu_page('informea', __('InforMEA Focal points'), __('Manage focal points'), 'manage_options', 'informea_nfp', array('imeasiteadmin', 'page_nfp'));
             add_submenu_page('informea', __('InforMEA National plans'), __('Manage national plans'), 'manage_options', 'informea_national_plans', array('imeasiteadmin', 'informea_national_plans'));
@@ -289,19 +289,19 @@ if (!class_exists('imeasiteadmin')) {
         }
 
 
-        function page_highlights() {
+        function page_news() {
             $success = false;
             $actioned = get_request_value('actioned');
             $delete = get_request_boolean('delete');
-            $page_data = new imea_highlights_page();
+            $page_data = new imea_news_page();
             $act = get_request_value('act');
             if ($act == 'highlight_add_highlight') {
                 if ($actioned && $page_data->validate_add()) {
                     $page_data->add();
                 }
-                return include(dirname(__FILE__) . '/admin/highlights/add.php');
+                return include(dirname(__FILE__) . '/admin/news/add.php');
             }
-            return include(dirname(__FILE__) . '/admin/highlights/index.php');
+            return include(dirname(__FILE__) . '/admin/news/index.php');
         }
 
 
