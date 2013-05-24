@@ -191,8 +191,8 @@ class InformeaSearch2 extends AbstractSearch {
         }
         if ($this->is_use_meetings()) {
             $meetings_ob = array();
-            if (!empty($interim->events)) {
-                $meetings_ob = $this->cache_table('SELECT a.*, b.`short_title` AS `treaty` FROM `ai_event` a INNER JOIN `ai_treaty` b ON b.`id` = a.`id_treaty`  WHERE 1 = 1 ', array_keys($interim->events));
+            if (!empty($interim->meetings)) {
+                $meetings_ob = $this->cache_table('SELECT a.*, b.`short_title` AS `treaty` FROM `ai_event` a INNER JOIN `ai_treaty` b ON b.`id` = a.`id_treaty`  WHERE 1 = 1 ', array_keys($interim->meetings));
             }
             foreach ($meetings_ob as $ob) {
                 $meetings[$ob->id] = new MeetingSearchResult2($ob->id, $this, $ob, true);
@@ -269,7 +269,7 @@ class InformeaSearch2 extends AbstractSearch {
         $ret = new StdClass();
         $ret->treaties = array();
         $ret->decisions = array();
-        $ret->events = $solr_results->events; // Put events to avoid propagation of $solr_results
+        $ret->meetings = $solr_results->meetings; // Put meetings to avoid propagation of $solr_results
 
         $start = microtime_float();
         // Step 1. Build the cache structures from database

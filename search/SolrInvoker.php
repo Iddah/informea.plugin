@@ -41,7 +41,7 @@ class InformeaSolrInvoker {
     public function search($debug) {
         $start = microtime_float();
         $ret = new StdClass();
-        $ret->events = array();
+        $ret->meetings = array();
         $ret->decisions = array();
         $ret->decisions_documents = array();
         $ret->decisions_paragraphs = array();
@@ -87,7 +87,7 @@ class InformeaSolrInvoker {
                     // Sort properties by type
                     switch ($ob->type) {
                         case 'event':
-                            $ret->events[$ob_id] = $ob;
+                            $ret->meetings[$ob_id] = $ob;
                             break;
                         case 'treaty';
                             $ret->treaties[$ob_id] = $ob;

@@ -77,53 +77,53 @@ class InformeaRSSWriter {
     }
 
 
-    public static function events_rss() {
-        $page_data = new informea_events();
+    public static function meetings_rss() {
+        $page_data = new informea_meetings();
         header('Content-Type: application/rss+xml');
         $base_url = get_bloginfo('url');
-        $events = informea_events::get_events_rss();
+        $meetings = informea_meetings::get_meetings_rss();
         $countries_data = new imea_countries_page(1, array());
         $max_pub_date = 0;
 
         $w = new InformeaRSSWriter();
-        $w->set_channel_field('title', 'InforMEA - Events');
-        $w->set_channel_field('link', $base_url . '/events');
-        $w->set_channel_field('self', $base_url . '/events/rss/');
+        $w->set_channel_field('title', 'InforMEA - Meetings');
+        $w->set_channel_field('link', $base_url . '/meetings');
+        $w->set_channel_field('self', $base_url . '/meetings/rss/');
         $w->set_channel_field('description', 'The United Nations Environmental Law and Conventions Portal');
         $w->set_feed_image($base_url . '/wp-content/themes/informea/images/logo-black.png', 'InforMEA logo', $base_url, 80, 67);
 
-        foreach ($events as $event) {
-            if ($event->event_url) {
-                $link = $event->event_url;
+        foreach ($meetings as $meeting) {
+            if ($meeting->event_url) {
+                $link = $meeting->event_url;
             } else {
-                list($year, $month, $day) = explode('-', $event->start);
-                $link = get_bloginfo('url') . "/events?filter=Search&amp;fe_month=" . $month . "&amp;fe_year=" . $year . "&amp;id=" . $event->id;
+                list($year, $month, $day) = explode('-', $meeting->start);
+                $link = get_bloginfo('url') . "/meetings?filter=Search&amp;fe_month=" . $month . "&amp;fe_year=" . $year . "&amp;id=" . $meeting->id;
             }
-            // RSS does not really supports events (without namespace extension). So we put pubDate as event start date
-            $pubDate = date('r', strtotime($event->rec_created));
+            // RSS does not really supports meetings (without namespace extension). So we put pubDate as event start date
+            $pubDate = date('r', strtotime($meeting->rec_created));
 
-            $max_pub_date = max($event->rec_created, $max_pub_date);
+            $max_pub_date = max($meeting->rec_created, $max_pub_date);
 
             $image_url = '';
-            if ($event->image) {
-                $image_url = $event->image;
+            if ($meeting->image) {
+                $image_url = $meeting->image;
             } else {
-                if ($event->logo_medium) {
-                    $image_url = $event->logo_medium;
+                if ($meeting->logo_medium) {
+                    $image_url = $meeting->logo_medium;
                 }
             }
-            $status = $page_data->decode_status($event->status);
+            $status = $page_data->decode_status($meeting->status);
             $description = '&#60;p>';
             if ($image_url) {
                 $description .= '&#60;a href=' . $link . '>&#60;img src=' . $image_url . ' align="left" style="border: 0; padding: 5px;" />&#60;/a>';
             }
-            if ($event->description) {
-                $description .= "<![CDATA[" . $event->description . "]]>";
+            if ($meeting->description) {
+                $description .= "<![CDATA[" . $meeting->description . "]]>";
             }
             $description .= '&#60;/p>';
-            $description .= '&#60;strong class="event-interval">' . show_event_interval($event) . $page_data->event_place($event);
-            if ($event->id_country) {
-                $country = $countries_data->get_country_for_id($event->id_country);
+            $description .= '&#60;strong class="event-interval">' . show_event_interval($meeting) . $page_data->event_place($meeting);
+            if ($meeting->id_country) {
+                $country = $countries_data->get_country_for_id($meeting->id_country);
                 if ($country) {
                     $description .= " - " . $country->name;
                 }
@@ -132,25 +132,25 @@ class InformeaRSSWriter {
             if (!empty($status)) {
                 $description .= ' (' . $status . ')';
             }
-            $description .= '&#60;br />Source: &#60;strong>' . $event->short_title . '&#60;/strong>';
+            $description .= '&#60;br />Source: &#60;strong>' . $meeting->short_title . '&#60;/strong>';
             if (!empty($status)) {
                 $description .= '&#60;br />Status: &#60;strong>' . $status . '&#60;/strong>';
             }
-            if (!empty($event->location)) {
-                $description .= '&#60;br />Location: &#60;strong>' . $event->location . '&#60;/strong>';
+            if (!empty($meeting->location)) {
+                $description .= '&#60;br />Location: &#60;strong>' . $meeting->location . '&#60;/strong>';
             }
-            if (!empty($event->city)) {
-                $description .= '&#60;br />City: &#60;strong>' . $event->city . '&#60;/strong>';
+            if (!empty($meeting->city)) {
+                $description .= '&#60;br />City: &#60;strong>' . $meeting->city . '&#60;/strong>';
             }
             if ($image_url) {
                 $description .= '&#60;br />&#60;a href=' . $link . '>Visit event page&#60;/a>';
             }
-            $guid = 'informea-org-event-id-' . $event->id;
-            $categories = array('Events');
-            if(!empty($event->short_title)) {
-                $categories[] = $event->short_title;
+            $guid = 'informea-org-event-id-' . $meeting->id;
+            $categories = array('Meetings');
+            if(!empty($meeting->short_title)) {
+                $categories[] = $meeting->short_title;
             }
-            $w->add_item($guid, $event->title, $link, $pubDate, $categories, $description);
+            $w->add_item($guid, $meeting->title, $link, $pubDate, $categories, $description);
         }
         $w->set_channel_field('pubDate', date('r', strtotime($max_pub_date)));
         echo $w->get_rss();
@@ -164,7 +164,7 @@ class InformeaRSSWriter {
         $max_pub_date = 0;
         $w = new InformeaRSSWriter();
         $w->set_channel_field('title', 'InforMEA - News');
-        $w->set_channel_field('link', $base_url . '/events');
+        $w->set_channel_field('link', $base_url . '/meetings');
         $w->set_channel_field('self', $base_url . '/news/rss/');
         $w->set_channel_field('description', 'The United Nations Environmental Law and Conventions Portal');
         $w->set_feed_image($base_url . '/wp-content/themes/informea/images/logo-black.png', 'InforMEA logo', $base_url, 80, 67);

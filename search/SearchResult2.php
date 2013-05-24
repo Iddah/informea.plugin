@@ -86,7 +86,7 @@ class MeetingSearchResult2 extends AbstractSearchResult2 {
 
     public function __construct($id, $context, $db = null, $direct_hit = true) {
         parent::__construct($id, 'meeting', $context);
-        $this->status_decoder = new imea_events_page();
+        $this->status_decoder = new imea_meetings_page();
         $this->db = $db;
         $this->direct_hit = $direct_hit;
     }

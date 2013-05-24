@@ -166,7 +166,7 @@ class CacheManager {
         $treaty->entity_type = 'treaty';
         $treaty->articles = array();
         $treaty->decisions = array();
-        $treaty->events = array();
+        $treaty->meetings = array();
 
         foreach ($data['articles'] as $id_article => $paragraphs) {
             $article = self::load_treaty_article($id_article);

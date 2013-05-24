@@ -57,7 +57,7 @@ if (!class_exists('imeasiteadmin')) {
             add_submenu_page('informea', __('InforMEA Vocabulary'), __('Manage vocabulary'), 'publish_posts', 'thesaurus', array('ThesaurusAdmin', 'router'));
             add_submenu_page('informea', __('InforMEA Treaties'), __('Manage treaties'), 'publish_posts', 'informea_treaties', array('imeasiteadmin', 'page_treaties'));
             add_submenu_page('informea', __('InforMEA Decisions'), __('Manage decisions'), 'publish_posts', 'informea_decisions', array('imeasiteadmin', 'page_decisions'));
-            add_submenu_page('informea', __('InforMEA Meetings'), __('Manage meetings'), 'publish_posts', 'informea_events', array('imeasiteadmin', 'page_events'));
+            add_submenu_page('informea', __('InforMEA Meetings'), __('Manage meetings'), 'publish_posts', 'informea_meetings', array('imeasiteadmin', 'page_meetings'));
             add_submenu_page('informea', __('InforMEA News'), __('Manage News'), 'manage_options', 'informea_news', array('imeasiteadmin', 'page_news'));
             add_submenu_page('informea', __('InforMEA Pictures'), __('Manage pictures'), 'manage_options', 'informea_pictures', array('imeasiteadmin', 'page_pictures'));
             add_submenu_page('informea', __('InforMEA Focal points'), __('Manage focal points'), 'manage_options', 'informea_nfp', array('imeasiteadmin', 'page_nfp'));
@@ -305,36 +305,36 @@ if (!class_exists('imeasiteadmin')) {
         }
 
 
-        function page_events() {
+        function page_meetings() {
             $success = false;
             $actioned = get_request_value('actioned');
             $delete = get_request_boolean('delete');
-            $page_data = new imea_events_page();
+            $page_data = new imea_meetings_page();
             $act = get_request_value('act');
             if ($delete) {
                 $page_data->delete_event();
-                return include(dirname(__FILE__) . '/admin/events/edit_event.php');
+                return include(dirname(__FILE__) . '/admin/meetings/edit_event.php');
             }
             if ($act == 'event_add_event') {
                 if ($actioned && $page_data->validate_event_add_event()) {
                     $page_data->event_add_event();
                 }
-                return include(dirname(__FILE__) . '/admin/events/add_event.php');
+                return include(dirname(__FILE__) . '/admin/meetings/add_event.php');
             }
             if ($act == 'event_edit_event') {
                 if ($actioned && $page_data->validate_event_edit_event()) {
                     $page_data->event_edit_event();
                 }
-                return include(dirname(__FILE__) . '/admin/events/edit_event.php');
+                return include(dirname(__FILE__) . '/admin/meetings/edit_event.php');
             }
-            return include(dirname(__FILE__) . '/admin/events/index_events.php');
+            return include(dirname(__FILE__) . '/admin/meetings/index_meetings.php');
         }
 
         function page_miscellaneous() {
             include_once(dirname(__FILE__) . '/admin/miscellaneous/miscellaneous.php');
             $act = get_request_value('act');
             $actioned = get_request_value('actioned');
-            // $page_data = new imea_events_page();
+            // $page_data = new imea_meetings_page();
             if ($act == 'import_ramsar_csv') {
                 $page_data = new ImportRamsarCSV();
                 if ($actioned == 'Test it') {

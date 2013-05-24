@@ -12,7 +12,7 @@ $id_treaty = get_request_int('id_treaty');
 $id_organization = get_request_int('id_organization');
 $id_meeting = get_request_int('id_meeting');
 $treatyOb = new imea_treaties_page();
-$eventsOb = new imea_events_page();
+$meetingsOb = new imea_meetings_page();
 $decisionOb = new imea_decisions_page();
 $languages = array('en' => 'English', 'fr' => 'French', 'ar' => 'Arabic', 'es' => 'Spanish', 'ru' => 'Russian', 'zh' => 'Chinese');
 ?>
@@ -232,7 +232,7 @@ $languages = array('en' => 'English', 'fr' => 'French', 'ar' => 'Arabic', 'es' =
                         </select>
 
                         <p>(If meeting is missing, add it <a
-                                href="<?php bloginfo('url'); ?>/wp-admin/admin.php?page=informea_events&act=event_add_event">here</a>,
+                                href="<?php bloginfo('url'); ?>/wp-admin/admin.php?page=informea_meetings&act=event_add_event">here</a>,
                             then add decision)</p>
                     </div>
 

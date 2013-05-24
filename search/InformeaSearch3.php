@@ -115,7 +115,7 @@ class InformeaSearch3 extends AbstractSearch {
 
     /**
      * @return dictionary with search results. Primary entities are
-     * keys: treaties, events, decisions.
+     * keys: treaties, meetings, decisions.
      */
     public function search() {
         $ret_db = $this->db_search();
@@ -252,11 +252,11 @@ class InformeaSearch3 extends AbstractSearch {
      *                )
      *              )
      *      ),
-     *      'events' => array(id_event1, ....)
+     *      'meetings' => array(id_event1, ....)
      * )
      */
     protected function solr_search() {
-        $ret = array('treaties' => array(), 'events' => array());
+        $ret = array('treaties' => array(), 'meetings' => array());
         $phrase = $this->get_freetext();
         if (!$this->is_dirty_search() || empty($phrase) || $phrase == '*' || $phrase == '?') {
             return $ret;
@@ -322,7 +322,7 @@ class InformeaSearch3 extends AbstractSearch {
                         }
                         break;
                     case 'event':
-                        $ret['events'][] = $id_entity;
+                        $ret['meetings'][] = $id_entity;
                         break;
                     default:
                         throw new Exception('Unknown entity type:' . $type);
@@ -504,8 +504,8 @@ class InformeaSearch3Tab1 extends InformeaSearch3 {
                 $cache_decisions += $results['treaties'][$id_treaty]['decisions'];
             }
         }
-        $events = $this->is_use_meetings() ? $results['events'] : array();
-        $ids = $this->sort_and_paginate($treaties, $decisions, $events, $all);
+        $meetings = $this->is_use_meetings() ? $results['meetings'] : array();
+        $ids = $this->sort_and_paginate($treaties, $decisions, $meetings, $all);
         $ret = array();
         foreach ($ids as $skeleton) {
             if ($skeleton->type == 'decision') {
@@ -539,12 +539,12 @@ class InformeaSearch3Tab1 extends InformeaSearch3 {
     }
 
 
-    protected function sort_and_paginate($treaties, $decisions, $events, $all = FALSE) {
+    protected function sort_and_paginate($treaties, $decisions, $meetings, $all = FALSE) {
         global $wpdb;
         // Apply sorting and pagination
         $where_treaty = count($treaties) > 0 ? sprintf('WHERE id IN (%s)', implode(',', $treaties)) : ' WHERE 1 <> 1 ';
         $where_decision = count($decisions) > 0 ? sprintf('WHERE id IN (%s)', implode(',', $decisions)) : ' WHERE 1 <> 1 ';
-        $where_events = count($events) > 0 ? sprintf('WHERE id IN (%s)', implode(',', $events)) : ' WHERE 1 <> 1 ';
+        $where_meetings = count($meetings) > 0 ? sprintf('WHERE id IN (%s)', implode(',', $meetings)) : ' WHERE 1 <> 1 ';
         $start = $this->get_page_size() * $this->get_page();
         $end = $this->get_page_size();
 
@@ -564,7 +564,7 @@ class InformeaSearch3Tab1 extends InformeaSearch3 {
             ) soup WHERE 1 = 1 ORDER BY `date` %s %s %s",
             $where_treaty,
             $where_decision,
-            $where_events,
+            $where_meetings,
             $where_date,
             $this->get_sort_direction(),
             $limit

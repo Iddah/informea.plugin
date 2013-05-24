@@ -1,11 +1,11 @@
 <?php
 $id_treaty = get_request_int('id_treaty');
-$page_events = new imea_events_page();
+$page_meetings = new imea_meetings_page();
 $treaties = $page_data->get_treaties();
 $countries = $page_data->get_countries();
-$events = array();
+$meetings = array();
 if (!empty($id_treaty)) {
-    $events = $page_events->get_events($id_treaty);
+    $meetings = $page_meetings->get_meetings($id_treaty);
 }
 ?>
 <link rel='stylesheet' href='<?php bloginfo('template_directory'); ?>/ui.css' type='text/css' media='screen'/>
@@ -88,7 +88,7 @@ if (!empty($id_treaty)) {
                     <select id="id_event" name="id_event">
                         <option value="">-- Please select --</option>
                         <?php
-                        foreach ($events as $row) {
+                        foreach ($meetings as $row) {
                             $checked = (!$page_data->success and get_request_int('id_event') == $row->id) ? ' selected="selected"' : '';
                             echo "<option value=\"{$row->id}\"$checked>{$row->title}</option>";
                         }

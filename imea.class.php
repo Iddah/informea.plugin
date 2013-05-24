@@ -23,10 +23,10 @@ if (!class_exists('imeasite')) {
             $imea_rules = array();
 
             $imea_rules['(ro|es|fr)?/?rss?'] = 'index.php?spagename=rss-feed'; // http://informea/rss
-            $imea_rules['(ro|es|fr)?/?events/rss?'] = 'index.php?pagename=download&id=events&entity=rss'; // http://informea/events/rss
-            $imea_rules['(ro|es|fr)?/?news/rss?'] = 'index.php?pagename=download&id=news&entity=rss'; // http://informea/news/rss
+            $imea_rules['(ro|es|fr)?/?meetings/rss/?'] = 'index.php?pagename=download&id=meetings&entity=rss'; // http://informea/meetings/rss
+            $imea_rules['(ro|es|fr)?/?news/rss/?'] = 'index.php?pagename=download&id=news&entity=rss'; // http://informea/news/rss
 
-            $imea_rules['(ro|es|fr)?/?events/(\d*)?/?$'] = 'index.php?pagename=events&fe_page=$matches[2]'; // http://informea/events/
+            $imea_rules['(ro|es|fr)?/?meetings/(\d*)?/?$'] = 'index.php?pagename=meetings&fe_page=$matches[2]'; // http://informea/meetings/
 
             $imea_rules['(ro|es|fr)?/?countries/(map|parties|treaties|grid)?$'] = 'index.php?pagename=countries&expand=$matches[2]'; // http://informea/countries/grid
             $imea_rules['(ro|es|fr)?/?countries/?([A-z]{2})/?(membership|nfp|reports|map|plans|peblds|ecolex-legislation|ecolex-caselaw)?$'] = 'index.php?pagename=countries&id=$matches[2]&expand=$matches[3]'; // http://informea/countries/ISO2L
@@ -73,6 +73,9 @@ if (!class_exists('imeasite')) {
             $imea_rules['(ro|es|fr)?/?highlights/(\d*)/?$'] = 'index.php?pagename=news&h_page=$matches[2]'; // http://informea/highlights/category_name & http://informea/highlights/topic/page
             $imea_rules['(ro|es|fr)?/?highlights/(.*)$'] = 'index.php?pagename=news&topic=$matches[2]'; // http://informea/highlights/category_name & http://informea/highlights/topic
 
+            $imea_rules['(ro|es|fr)?/?events/?$'] = 'index.php?pagename=meetings'; // http://informea/events/
+            $imea_rules['(ro|es|fr)?/?events/rss/?'] = 'index.php?pagename=download&id=meetings&entity=rss'; // http://informea/events/rss
+            $imea_rules['(ro|es|fr)?/?events/(\d*)?/?$'] = 'index.php?pagename=meetings&fe_page=$matches[2]'; // http://informea/events/
             //var_dump($rules);
             //var_dump($imea_rules + $rules);
             return $imea_rules + $rules;

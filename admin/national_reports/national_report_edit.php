@@ -1,14 +1,14 @@
 <?php
 $id_national_report = get_request_int('id_national_report');
 $id_country = get_request_int('id_country');
-$page_events = new imea_events_page();
+$page_meetings = new imea_meetings_page();
 $treaties = $page_data->get_treaties();
 $countries = $page_data->get_countries();
-$events = array();
+$meetings = array();
 $report = null;
 if (!empty($id_national_report)) {
     $report = $page_data->get_national_report($id_national_report);
-    $events = $page_events->get_events($report->id_treaty);
+    $meetings = $page_meetings->get_meetings($report->id_treaty);
 }
 ?>
 <link rel='stylesheet' href='<?php bloginfo('template_directory'); ?>/ui.css' type='text/css' media='screen'/>
@@ -92,7 +92,7 @@ if (!empty($id_national_report)) {
                     <select id="id_event" name="id_event">
                         <option value="">-- Please select --</option>
                         <?php
-                        foreach ($events as $row) {
+                        foreach ($meetings as $row) {
                             $checked = ($report->id_event == $row->id) ? ' selected="selected"' : '';
                             echo "<option value=\"{$row->id}\"$checked>{$row->title}</option>";
                         }

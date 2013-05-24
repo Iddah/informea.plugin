@@ -137,9 +137,9 @@ class InformeaSearch3Test extends WP_UnitTestCase {
             'q_freetext' => '"First Meeting"'
         ));
         $results = $ob->search();
-        $events = $results['events'];
-        $this->assertEquals(1, count($events));
-        $this->assertEquals(array(2481), $events);
+        $meetings = $results['meetings'];
+        $this->assertEquals(1, count($meetings));
+        $this->assertEquals(array(2481), $meetings);
     }
 
 
@@ -150,7 +150,7 @@ class InformeaSearch3Test extends WP_UnitTestCase {
         ));
         $results = $ob->search();
         $this->assertEquals(0, count($results['treaties']));
-        $this->assertEquals(0, count($results['events']));
+        $this->assertEquals(0, count($results['meetings']));
     }
 
     function test_solr_entity_filter() {

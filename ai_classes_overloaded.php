@@ -21,10 +21,10 @@ add_action('wp_ajax_country_nfp', 'ajax_country_nfp');
 add_action('wp_ajax_nopriv_country_sites_markers', 'ajax_country_sites_markers');
 add_action('wp_ajax_country_sites_markers', 'ajax_country_sites_markers');
 
-add_action('wp_ajax_nopriv_get_event_list', array('informea_events', 'ajax_get_event_list'));
-add_action('wp_ajax_get_event_list', array('informea_events', 'ajax_get_event_list'));
-add_action('wp_ajax_nopriv_get_event_list_html', array('informea_events', 'ajax_get_event_list_html'));
-add_action('wp_ajax_get_event_list_html', array('informea_events', 'ajax_get_event_list_html'));
+add_action('wp_ajax_nopriv_get_event_list', array('informea_meetings', 'ajax_get_event_list'));
+add_action('wp_ajax_get_event_list', array('informea_meetings', 'ajax_get_event_list'));
+add_action('wp_ajax_nopriv_get_event_list_html', array('informea_meetings', 'ajax_get_event_list_html'));
+add_action('wp_ajax_get_event_list_html', array('informea_meetings', 'ajax_get_event_list_html'));
 
 
 /* Ajax endpoints */
@@ -842,7 +842,7 @@ class informea_countries extends imea_countries_page {
 }
 
 
-class informea_events extends imea_events_page {
+class informea_meetings extends imea_meetings_page {
 
     public static function get_event_types() {
         return array(
@@ -891,7 +891,7 @@ class informea_events extends imea_events_page {
                     <div class="clear"></div>
                     <ul class="info">
                         <li>
-                            <a href="<?php echo self::url_treaty_filter($e->id_treaty); ?>" title="See all <?php echo $e->treaty; ?> events for this year"><?php echo $e->treaty; ?></a>
+                            <a href="<?php echo self::url_treaty_filter($e->id_treaty); ?>" title="See all <?php echo $e->treaty; ?> meetings for this year"><?php echo $e->treaty; ?></a>
                         </li>
                         <?php if(!empty($e->event_url)) : ?>
                         <li>
@@ -906,7 +906,7 @@ class informea_events extends imea_events_page {
                         <?php endif; ?>
                         <?php if(!empty($e->kind)) : ?>
                         <li>
-                            <div class="info"><?php imea_events_page::decode_kind($e); ?></div>
+                            <div class="info"><?php imea_meetings_page::decode_kind($e); ?></div>
                         </li>
                         <?php endif; ?>
                     </ul>
@@ -925,15 +925,15 @@ class informea_events extends imea_events_page {
         $show_past = get_request_int('fe_show_past');
 
         return sprintf(
-            '%s/events?fe_treaty=%s&fe_type=%s&fe_year=%s&fe_country=%s&fe_page_size=%s&fe_show_past=%s&page=%s',
+            '%s/meetings?fe_treaty=%s&fe_type=%s&fe_year=%s&fe_country=%s&fe_page_size=%s&fe_show_past=%s&page=%s',
             get_bloginfo('url'), $id_treaty, $fe_type, $year, $id_country, $page_size, $show_past, ($page+1)
         );
     }
 
 
     /**
-     * Count total number of events
-     * @return integer Number of events matching filter criteria
+     * Count total number of meetings
+     * @return integer Number of meetings matching filter criteria
      */
     public static function count_event_list() {
         global $wpdb;
@@ -942,9 +942,9 @@ class informea_events extends imea_events_page {
 
 
     /**
-     * Events page filtering
+     * Meetings page filtering
      * @param $default_page_size integer (Optional) page size. Default 10.
-     * @return array List of events
+     * @return array List of meetings
      */
     public static function get_event_list($default_page_size = 10) {
         global $wpdb;
@@ -994,7 +994,7 @@ class informea_events extends imea_events_page {
 
 
     /**
-     * Retrieve the list of conventions that have events
+     * Retrieve the list of conventions that have meetings
      * @return array of ai_treaty
      */
     public static function get_treaties() {
@@ -1017,17 +1017,17 @@ class informea_events extends imea_events_page {
     }
 
 
-    static function get_events_all() {
+    static function get_meetings_all() {
         global $wpdb;
         return $wpdb->get_results('SELECT * FROM ai_event ORDER BY `start` DESC');
     }
 
 
     /**
-     * Retreive the events to generate the RSS feed
+     * Retreive the meetings to generate the RSS feed
      * @return array stdClass ai_event rows
      */
-    static function get_events_rss() {
+    static function get_meetings_rss() {
         global $wpdb;
         return $wpdb->get_results('SELECT * FROM ai_event WHERE `start` >= DATE_SUB(NOW(), INTERVAL 1 YEAR) ORDER BY `start` DESC');
     }
