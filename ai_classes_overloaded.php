@@ -514,7 +514,7 @@ class informea_treaties extends imea_treaties_page {
             }
         }
         if (empty($treaty) || $reset) {
-            $treaty = self::get_random_treaty();
+            $treaty = self::get_random_treaty_having_data();
             $option['featured_treaty'] = $treaty;
             $option['featured_treaty_timestamp'] = time();
             update_option('informea_options', $option);
@@ -527,6 +527,18 @@ class informea_treaties extends imea_treaties_page {
         $ob = new self();
         $treaties = $ob->get_treaties();
         return $treaties[array_rand($treaties)];
+    }
+
+
+    static function get_random_treaty_having_data() {
+        global $wpdb;
+        return $wpdb->get_row('
+            SELECT z.* FROM ai_decision x
+                INNER JOIN ai_people_treaty y ON x.id_treaty = y.id_treaty
+                INNER JOIN ai_treaty z ON x.id_treaty = z.id
+                GROUP BY z.id
+                ORDER BY RAND() LIMIT 1'
+        );
     }
 
 
