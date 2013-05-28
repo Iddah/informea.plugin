@@ -109,7 +109,9 @@ function ajax_country_mea_membership() {
     <table>
         <?php foreach($membership as $row): ?>
         <tr>
-            <td><div class="thumbnail <?php echo $row->odata_name; ?>"></div></td>
+            <td class="text-center">
+                <i class="thumbnail <?php echo $row->odata_name; ?>">&nbsp;</i>
+            </td>
             <td><a href="<?php echo get_bloginfo('url') . '/treaties/' . $row->odata_name;?>"><?php echo $row->short_title; ?></a></td>
             <td class="text-center"><?php echo mysql2date('Y', $row->date); ?></td>
         </tr>
