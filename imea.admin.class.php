@@ -290,12 +290,10 @@ if (!class_exists('imeasiteadmin')) {
 
 
         function page_news() {
-            $success = false;
             $actioned = get_request_value('actioned');
-            $delete = get_request_boolean('delete');
             $page_data = new imea_news_page();
             $act = get_request_value('act');
-            if ($act == 'highlight_add_highlight') {
+            if ($act == 'news_add_news') {
                 if ($actioned && $page_data->validate_add()) {
                     $page_data->add();
                 }
