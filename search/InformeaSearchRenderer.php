@@ -134,7 +134,7 @@ class InformeaSearchRendererTab1 extends InformeaBaseSearchRenderer {
 
     function render_decision($decision) {
         $treaty = CacheManager::load_treaty($decision->id_treaty);
-        $url = sprintf('%s/treaties/%s/decisions?showall=true#decision_%s', get_bloginfo('url'), $treaty->odata_name, $decision->id);
+        $url = sprintf('%s/treaties/%s/decisions?showall=true#decision-%s', get_bloginfo('url'), $treaty->odata_name, $decision->id);
         $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
         $label = sprintf('%s, <strong>%s</strong> %s - %s', mysql2date('j F Y', $decision->published), $decision->treaty_title, $decision->number, $decision->short_title);
         $ret = '<li>';

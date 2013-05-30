@@ -622,7 +622,7 @@ class informea_treaties extends imea_treaties_page {
 
     static function decision_url($treaty, $decision) {
         echo sprintf(
-            '%s/treaties/%s/decisions?showall=1#decision_%s',
+            '%s/treaties/%s/decisions?showall=1#decision-%s',
             get_bloginfo('url'), $treaty->odata_name, $decision->id);
     }
 
