@@ -17,7 +17,10 @@ abstract class InformeaBaseSearchRenderer {
     function render_treaty($treaty) {
         $ret = '<li class="treaty">';
         $css = count($treaty->articles) || count($treaty->decisions) ? 'toggle-result' : 'ajax-expand';
-        $ret .= sprintf('<a data-role="treaty" data-id="%s" data-toggle="treaty-%s" href="javascript:void(0);" class="%s"><i class="icon icon-plus-sign"></i>%s</a>', $treaty->id, $treaty->id, $css, $treaty->short_title);
+        $ret .= sprintf('<a data-role="treaty" data-id="%s" data-toggle="treaty-%s" href="javascript:void(0);" class="%s">', $treaty->id, $treaty->id, $css);
+        $ret .= sprintf('<i class="icon icon-plus-sign"></i>');
+        $ret .= sprintf('<span class="thumbnail %s middle"></span>', $treaty->odata_name);
+        $ret .= sprintf('%s</a>', $treaty->short_title);
         $ret .= sprintf('<div id="treaty-%s" class="hidden">', $treaty->id);
         $ret .= $this->render_articles($treaty);
         $ret .= $this->render_decisions($treaty);
@@ -138,12 +141,14 @@ class InformeaSearchRendererTab1 extends InformeaBaseSearchRenderer {
         $css = (count($decision->paragraphs) > 0 || count($decision->documents) > 0) ? 'toggle-result' : 'ajax-expand';
         $label = sprintf('%s, <strong>%s</strong> %s - %s', mysql2date('j F Y', $decision->published), $decision->treaty_title, $decision->number, $decision->short_title);
         $ret = '<li>';
-        $ret .= sprintf('<a data-id="%s" data-toggle="decision-%s" data-role="decision" href="javascript:void(0);" class="%s"><i class="icon-plus-sign"></i>%s</a>', $decision->id, $decision->id, $css, $label);
+        $logo = sprintf('<span class="thumbnail middle %s pull-left tab1"></span>', $treaty->odata_name);
+        $ret .= sprintf('<a data-id="%s" data-toggle="decision-%s" data-role="decision" href="javascript:void(0);" class="%s"><i class="icon-plus-sign pull-left middle"></i>%s %s</a>', $decision->id, $decision->id, $css, $logo, $label);
         $ret .= sprintf('<a href="%s" target="_blank"><i class="icon icon-arrow-right"></i></a>', $url);
         $ret .= sprintf('<div id="decision-%s" class="content hidden">', $decision->id);
         $ret .= $this->render_decision_paragraphs($decision);
         $ret .= $this->render_decision_documents($decision);
         $ret .= '</div>';
+        $ret .= '<div class="clear"></div>';
         $ret .= '</li>';
         return $ret;
     }
