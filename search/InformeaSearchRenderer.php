@@ -78,13 +78,15 @@ abstract class InformeaBaseSearchRenderer {
     function render_decision_paragraphs($decision) {
         $ret = '';
         if (count($decision->paragraphs) > 0) {
+            $treaty = CacheManager::load_treaty($decision->id_treaty);
             $ret .= '<h3>Paragraphs</h3>';
             $ret .= '<ul class="paragraphs">';
             foreach ($decision->paragraphs as $paragraph) {
                 $ret .= '<li>';
                 $title = !empty($paragraph->official_order) ? $paragraph->official_order : $paragraph->order + 1;
-                $ret .= sprintf('<a id="arrow-decision_paragraph-%s" class="ajax-expand arrow closed" href="javascript:void(0);">%s</a>', $paragraph->id, $title);
-                $ret .= sprintf('<div id="result-decision_paragraph-%s" class="content hidden"></div>', $paragraph->id);
+                $ret .= sprintf('<a id="arrow-decision_paragraph-%s" class="ajax-expand arrow closed" data-toggle="decision-paragraph-%s" data-id="%s" data-role="decision_paragraph" href="javascript:void(0);"><i class="icon icon-plus-sign"></i> %s</a>', $paragraph->id, $paragraph->id, $paragraph->id, $title);
+                $ret .= sprintf('<a href="%s" target="_blank"><i class="icon icon-arrow-right"></i></a>', informea_treaties::get_decision_paragraph_url($treaty, $decision, $paragraph));
+                $ret .= sprintf('<div id="decision-paragraph-%s" class="content hidden"></div>', $paragraph->id);
                 $ret .= '</li>';
             }
             $ret .= '</ul>';

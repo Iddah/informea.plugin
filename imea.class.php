@@ -42,7 +42,7 @@ if (!class_exists('imeasite')) {
             $imea_rules['(ro|es|fr)?/?treaties/(.*)/decisions/(\d*)'] = 'index.php?pagename=treaties&id=$matches[2]&id_decision=$matches[3]&showall=$matches[4]&expand=decision'; // http://informea/treaties/{odata_name}/decisions/{id}
 
             // http://informea/treaties/id/decisions/showall#decisions-id
-            $imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(treaty|decisions|print|nfp|coverage)?/?(showall)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=$matches[3]&showall=$matches[4]';
+            $imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(treaty|decisions|print|nfp|coverage|parties)?/?(showall)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=$matches[3]&showall=$matches[4]';
             // http://informea/treaties/id/sendmail/1234/1
             $imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(sendmail)?/?(\d*)?/?(\d*)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=$matches[3]&id_contact=$matches[4]&id_parent=$matches[5]';
             $imea_rules['(ro|es|fr)?/?treaties/(.*)/sendmail/(\d*)/(\d*)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=sendmail&id_contact=$matches[3]&id_parent=$matches[4]'; // http://informea/treaties/odata_name/sendmail/1234/1
@@ -53,7 +53,7 @@ if (!class_exists('imeasite')) {
             $imea_rules['(ro|es|fr)?/?treaties/region/(.*)/grid$'] = 'index.php?pagename=treaties&category=$matches[2]&expand=grid'; // /grid suffix
             $imea_rules['(ro|es|fr)?/?treaties/region/(.*)$'] = 'index.php?pagename=treaties&category=$matches[2]&expand=icon'; // no suffix
 
-            $imea_rules['(ro|es|fr)?/?treaties/(.*)/(general|treaty|decisions|print|nfp|coverage)?/?(showall)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=$matches[3]&showall=$matches[4]'; // http://informea/treaties/id/decisions/showall#decisions-id
+            $imea_rules['(ro|es|fr)?/?treaties/(.*)/(general|treaty|decisions|print|nfp|coverage|parties)?/?(showall)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=$matches[3]&showall=$matches[4]'; // http://informea/treaties/id/decisions/showall#decisions-id
             $imea_rules['(ro|es|fr)?/?treaties/(.*)?$'] = 'index.php?pagename=treaties&id=$matches[2]'; // http://informea/treaties/{treaty} - identify by slug (we use odata_name)
 
             $imea_rules['(ro|es|fr)?/decisions$'] = 'index.php?pagename=decisions&expand=treaty'; // http://informea/decisions/treaty/

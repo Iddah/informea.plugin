@@ -73,16 +73,17 @@ class InformeaSearch3 extends AbstractSearch {
 
     protected $results = null;
 
-    public static function get_searcher() {
+    public static function get_searcher($request = NULL) {
         $goptions = get_option('informea_options');
         $options = array(
             'hostname' => $goptions['solr_server'],
             'path' => $goptions['solr_path'],
             'port' => $goptions['solr_port']
         );
-        $tab = get_request_int('q_tab', 2);
+        $tab = empty($request['q_tab']) ? get_request_int('q_tab', 2) : intval($request['q_tab']);
         $type = 'InformeaSearch3Tab' . $tab;
-        return new $type($_REQUEST, $options);
+        $req = empty($request) ? $_REQUEST : $request;
+        return new $type($req, $options);
     }
 
     public static function get_plain_searcher() {

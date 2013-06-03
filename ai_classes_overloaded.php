@@ -626,6 +626,16 @@ class informea_treaties extends imea_treaties_page {
             get_bloginfo('url'), $treaty->odata_name, $decision->id);
     }
 
+    static function decision_paragraph_url($treaty, $decision, $paragraph) {
+        echo self::get_decision_paragraph_url($treaty, $decision, $paragraph);;
+    }
+
+    static function get_decision_paragraph_url($treaty, $decision, $paragraph) {
+        return sprintf(
+            '%s/treaties/%s/decisions/%s#paragraph-%s',
+            get_bloginfo('url'), $treaty->odata_name, $decision->id, $paragraph->id);
+    }
+
 }
 
 
@@ -753,6 +763,21 @@ class informea_countries extends imea_countries_page {
             return sprintf('%s%s%s', $prefix, $nfp->department, $suffix);
         }
         return FALSE;
+    }
+
+    static function get_focal_point_name($nfp) {
+        $ret = '';
+        if(!empty($nfp->prefix)) {
+            $ret .= $nfp->prefix . ' ';
+        }
+        if(!empty($nfp->first_name)) {
+            $ret .= $nfp->first_name . ' ';
+        }
+        if(!empty($nfp->last_name)) {
+            $ret .= $nfp->last_name;
+        }
+
+        return $ret;
     }
 
     /**
