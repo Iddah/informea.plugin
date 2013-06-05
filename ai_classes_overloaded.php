@@ -640,6 +640,10 @@ class informea_treaties extends imea_treaties_page {
         echo sprintf('%s/download?entity=vcard&id=%s', get_bloginfo('url'), $nfp->id);
     }
 
+    static function nfp_contact_url($nfp) {
+        echo sprintf('javascript:alert("The contact is temporary unavailable, sorry for the inconvenience"); return false;');
+    }
+
 }
 
 
