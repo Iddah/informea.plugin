@@ -641,7 +641,7 @@ class informea_treaties extends imea_treaties_page {
     }
 
     static function nfp_contact_url($nfp) {
-        echo sprintf("javascript:alert('The contact is temporary unavailable, sorry for the inconvenience'); return false;");
+        echo sprintf("javascript:alert('This functionality is temporary unavailable, sorry for the inconvenience'); return false;");
     }
 
 }
