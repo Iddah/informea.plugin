@@ -636,6 +636,10 @@ class informea_treaties extends imea_treaties_page {
             get_bloginfo('url'), $treaty->odata_name, $decision->id, $paragraph->id);
     }
 
+    static function nfp_vcard_url($nfp) {
+        echo sprintf('%s/download?entity=vcard&id=%s', get_bloginfo('url'), $nfp->id);
+    }
+
 }
 
 
