@@ -26,14 +26,14 @@ if (!class_exists('imeasite')) {
             $imea_rules['(ro|es|fr)?/?meetings/rss/?'] = 'index.php?pagename=download&id=meetings&entity=rss'; // http://informea/meetings/rss
             $imea_rules['(ro|es|fr)?/?news/rss/?'] = 'index.php?pagename=download&id=news&entity=rss'; // http://informea/news/rss
 
+            $imea_rules['(ro|es|fr)?/?nfp/(\d*)$'] = 'index.php?pagename=nfp&id_nfp=$matches[2]'; // http://informea/nfp/1234
+
             $imea_rules['(ro|es|fr)?/?meetings/(\d*)?/?$'] = 'index.php?pagename=meetings&fe_page=$matches[2]'; // http://informea/meetings/
 
             $imea_rules['(ro|es|fr)?/?countries/(map|alphabetical|grid)?$'] = 'index.php?pagename=countries&expand=$matches[2]'; // http://informea/countries/grid
             $imea_rules['(ro|es|fr)?/?countries/?([A-z]{2})/?(membership|nfp|reports|map|plans|peblds|ecolex-legislation|ecolex-caselaw)?$'] = 'index.php?pagename=countries&id=$matches[2]&expand=$matches[3]'; // http://informea/countries/ISO2L
             $imea_rules['(ro|es|fr)?/?countries/?([A-z]{3})/?(membership|nfp|reports|map|plans|peblds|ecolex-legislation|ecolex-caselaw)?$'] = 'index.php?pagename=countries&id=$matches[2]&expand=$matches[3]'; // http://informea/countries/ISO3L
             $imea_rules['(ro|es|fr)?/?countries/(\d*)/?(membership|nfp|reports|map|plans|peblds|ecolex-legislation|ecolex-caselaw)?$'] = 'index.php?pagename=countries&id=$matches[2]&expand=$matches[3]'; // http://informea/countries/id/nfp
-            $imea_rules['(ro|es|fr)?/?countries/(\d*)/?(sendmail)?/?(\d*)?/?(\d*)?$'] = 'index.php?pagename=countries&id=$matches[2]&expand=$matches[3]&id_contact=$matches[4]&id_parent=$matches[5]'; // http://informea/countries/id/sendmail/1234/1
-
 
             $imea_rules['(ro|es|fr)?/?treaties/grid$'] = 'index.php?pagename=treaties&category=Global&expand=grid'; // /grid suffix
             $imea_rules['(ro|es|fr)?/?treaties/icon$'] = 'index.php?pagename=treaties&category=Global&expand=icon'; // /grid suffix
@@ -43,9 +43,6 @@ if (!class_exists('imeasite')) {
 
             // http://informea/treaties/id/decisions/showall#decisions-id
             $imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(treaty|decisions|print|nfp|coverage|parties)?/?(showall)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=$matches[3]&showall=$matches[4]';
-            // http://informea/treaties/id/sendmail/1234/1
-            $imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(sendmail)?/?(\d*)?/?(\d*)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=$matches[3]&id_contact=$matches[4]&id_parent=$matches[5]';
-            $imea_rules['(ro|es|fr)?/?treaties/(.*)/sendmail/(\d*)/(\d*)?$'] = 'index.php?pagename=treaties&id=$matches[2]&expand=sendmail&id_contact=$matches[3]&id_parent=$matches[4]'; // http://informea/treaties/odata_name/sendmail/1234/1
             $imea_rules['(ro|es|fr)?/?treaties/(\d*)/?(\d*)?$'] = 'index.php?pagename=treaties&id_treaty=$matches[2]&id_treaty_article=$matches[3]'; // http://informea/treaties/id/id_treaty_article#article_id_paragraph_id
 
             //URL: /treaties/region/global, /treaties/region/Europe ...
@@ -112,6 +109,7 @@ if (!class_exists('imeasite')) {
             $vars[] = 'page';
             $vars[] = 'fe_page';
             $vars[] = 'h_page';
+            $vars[] = 'id_nfp';
             return $vars;
         }
 
