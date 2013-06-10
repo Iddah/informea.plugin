@@ -143,7 +143,7 @@ function ajax_country_nfp() {
                             <p class="note">
                                 <?php echo informea_countries::get_focal_point_position($p); ?>
                             </p>
-                            [ <a target="_blank" href="<?php echo sprintf('%s/countries/%d/sendmail/%d', get_bloginfo('url'), $id_country, $p->id);?>">contact</a> ]
+                            [ <a target="_blank" href="<?php echo sprintf('%s/nfp/%d', get_bloginfo('url'), $p->id);?>">contact</a> ]
                         </li>
                     <?php endforeach ?>
                     </ul>
@@ -365,24 +365,23 @@ class informea_treaties extends imea_treaties_page {
 
     static function send_message_to_nfp_validate() {
         $errors = array();
-        $first_name = get_request_value('first_name');
-        if(empty($first_name)) {
-            $errors[] = 'Your first name is required';
-        }
-        $last_name = get_request_value('last_name');
-        if(empty($last_name)) {
-            $errors[] = 'Your last name is required';
+        $cname = get_request_value('cname');
+        if(empty($cname)) {
+            $errors[] = 'Your name is required';
         }
         $email = get_request_value('email');
         if(empty($email)) {
             $errors[] = 'Your e-mail address is required';
+        } else {
+            if(!is_email($email)) {
+                $errors[] = 'Invalid e-mail address';
+            }
         }
         $message = get_request_value('message');
         if(empty($message)) {
             $errors[] = 'Message cannot be empty';
         }
-
-        $id = get_request_value('id_contact');
+        $id = get_request_variable('id_nfp');
         $contact = self::get_contact_for_id($id);
         if(empty($contact)) {
             $errors[] = 'Invalid contact. Contact is not in our database';
@@ -403,24 +402,22 @@ class informea_treaties extends imea_treaties_page {
 
     static function send_message_to_nfp() {
         $errors = array();
-        $id = get_request_value('id_contact');
+        $id = get_request_variable('id_nfp');
         $contact = self::get_contact_for_id($id);
         $copy = get_request_boolean('copy');
         $to = $contact->email;
         $subject = __('Contact request sent from InforMEA portal', 'informea');
         $body = get_request_value('message');
-        $first_name = get_request_value('first_name');
-        $last_name = get_request_value('last_name');
-        $salutation = get_request_value('salutation');
+        $cname = get_request_value('cname');
         $email = get_request_value('email');
 
         $fullbody = $body;
         $fullbody .= "\n\n\n";
         $fullbody .= sprintf(
-            __('This email was automatically send by the InforMEA portal (http://www.informea.org) because a person (%s %s <%s>) requested to contact you via our portal', 'informea'),
-            $first_name, $last_name, $email
+            __('This email was automatically send by the InforMEA portal (http://www.informea.org) because a person (%s <%s>) requested to contact you via our portal', 'informea'),
+            $cname, $email
         );
-        $header = sprintf('From: %s %s %s <%s>', $salutation, $first_name, $last_name, $email);
+        $header = sprintf('From: %s <%s>', $cname, $email);
         if (mail($to, $subject, $fullbody, $header)) {
             if($copy) {
                 $contact_prefix = $contact->prefix;
@@ -641,7 +638,7 @@ class informea_treaties extends imea_treaties_page {
     }
 
     static function nfp_contact_url($nfp) {
-        echo sprintf("javascript:alert('This functionality is temporary unavailable, sorry for the inconvenience'); return false;");
+        echo sprintf('%s/nfp/%s', get_bloginfo('url'), $nfp->id);
     }
 
 }
@@ -786,6 +783,17 @@ class informea_countries extends imea_countries_page {
         }
 
         return $ret;
+    }
+
+
+    static function get_focal_point_treaties($nfp) {
+        global $wpdb;
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                'SELECT a.* FROM ai_treaty a INNER JOIN ai_people_treaty b ON a.id = b.id_treaty WHERE b.id_people=%s',
+                $nfp->id
+            )
+        );
     }
 
     /**
