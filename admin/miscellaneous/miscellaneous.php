@@ -31,7 +31,7 @@ class ImportRamsarCSV extends imea_page_base_page {
                     $ob->longitude = $data[10];
                     $ob->name = $data[1];
                     $ob->id_country = array_key_exists(strtoupper($data[2]), $countries) ? $countries[strtoupper($data[2])] : 'ERROR';
-                    $ob->url = 'http://www.wetlands.org/reports/spec.cfm?site_id=' . $site_id;
+                    $ob->url = 'http://sites.wetlands.org/reports/spec.cfm?site_id=' . $site_id;
                     $ret[] = $ob;
                 }
                 $row++;
@@ -45,7 +45,7 @@ class ImportRamsarCSV extends imea_page_base_page {
     }
 
     function find_site_id_from_ref($ref) {
-        $url = 'http://www.wetlands.org/reports/index.cfm?siteref=' . $ref;
+        $url = 'http://sites.wetlands.org/reports/index.cfm?siteref=' . $ref;
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
