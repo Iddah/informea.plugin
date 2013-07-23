@@ -475,26 +475,30 @@ class informea_treaties extends imea_treaties_page {
         return !empty($meeting->abbreviation) ? $meeting->abbreviation : $meeting->title;
     }
 
-    function tab_decisions_with_paragraph_ids() {
+    function decisions_with_index_page() {
         global $wpdb;
-        return $wpdb->get_col('SELECT DISTINCT(a.id) FROM ai_decision a INNER JOIN ai_decision_paragraph b ON a.id = b.id_decision');
+        return $wpdb->get_col(
+            "SELECT DISTINCT(a.id) FROM ai_decision a
+                INNER JOIN ai_decision_paragraph b ON a.id = b.id_decision
+            UNION
+                SELECT id FROM ai_decision
+                WHERE (summary IS NOT NULL AND TRIM(summary) <> '') OR (body IS NOT NULL AND TRIM(body) <> '')");
     }
 
     function page_decisions_overview_decision_link($decision, $treaty) {
-        static $tagged = NULL;
-        if($tagged === NULL) {
-            $tagged = $this->tab_decisions_with_paragraph_ids();
+        static $ids = NULL;
+        if($ids === NULL) {
+            $ids = $this->decisions_with_index_page();
         }
-        //if(!in_array($decision->id, $tagged)) {
-        //    return $decision->number;
-        // } else {
+        $text = ucwords(strtolower(self::get_title($decision)));
+        if(!in_array($decision->id, $ids)) {
+            return $text;
+        } else {
             $no = $decision->number;
-            $text = ucwords(strtolower(self::get_title($decision)));
             $url = sprintf('%s/treaties/%s/decisions/%d', get_bloginfo('url'), $treaty->odata_name, $decision->id);
             return sprintf('<a class="title" name="decision-%d" href="%s">%s</a>', $no, $url, $text);
-        // }
+        }
     }
-
 
     /**
      * Retrieve featured item "of the day".
