@@ -691,6 +691,28 @@ class informea_decisions extends imea_decisions_page {
         echo sprintf('%s/admin.php?page=informea_decisions&act=decision_edit&id_treaty=%s&id_decision=%s',
             admin_url(), $treaty->id, $decision->id);
     }
+
+
+    static function page_decision_index_decision_content($decision) {
+        $paragraphs = self::get_paragraphs($decision->id);
+        if(count($paragraphs)):
+?>
+            <ul class="paragraphs">
+                <?php foreach ($paragraphs as $paragraph) :
+                    ?>
+                    <li data-id="<?php echo $paragraph->id; ?>">
+                        <a name="paragraph-<?php echo $paragraph->id; ?>"></a>
+                        <span class="gray">[&hellip;]</span> <?php echo $paragraph->content; ?> <span class="gray">[&hellip;]</span>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+<?php
+        elseif(!empty($decision->body)):
+                echo $decision->body;
+            elseif (!empty($decision->summary)):
+                echo '<strong>Summary</strong>:<br />' . $decision->summary;
+            endif;
+    }
 }
 
 
