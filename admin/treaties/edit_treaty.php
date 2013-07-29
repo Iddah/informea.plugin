@@ -138,9 +138,9 @@ wp_enqueue_style('thickbox');
                                value="<?php echo $treaty->long_title; ?>"/></td>
                 </tr>
                 <tr>
-                    <td><label for="year">Year</label></td>
-                    <td><input type="text" size="5" id="year" name="year"
-                               value="<?php echo ($treaty->year > 0) ? $treaty->year : ''; ?>"/></td>
+                    <td><label for="start">Entry into force <br>(YYYY-mm-dd)</label></td>
+                    <td><input type="text" size="6" id="start" name="start"
+                               value="<?php echo ($treaty->start > 0) ? $treaty->start : ''; ?>"/></td>
                 </tr>
                 <tr>
                     <td><label for="abstract">Abstract</label></td>
