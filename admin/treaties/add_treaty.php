@@ -139,13 +139,14 @@ $terms = $thesaurus->get_voc_concept();
             </tr>
             <tr>
                 <td>
-                    <label for="year">Year</label>
+                    <label for="start">Entry into force </label>
                 </td>
                 <td>
-                    <input type="text" size="5" id="year" name="year"
+                    <input type="text" size="6" id="start" name="start"
                            value="<?php if (!$page_data->success) {
-                               echo $page_data->get_value('year');
+                               echo $page_data->get_value('start');
                            } ?>"/>
+                           (Kindly use format (YYYY-mm-dd))
                 </td>
             </tr>
             <tr>
